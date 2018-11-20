@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="group_0580.gamecentre">
+    package="group_0661.gamecentre">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -30,7 +30,7 @@
             android:name=".AccountPopUp"
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
-            android:name=".GameActivity"
+            android:name=".SlidingTilesActivity"
             android:parentActivityName=".MainMenuActivity" />
         <activity
             android:name=".LeaderBoardActivity"
