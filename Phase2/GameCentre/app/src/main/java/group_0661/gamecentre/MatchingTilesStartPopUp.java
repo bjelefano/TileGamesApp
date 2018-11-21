@@ -32,6 +32,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      */
     private int size;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

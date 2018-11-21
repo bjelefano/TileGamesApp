@@ -34,6 +34,9 @@
             android:name=".SlidingTilesActivity"
             android:parentActivityName=".MainMenuActivity" />
         <activity
+            android:name=".MatchingTilesStartPopUp"
+            android:parentActivityName=".MainMenuActivity" />
+        <activity
             android:name=".LeaderBoardActivity"
             android:parentActivityName=".MainMenuActivity" />
     </application>
