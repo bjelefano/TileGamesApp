@@ -142,7 +142,8 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                     Toast.makeText(MainMenuActivity.this, "Placeholder for Minesweeper", Toast.LENGTH_LONG).show();
                 }
                 else  {
-                    Toast.makeText(MainMenuActivity.this, "Placeholder for Matching Tiles", Toast.LENGTH_LONG).show();
+                    Intent popUp = new Intent(MainMenuActivity.this, MatchingTilesStartPopUp.class);
+                    startActivity(popUp);
                 }
             }
         });
