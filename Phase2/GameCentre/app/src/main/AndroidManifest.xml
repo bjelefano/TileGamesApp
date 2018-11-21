@@ -26,15 +26,12 @@
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
             android:name=".MatchingTilesStartPopUp"
-            android:parentActivityName=".MainMenuActivity" />
+            android:theme="@style/AppTheme.PopUpConfig"/>
         <activity
             android:name=".AccountPopUp"
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
             android:name=".SlidingTilesActivity"
-            android:parentActivityName=".MainMenuActivity" />
-        <activity
-            android:name=".MatchingTilesStartPopUp"
             android:parentActivityName=".MainMenuActivity" />
         <activity
             android:name=".LeaderBoardActivity"
