@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.Observable;
 
 import group_0661.gamecentre.gestures.Undo;
+import group_0661.gamecentre.gameSystem.Game;
 
 /**
  * The class for matching tile game.
  */
-public class Game extends Observable implements Serializable {
+public class MatchingTileGame extends Game implements Serializable {
 
     /**
      * The matching tiles board.
@@ -32,9 +33,8 @@ public class Game extends Observable implements Serializable {
      * @param undoLimit number of possible undo moves
      * @param unlimited true if unlimited undo moves selected
      */
-    public Game(int dimensions, int undoLimit, boolean unlimited){
-        board = new Board(dimensions);
-        this.undoSys = new Undo(undoLimit, unlimited);
+    public MatchingTileGame(int dimensions, int undoLimit, boolean unlimited){
+        super(dimensions,undoLimit,unlimited);
     }
 
     /**
