@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "group_0580.gamecentre"
+        applicationId 'group_0661.gamecentre'
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
