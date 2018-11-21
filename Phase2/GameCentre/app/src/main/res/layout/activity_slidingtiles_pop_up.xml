@@ -57,8 +57,8 @@
 
     <TextView
         android:id="@+id/PromptTextOne"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="237dp"
+        android:layout_height="26dp"
         android:layout_marginTop="56dp"
         android:layout_marginBottom="20dp"
         android:text="Please Select the Board Size:"
@@ -67,10 +67,10 @@
         app:fontFamily="sans-serif-condensed"
         app:layout_constraintBottom_toTopOf="@+id/board_select"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.632"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.51"
+        app:layout_constraintVertical_bias="0.459"
         app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <Button
