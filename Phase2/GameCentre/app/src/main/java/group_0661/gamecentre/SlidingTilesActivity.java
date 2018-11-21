@@ -300,7 +300,7 @@ public class SlidingTilesActivity extends ActionBarActivity implements Observer,
         if (game.isWon()) {
             Intent scoreboard = new Intent(SlidingTilesActivity.this, LeaderBoardActivity.class);
             if (userManager != null && userManager.getStatus()) {
-                this.userManager.dropSavedGame();
+                this.userManager.dropSavedGame(game);
                 scoreboard.putExtra("Sliding Tiles", this.game);
                 scoreboard.putExtra("user", userManager.getName());
             }

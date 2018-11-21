@@ -175,8 +175,8 @@ public class UserManager extends Service implements IUserManager {
     /**
      * Drop saved slidingtiles.
      */
-    public void dropSavedGame(){
-        user.setSavedGame(null);
+    public void dropSavedGame(Game game){
+        user.dropSavedGame(game);
     }
 
     /**

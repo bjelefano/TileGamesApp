@@ -44,6 +44,7 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
         addLoadButtonListener();
         addLoginButtonListener();
         addChangeGameButtonListener();
+        addScoreButtonListener();
 
         // Starts running service in the background to be accessed by other activities
         startService(new Intent(MainMenuActivity.this, UserManager.class));
@@ -136,7 +137,7 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                 String gameType = (((TextView) findViewById(R.id.title)).getText()).toString();
                 if (gameType.equals("Sliding Tiles")) {
                     Intent popUp = new Intent(MainMenuActivity.this, SlidingTilesStartPopUp.class);
-                startActivity(popUp);
+                    startActivity(popUp);
                 } else if (gameType.equals("Minesweeper")) {
                     Toast.makeText(MainMenuActivity.this, "Placeholder for Minesweeper", Toast.LENGTH_LONG).show();
                 }
@@ -194,9 +195,9 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
             public void onClick(View v) {
                 TextView game = findViewById(R.id.title);
                 String currentGame = game.getText().toString();
-                if (currentGame == "Sliding Tiles") {
+                if (currentGame.equals("Sliding Tiles")) {
                     game.setText("Minesweeper");
-                } else if (currentGame == "Minesweeper") {
+                } else if (currentGame.equals("Minesweeper")) {
                     game.setText("Matching Tiles");
                 } else {
                     game.setText("Sliding Tiles");
@@ -205,6 +206,24 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
         });
     }
 
+    private void addScoreButtonListener() {
+        Button loginButton = findViewById(R.id.leaderboards);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView game = findViewById(R.id.title);
+                String currentGame = game.getText().toString();
+                if (currentGame.equals("Sliding Tiles")) {
+                    Intent score = new Intent(MainMenuActivity.this, LeaderBoardActivity.class);
+                    startActivity(score);
+                } else if (currentGame.equals("Minesweeper")) {
+                    Toast.makeText(MainMenuActivity.this, "Placeholder for Minesweeper", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainMenuActivity.this, "Placeholder for Matching Tiles", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
     /**
      * Initialises the loaded slidingtiles
      *

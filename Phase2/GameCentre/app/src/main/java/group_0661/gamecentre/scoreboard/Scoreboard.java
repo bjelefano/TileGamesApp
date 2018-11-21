@@ -149,7 +149,7 @@ public class Scoreboard implements IScoreboard {
                  line != null;
                  line = bufferedReader.readLine()) {
 
-                String[] words = line.split("|");
+                String[] words = line.split("\\|");
                 if (words.length != 3) continue;
                 addScore(words[1], new ScoreField(words[0], Integer.parseInt(words[2])));
             }

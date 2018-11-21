@@ -55,6 +55,8 @@ public class User implements Serializable {
         this.savedGames.put(game.getGameTitle(), game);
     }
 
+    public void dropSavedGame(Game game){ this.savedGames.put(game.getGameTitle(), null); }
+
     /**
      * Set background path to given background path.
      *

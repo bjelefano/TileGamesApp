@@ -48,7 +48,7 @@ public class LeaderBoardActivity extends ActionBarActivity {
         this.scoreboard = new Scoreboard(LeaderBoardActivity.this);
         if (getIntent().getStringExtra("user") != null) {
             user = getIntent().getStringExtra("user");
-            this.scoreboard.addGame((Game) getIntent().getSerializableExtra("slidingtiles"), user);
+            this.scoreboard.addGame((Game) getIntent().getSerializableExtra("Sliding Tiles"), user);
         }
 
         // Initializes UI elements

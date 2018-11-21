@@ -62,7 +62,7 @@ public class SlidingTilesStartPopUp extends PopUpActivity implements ServiceConn
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pop_up);
+        setContentView(R.layout.activity_slidingtiles_pop_up);
 
         configurePopUp(0.85,0.85);
 
@@ -238,7 +238,7 @@ public class SlidingTilesStartPopUp extends PopUpActivity implements ServiceConn
         Intent startGame = new Intent(SlidingTilesStartPopUp.this, SlidingTilesActivity.class);
         Game game = new Game(size, Integer.valueOf(((
                 EditText)findViewById(R.id.UndoInput)).getText().toString()), unlimited);
-        startGame.putExtra("slidingtiles", game);
+        startGame.putExtra("Sliding Tiles", game);
         startGame.putExtra("background_path", backgroundPath);
 
         return startGame;

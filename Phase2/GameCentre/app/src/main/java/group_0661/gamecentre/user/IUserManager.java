@@ -56,5 +56,5 @@ public interface IUserManager {
     /**
      * Set savedGame to null.
      */
-    void dropSavedGame();
+    void dropSavedGame(Game game);
 }
