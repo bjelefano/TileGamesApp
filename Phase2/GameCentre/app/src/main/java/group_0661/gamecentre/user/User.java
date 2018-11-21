@@ -4,6 +4,7 @@ import group_0661.gamecentre.slidingtiles.Game;
 
 import java.util.Map;
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * The user account.
@@ -32,6 +33,8 @@ public class User implements Serializable {
      */
     public User(String userName){
         this.userName = userName;
+        this.savedGames = new HashMap<>();
+        this.backgroundPath = new HashMap<>();
     }
 
     /**
