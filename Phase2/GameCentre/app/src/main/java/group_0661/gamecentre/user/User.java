@@ -2,6 +2,7 @@ package group_0661.gamecentre.user;
 
 import group_0661.gamecentre.slidingtiles.Game;
 
+import java.util.Map;
 import java.io.Serializable;
 
 /**
@@ -17,12 +18,12 @@ public class User implements Serializable {
     /**
      * The user's saved slidingtiles.
      */
-    private Game savedGame;
+    private Map<String, Game> savedGames;
 
     /**
      * The background path.
      */
-    private String backgroundPath;
+    private Map<String, String> backgroundPath;
 
     /**
      * A new user with given username.
@@ -48,7 +49,7 @@ public class User implements Serializable {
      * @param game given slidingtiles
      */
     public void setSavedGame(Game game){
-        this.savedGame = game;
+        this.savedGames.put(game.getGameTitle(), game);
     }
 
     /**
@@ -56,8 +57,8 @@ public class User implements Serializable {
      *
      * @param path given background path
      */
-    public void setBackgroundPath(String path){
-        this.backgroundPath = path;
+    public void setBackgroundPath(Game game, String path){
+        this.backgroundPath.put(game.getGameTitle(), path);
     }
 
     /**
@@ -65,8 +66,8 @@ public class User implements Serializable {
      *
      * @return background path
      */
-    public String getBackgroundPath(){
-        return this.backgroundPath;
+    public String getBackgroundPath(String game){
+        return this.backgroundPath.get(game);
     }
 
     /**
@@ -74,7 +75,7 @@ public class User implements Serializable {
      *
      * @return saved slidingtiles
      */
-    public Game getSavedGame() {
-        return savedGame;
+    public Game getSavedGame(String game) {
+        return this.savedGames.get(game);
     }
 }

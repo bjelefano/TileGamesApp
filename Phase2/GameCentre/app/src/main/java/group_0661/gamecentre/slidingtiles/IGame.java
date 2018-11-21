@@ -11,6 +11,8 @@ public interface IGame {
      *
      * @return the recorded score
      */
+    String getGameTitle();
+
     int getScore();
 
     /**

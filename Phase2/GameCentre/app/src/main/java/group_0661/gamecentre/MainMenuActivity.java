@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * The initial activity for the sliding puzzle tile slidingtiles.
+ * The initial activity for the sliding puzzle tile game.
  */
 public class MainMenuActivity extends AppCompatActivity implements ServiceConnection {
     /**
@@ -43,6 +43,7 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
         addStartButtonListener();
         addLoadButtonListener();
         addLoginButtonListener();
+        addChangeGameButtonListener();
 
         // Starts running service in the background to be accessed by other activities
         startService(new Intent(MainMenuActivity.this, UserManager.class));
@@ -132,8 +133,16 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent popUp = new Intent(MainMenuActivity.this, StartGamePopUp.class);
+                String gameType = (((TextView) findViewById(R.id.title)).getText()).toString();
+                if (gameType.equals("Sliding Tiles")) {
+                    Intent popUp = new Intent(MainMenuActivity.this, SlidingTilesStartPopUp.class);
                 startActivity(popUp);
+                } else if (gameType.equals("Minesweeper")) {
+                    Toast.makeText(MainMenuActivity.this, "Placeholder for Minesweeper", Toast.LENGTH_LONG).show();
+                }
+                else  {
+                    Toast.makeText(MainMenuActivity.this, "Placeholder for Matching Tiles", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -145,12 +154,13 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String gameType = (((TextView) findViewById(R.id.title)).getText()).toString();
                 if (userManager != null & userManager.getStatus()) {
-                    if (userManager.getSavedGame() != null) {
-                        startActivity(initLoadGame());
+                    if (userManager.getSavedGame(gameType) != null) {
+                        startActivity(initLoadGame(gameType));
                     }
                     else {
-                        Toast.makeText(MainMenuActivity.this, "No saved slidingtiles found", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainMenuActivity.this, "No saved game found", Toast.LENGTH_LONG).show();
                     }
                 }
                 else {
@@ -175,19 +185,40 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
     }
 
     /**
+     * Activates the ChangeGame Button.
+     */
+    private void addChangeGameButtonListener() {
+        Button loginButton = findViewById(R.id.change_game);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView game = findViewById(R.id.title);
+                String currentGame = game.getText().toString();
+                if (currentGame == "Sliding Tiles") {
+                    game.setText("Minesweeper");
+                } else if (currentGame == "Minesweeper") {
+                    game.setText("Matching Tiles");
+                } else {
+                    game.setText("Sliding Tiles");
+                }
+            }
+        });
+    }
+
+    /**
      * Initialises the loaded slidingtiles
      *
      * @return an intent with loaded slidingtiles data
      */
-    private Intent initLoadGame() {
+    private Intent initLoadGame(String gameType) {
         Intent load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
         // Cuts up saved image to recreate the saved board
-        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(false), userManager.getSavedGame().getBoard().length);
+        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(false), userManager.getSavedGame(gameType).getBoard().length);
         initBoard.saveTiles(MainMenuActivity.this);
 
         // Adding extra required data to be passed to SlidingTilesActivity
-        load.putExtra("background_path", userManager.getBackgroundPath());
-        load.putExtra("slidingtiles", userManager.getSavedGame());
+        load.putExtra("background_path", userManager.getBackgroundPath(gameType));
+        load.putExtra(gameType, userManager.getSavedGame(gameType));
 
         return load;
     }

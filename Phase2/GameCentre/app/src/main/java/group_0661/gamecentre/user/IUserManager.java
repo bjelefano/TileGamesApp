@@ -51,7 +51,7 @@ public interface IUserManager {
      *
      * @return savedGame in User
      */
-    Game getSavedGame();
+    Game getSavedGame(String gameName);
 
     /**
      * Set savedGame to null.

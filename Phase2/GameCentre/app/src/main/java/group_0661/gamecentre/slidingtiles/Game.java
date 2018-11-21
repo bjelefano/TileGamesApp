@@ -52,6 +52,8 @@ public class Game extends Observable implements Serializable {
         return getBoard().length + " x " + getBoard().length;
     }
 
+    public String getGameTitle() { return "Sliding Tiles"; }
+
     /**
      * Return score using moves made and time elapsed.
      *

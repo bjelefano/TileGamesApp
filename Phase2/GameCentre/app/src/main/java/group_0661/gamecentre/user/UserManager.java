@@ -151,7 +151,7 @@ public class UserManager extends Service implements IUserManager {
      */
     public void saveGame(Game game, String path){
         user.setSavedGame(game);
-        user.setBackgroundPath(path);
+        user.setBackgroundPath(game, path);
         saveUserImage(loadUserImage(true), false );
         saveUser("save_file"+ user.getUserName() +".ser");
     }
@@ -160,16 +160,16 @@ public class UserManager extends Service implements IUserManager {
      * Return background path.
      * @return background path
      */
-    public String getBackgroundPath(){
-        return user.getBackgroundPath();
+    public String getBackgroundPath(String gameName){
+        return user.getBackgroundPath(gameName);
     }
 
     /**
      * Return saved slidingtiles.
      * @return saved slidingtiles
      */
-    public Game getSavedGame(){
-        return user.getSavedGame();
+    public Game getSavedGame(String gameName){
+        return user.getSavedGame(gameName);
     }
 
     /**

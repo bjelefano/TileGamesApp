@@ -22,7 +22,7 @@ import android.provider.MediaStore.Images.Media;
 /**
  * Manager for the slidingtiles option selection layout.
  */
-public class StartGamePopUp extends PopUpActivity implements ServiceConnection {
+public class SlidingTilesStartPopUp extends PopUpActivity implements ServiceConnection {
 
     /**
      * The size of the board to be initialized
@@ -72,16 +72,16 @@ public class StartGamePopUp extends PopUpActivity implements ServiceConnection {
     }
 
     /**
-     * Binds UserManager service to StartGamePopUp when said activity starts
+     * Binds UserManager service to SlidingTilesStartPopUp when said activity starts
      */
     @Override
     protected void onStart() {
         super.onStart();
-        bindService(new Intent(StartGamePopUp.this, UserManager.class), this, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(SlidingTilesStartPopUp.this, UserManager.class), this, Context.BIND_AUTO_CREATE);
     }
 
     /**
-     * Unbinds UserManager service to StartGamePopUp when said activity stops
+     * Unbinds UserManager service to SlidingTilesStartPopUp when said activity stops
      */
     @Override
     protected void onStop() {
@@ -131,9 +131,9 @@ public class StartGamePopUp extends PopUpActivity implements ServiceConnection {
             if (resultCode == RESULT_OK) {
                 try {
                         background = Media.getBitmap(this.getContentResolver(), returnData.getData());
-                        Toast.makeText(StartGamePopUp.this,"Background Added", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SlidingTilesStartPopUp.this,"Background Added", Toast.LENGTH_SHORT).show();
                 } catch (Exception ex) {
-                    Toast.makeText(StartGamePopUp.this,"Could not Retrieve Image", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SlidingTilesStartPopUp.this,"Could not Retrieve Image", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -175,7 +175,7 @@ public class StartGamePopUp extends PopUpActivity implements ServiceConnection {
                     startActivityForResult(accessToGallery, GALLERY_REQUEST);
                 }
                 catch (Exception e) {
-                    Toast.makeText(StartGamePopUp.this,"Sliding Tiles Does Not Have Permission to Access Gallery", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SlidingTilesStartPopUp.this,"Sliding Tiles Does Not Have Permission to Access Gallery", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -186,7 +186,7 @@ public class StartGamePopUp extends PopUpActivity implements ServiceConnection {
      */
     private void setBackground(Bitmap bitmap) {
         ImageToTiles initBoard = new ImageToTiles(bitmap, this.size);
-        initBoard.saveTiles(StartGamePopUp.this);
+        initBoard.saveTiles(SlidingTilesStartPopUp.this);
         backgroundPath = initBoard.getSavePath();
     }
 
@@ -197,12 +197,12 @@ public class StartGamePopUp extends PopUpActivity implements ServiceConnection {
      */
     private Bitmap getDefaultBoard() {
         if (this.size == 3) {
-            return BitmapFactory.decodeResource(StartGamePopUp.this.getResources(), R.drawable.easy);
+            return BitmapFactory.decodeResource(SlidingTilesStartPopUp.this.getResources(), R.drawable.easy);
         }
         else if (this.size == 4) {
-            return BitmapFactory.decodeResource(StartGamePopUp.this.getResources(), R.drawable.normal);
+            return BitmapFactory.decodeResource(SlidingTilesStartPopUp.this.getResources(), R.drawable.normal);
         }
-        return BitmapFactory.decodeResource(StartGamePopUp.this.getResources(), R.drawable.hard);
+        return BitmapFactory.decodeResource(SlidingTilesStartPopUp.this.getResources(), R.drawable.hard);
     }
 
     /**
@@ -214,18 +214,18 @@ public class StartGamePopUp extends PopUpActivity implements ServiceConnection {
         RadioGroup boardSelect = findViewById(R.id.board_select);
         if (boardSelect.getCheckedRadioButtonId() == R.id.easy) {
             size = 3;
-            Toast.makeText(StartGamePopUp.this, "Game Start: Easy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SlidingTilesStartPopUp.this, "Game Start: Easy", Toast.LENGTH_SHORT).show();
             return true;
         } else if (boardSelect.getCheckedRadioButtonId() == R.id.medium) {
             size = 4;
-            Toast.makeText(StartGamePopUp.this, "Game Start: Normal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SlidingTilesStartPopUp.this, "Game Start: Normal", Toast.LENGTH_SHORT).show();
             return true;
         } else if (boardSelect.getCheckedRadioButtonId() == R.id.hard) {
             size = 5;
-            Toast.makeText(StartGamePopUp.this, "Game Start: Hard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SlidingTilesStartPopUp.this, "Game Start: Hard", Toast.LENGTH_SHORT).show();
             return true;
         }
-        Toast.makeText(StartGamePopUp.this, "Please Select a Board Size", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SlidingTilesStartPopUp.this, "Please Select a Board Size", Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -235,7 +235,7 @@ public class StartGamePopUp extends PopUpActivity implements ServiceConnection {
      * @return an intent with new slidingtiles data
      */
     private Intent initNewGame() {
-        Intent startGame = new Intent(StartGamePopUp.this, SlidingTilesActivity.class);
+        Intent startGame = new Intent(SlidingTilesStartPopUp.this, SlidingTilesActivity.class);
         Game game = new Game(size, Integer.valueOf(((
                 EditText)findViewById(R.id.UndoInput)).getText().toString()), unlimited);
         startGame.putExtra("slidingtiles", game);

@@ -60,14 +60,14 @@ public class SlidingTilesActivity extends ActionBarActivity implements Observer,
      */
     private int autosaveCounter = 1;
     /**
-     * True when the slidingtiles wants to start the counter; false when the slidingtiles wants to pause the counter
+     * True when the game wants to start the counter; false when the slidingtiles wants to pause the counter
      */
     private boolean incrementTime = true;
 
     /**
-     * Initializes the slidingtiles.
+     * Initializes the game.
      *
-     * @param savedInstanceState load the saved slidingtiles bundle if available
+     * @param savedInstanceState load the saved game bundle if available
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class SlidingTilesActivity extends ActionBarActivity implements Observer,
         // Sets title for action bar
         configureActionBar("Sliding Tiles");
 
-        // Configures the in-slidingtiles timer
+        // Configures the in-game timer
         Thread t = new Thread() {
             @Override
             public void run() {
@@ -286,7 +286,7 @@ public class SlidingTilesActivity extends ActionBarActivity implements Observer,
      * Initializes the slidingtiles.
      */
     private void initGame() {
-        this.game = (Game) getIntent().getSerializableExtra("slidingtiles");
+        this.game = (Game) getIntent().getSerializableExtra("Sliding Tiles");
         this.size = this.game.getBoard().length;
 
         createTileButtons(SlidingTilesActivity.this);
@@ -301,7 +301,7 @@ public class SlidingTilesActivity extends ActionBarActivity implements Observer,
             Intent scoreboard = new Intent(SlidingTilesActivity.this, LeaderBoardActivity.class);
             if (userManager != null && userManager.getStatus()) {
                 this.userManager.dropSavedGame();
-                scoreboard.putExtra("slidingtiles", this.game);
+                scoreboard.putExtra("Sliding Tiles", this.game);
                 scoreboard.putExtra("user", userManager.getName());
             }
             startActivity(scoreboard);
