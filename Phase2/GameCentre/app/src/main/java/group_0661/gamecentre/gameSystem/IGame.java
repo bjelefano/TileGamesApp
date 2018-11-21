@@ -1,4 +1,4 @@
-package group_0661.gamecentre.slidingtiles;
+package group_0661.gamecentre.gameSystem;
 
 /**
  * The interface for any slidingtiles
@@ -20,7 +20,7 @@ public interface IGame {
      *
      * @return the board
      */
-    Board getBoard();
+    Integer[][] getBoard();
 
     /**
      * Get the type of slidingtiles

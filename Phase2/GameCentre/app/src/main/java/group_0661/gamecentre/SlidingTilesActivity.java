@@ -22,7 +22,7 @@ import android.widget.Toast;
 import android.graphics.Bitmap;
 
 
-import group_0661.gamecentre.slidingtiles.Game;
+import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.gestures.GestureDetectGridView;
 import group_0661.gamecentre.user.UserManager;
 import group_0661.gamecentre.gestures.CustomAdapter;

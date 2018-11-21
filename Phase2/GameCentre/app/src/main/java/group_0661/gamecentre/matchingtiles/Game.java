@@ -6,22 +6,22 @@ import java.util.Observable;
 import group_0661.gamecentre.gestures.Undo;
 
 /**
- * The slidingtiles class.
+ * The class for matching tile game.
  */
 public class Game extends Observable implements Serializable {
 
     /**
-     * The sliding tiles board.
+     * The matching tiles board.
      */
     private Board board;
 
     /**
-     * Initialize a new undo system for this slidingtiles.
+     * Initialize a new undo system for this matchingtiles.
      */
     private Undo undoSys;
 
     /**
-     * Time elapsed since slidingtiles began.
+     * Time elapsed since matchingtiles began.
      */
     public int time = 0;
 

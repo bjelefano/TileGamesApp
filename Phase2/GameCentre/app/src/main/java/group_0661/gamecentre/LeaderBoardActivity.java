@@ -1,5 +1,6 @@
 package group_0661.gamecentre;
 
+import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.scoreboard.ScoreField;
 
 import java.util.List;
@@ -12,10 +13,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
-import android.util.Log;
 
 import group_0661.gamecentre.scoreboard.Scoreboard;
-import group_0661.gamecentre.slidingtiles.Game;
 
 public class LeaderBoardActivity extends ActionBarActivity {
 

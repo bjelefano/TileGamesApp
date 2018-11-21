@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import group_0661.gamecentre.slidingtiles.Game;
+import group_0661.gamecentre.gameSystem.Game;
 
 
 import java.io.File;

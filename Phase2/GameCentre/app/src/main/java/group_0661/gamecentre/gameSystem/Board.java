@@ -1,4 +1,4 @@
-package group_0661.gamecentre.slidingtiles;
+package group_0661.gamecentre.gameSystem;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 

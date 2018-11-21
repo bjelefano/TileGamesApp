@@ -1,7 +1,7 @@
 package group_0661.gamecentre.scoreboard;
 
 import java.util.List;
-import group_0661.gamecentre.slidingtiles.Game;
+import group_0661.gamecentre.gameSystem.Game;
 
 
 /**

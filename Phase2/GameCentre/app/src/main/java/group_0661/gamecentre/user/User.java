@@ -1,6 +1,6 @@
 package group_0661.gamecentre.user;
 
-import group_0661.gamecentre.slidingtiles.Game;
+import group_0661.gamecentre.gameSystem.Game;
 
 import java.util.Map;
 import java.io.Serializable;

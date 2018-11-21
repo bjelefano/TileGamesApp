@@ -1,6 +1,6 @@
 package group_0661.gamecentre.gestures;
 
-import group_0661.gamecentre.slidingtiles.Game;
+import group_0661.gamecentre.gameSystem.Game;
 import android.content.Context;
 import android.widget.Toast;
 import android.util.Log;

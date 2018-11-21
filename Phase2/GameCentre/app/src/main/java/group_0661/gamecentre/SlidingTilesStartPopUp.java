@@ -1,6 +1,6 @@
 package group_0661.gamecentre;
 
-import group_0661.gamecentre.slidingtiles.Game;
+import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.user.UserManager;
 
 import android.content.ComponentName;

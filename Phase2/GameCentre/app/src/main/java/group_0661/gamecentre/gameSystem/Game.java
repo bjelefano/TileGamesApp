@@ -1,31 +1,31 @@
-package group_0661.gamecentre.slidingtiles;
-
+package group_0661.gamecentre.gameSystem;
 import group_0661.gamecentre.gestures.Undo;
+
 import java.io.Serializable;
 import java.util.Observable;
 
 /**
- * The slidingtiles class.
+ * The game class.
  */
-public class Game extends Observable implements Serializable {
+public class Game extends Observable implements Serializable, IGame {
 
     /**
-     * The sliding tiles board.
+     * The board for game.
      */
     private Board board;
 
     /**
-     * Initialize a new undo system for this slidingtiles.
+     * Initialize a new undo system for this game.
      */
     private Undo undoSys;
 
     /**
-     * Time elapsed since slidingtiles began.
+     * Time elapsed since the game began.
      */
     public int time = 0;
 
     /**
-     * A new slidingtiles with given dimensions and undo limit.
+     * A new game with given dimensions and undo limit.
      *
      * @param dimensions size of the board
      * @param undoLimit number of possible undo moves

@@ -16,7 +16,7 @@ import android.view.MotionEvent;
 import android.widget.GridView;
 import android.util.Log;
 
-import group_0661.gamecentre.slidingtiles.Game;
+import group_0661.gamecentre.gameSystem.Game;
 
 /**
  * Initialize gesture detection
