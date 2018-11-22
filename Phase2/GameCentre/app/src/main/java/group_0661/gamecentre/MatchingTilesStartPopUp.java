@@ -39,9 +39,9 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     private String backgroundPath;
 
     /**
-     * Board size
+     * Board width
      */
-    private int size = 20;
+    private int width = 3;
 
 
     @Override
@@ -88,19 +88,19 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     private boolean radioGroupListener() {
         RadioGroup boardSelect = findViewById(R.id.mboard_select);
         if (boardSelect.getCheckedRadioButtonId() == R.id.match_easy) {
-            size = 12;
+            width = 3;
             Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Easy", Toast.LENGTH_SHORT).show();
             return true;
         } else if (boardSelect.getCheckedRadioButtonId() == R.id.match_casual) {
-            size = 20;
+            width = 4;
             Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Normal", Toast.LENGTH_SHORT).show();
             return true;
         } else if (boardSelect.getCheckedRadioButtonId() == R.id.match_hard) {
-            size = 30;
+            width = 5;
             Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Hard", Toast.LENGTH_SHORT).show();
             return true;
         }
-        Toast.makeText(MatchingTilesStartPopUp.this, "Please Select a Board Size", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MatchingTilesStartPopUp.this, "Please Select a Difficulty Level", Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -108,7 +108,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      * Slices up the selected image into a number of tiles depending on the selected board size
      */
     private void setBackground(Bitmap bitmap) {
-        ImageToTiles initBoard = new ImageToTiles(bitmap, this.size);
+        MatchingTiles_ImageToTiles initBoard = new MatchingTiles_ImageToTiles(bitmap, this.width);
         initBoard.saveTiles(MatchingTilesStartPopUp.this);
         backgroundPath = initBoard.getSavePath();
     }
@@ -119,10 +119,10 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      * @return a Bitmap of the default boards (containing only numbers)
      */
     private Bitmap getDefaultBoard() {
-        if (this.size == 12) {
-            return BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.easy);
+        if (this.width == 3) {
+            return BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy);
         }
-        else if (this.size == 20) {
+        else if (this.width == 4) {
             return BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.normal);
         }
         return BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.hard);
@@ -158,8 +158,9 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      */
     private Intent initNewGame() {
         Intent startGame = new Intent(MatchingTilesStartPopUp.this, MatchingTilesActivity.class);
-        MatchingTileGame game = new MatchingTileGame(size);
+        MatchingTileGame game = new MatchingTileGame(width);
         startGame.putExtra("Matching Tiles", game);
+        startGame.putExtra("background_path", backgroundPath);
 
         return startGame;
     }

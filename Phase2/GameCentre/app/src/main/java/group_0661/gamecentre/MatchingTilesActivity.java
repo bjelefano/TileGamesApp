@@ -48,9 +48,13 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     private UserManager userManager;
     /**
-     * The size of the board.
+     * The width of the board.
      */
-    private int size;
+    private int width;
+    /**
+     * The length of the board.
+     */
+    private int length;
     /**
      * Parameters for creating the gridView.
      */
@@ -63,7 +67,6 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      * True when the game wants to start the counter; false when the slidingtiles wants to pause the counter
      */
     private boolean incrementTime = true;
-
     /**
      * Initializes the game.
      *
@@ -208,7 +211,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     private void initGrid() {
         gesture = findViewById(R.id.grid);
-        gesture.setNumColumns(size);
+        gesture.setNumColumns(width);
         gesture.setGame(game);
         game.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -220,8 +223,8 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
                         int displayWidth = gesture.getMeasuredWidth();
                         int displayHeight = gesture.getMeasuredHeight();
 
-                        columnWidth = displayWidth / size;
-                        columnHeight = displayHeight / size;
+                        columnWidth = displayWidth / width;
+                        columnHeight = displayHeight / length;
 
                         display();
                     }
@@ -239,7 +242,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         for (Integer[] row : board) {
             for (Integer element: row) {
                 Button button = new Button(context);
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element));
+                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/matchingtile_%d.png", element));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 this.tileButtons.add(button);
@@ -257,7 +260,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         for (Integer[] row : board) {
             for (Integer element : row) {
                 Button button = (this.tileButtons.get(i));
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element));
+                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/matchingtile_%d.png", element));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 tileButtons.set(i, button);
@@ -287,7 +290,8 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     private void initGame() {
         this.game = (MatchingTileGame) getIntent().getSerializableExtra("Matching Tiles");
-        this.size = this.game.getBoard().length;
+        this.length = this.game.getBoard().length;
+        this.width = length-1;
 
         createTileButtons(MatchingTilesActivity.this);
         initGrid();

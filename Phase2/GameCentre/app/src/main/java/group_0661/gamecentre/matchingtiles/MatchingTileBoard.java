@@ -12,22 +12,18 @@ import java.util.Observable;
 /**
  * The sliding tiles board.
  */
-public class Board extends Observable implements Serializable{
+public class MatchingTileBoard extends Observable implements Serializable{
+
+    /**
+     * The number of columns.
+     */
+    private int columns;
 
     /**
      * The number of rows.
      */
-    private int NUM_ROWS;
+    private int rows;
 
-    /**
-     * The number of rows.
-     */
-    private int NUM_COLS;
-
-    /**
-     * The list of previous moves
-     */
-    private int[] previousMoves;
 
     /**
      * The tiles on the board in row-major order.
@@ -37,28 +33,31 @@ public class Board extends Observable implements Serializable{
     /**
      * The number of moves made.
      */
-    int moves_made = 0;
+    private int moves_made = 0;
 
     /**
      * A new board of tiles in row-major order.
-     * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
+     * Precondition: len(tiles) == rows * columns
      *
-     * @param dimension the size of the board
+     * @param column the number of rows of the board
      */
-    Board(int dimension) {
-        NUM_ROWS = dimension;
-        NUM_COLS = dimension;
-        previousMoves = new int[] {-1,- 1};
-        tiles = new Integer[NUM_ROWS][NUM_COLS];
+    MatchingTileBoard(int column) {
+        rows = column+1;
+        columns = column;
+        int counter = 0;
+        tiles = new Integer[rows][columns];
         ArrayList<Integer> tileslist = new ArrayList<>();
-        for (int i = 0; i < dimension * dimension; i++) {
+        for (int i = 0; i < rows * columns; i++) {
             tileslist.add(new Integer(i + 1));
         }
-        Collections.shuffle(tileslist);
-        for (int i = 0; i < dimension * dimension; i++) {
-            tiles[i / dimension][i % dimension] = tileslist.get(i);
+//        Collections.shuffle(tileslist);
+        for (int i = 0; i < rows; i++) {
+            for (int d = 0; d < columns; d++) {
+                tiles[i][d] = tileslist.get(counter);
+                counter++;
+            }
+//            tiles[i / rows][i % columns] = tileslist.get(i);
         }
-
     }
 
     /**
@@ -67,7 +66,7 @@ public class Board extends Observable implements Serializable{
      * @return the number of tiles on the board
      */
     int numTiles() {
-        return (NUM_ROWS * NUM_COLS);
+        return (rows * columns);
     }
 
     /**
@@ -103,37 +102,18 @@ public class Board extends Observable implements Serializable{
      *
      * @param row the tile row
      * @param column the tile column
-     * @param undo true if an undo call, false if not
      * @return true if tiles are successfully swapped
      */
-    public boolean makeMove(int row, int column, boolean undo) {
+    public boolean makeMove(int row, int column) {
         List<Pair<Integer, Integer>> toCheck = getTilesToCheck(row, column);
         for (Pair<Integer, Integer> indices: toCheck) {
-            if (tiles[indices.first][indices.second] == NUM_COLS * NUM_ROWS) {
+            if (tiles[indices.first][indices.second] == columns * rows) {
                 swapTiles(row, column, indices.first, indices.second);
-                if (!undo) {
-                    previousMoves[0] = indices.first;
-                    previousMoves[1] = indices.second;
-                }
                 moves_made += 1;
                 return true;
             }
         }
         return false;
-    }
-
-    /**
-     * Return (row, col) of the last location of the blank tile.
-     *
-     * @return (row, col) of the last location of the blank tile.
-     */
-    public int[] getPreviousMoves() {
-        int[] temp = new int[2];
-        temp[0] = previousMoves[0];
-        temp[1] = previousMoves[1];
-        previousMoves[0] = -1;
-        previousMoves[1] = -1;
-        return temp;
     }
 
     /**
@@ -149,7 +129,7 @@ public class Board extends Observable implements Serializable{
             Pair<Integer, Integer> toAdd = new Pair<>(row, column - 1);
             indices.add(toAdd);
         }
-        if (column != NUM_ROWS - 1) {
+        if (column != rows - 1) {
             Pair<Integer, Integer> toAdd = new Pair<>(row, column + 1);
             indices.add(toAdd);
         }
@@ -157,7 +137,7 @@ public class Board extends Observable implements Serializable{
             Pair<Integer, Integer> toAdd = new Pair<>(row - 1, column);
             indices.add(toAdd);
         }
-        if (row != NUM_ROWS - 1) {
+        if (row != rows - 1) {
             Pair<Integer, Integer> toAdd = new Pair<>(row + 1, column);
             indices.add(toAdd);
         }
@@ -177,7 +157,7 @@ public class Board extends Observable implements Serializable{
      *
      * @return number of columns in the board
      */
-    public int getSize() {return NUM_COLS;}
+    public int getSize() {return columns;}
 
     /**
      * Return number of moves made.
@@ -192,9 +172,9 @@ public class Board extends Observable implements Serializable{
      * @return true if the slidingtiles is solved, false if the slidingtiles is not solved.
      */
     boolean puzzleSolved() {
-        for (int i = 0; i < NUM_ROWS; i++) {
-            for (int j = 0; j < NUM_COLS; j++) {
-                if (getTile(i, j) != (i * NUM_ROWS) + j + 1) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (getTile(i, j) != (i * rows) + j + 1) {
                     return false;
                 }
             }
