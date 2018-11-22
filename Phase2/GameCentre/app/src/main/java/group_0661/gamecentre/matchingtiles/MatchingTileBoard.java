@@ -100,20 +100,12 @@ public class MatchingTileBoard extends Observable implements Serializable{
      * Check if valid move then swap the tiles. If not an undo call, add row and col of
      * the last location of the blank tile to previousMoves.
      *
-     * @param row the tile row
-     * @param column the tile column
+     * @param position position being tapped
      * @return true if tiles are successfully swapped
      */
-    public boolean makeMove(int row, int column) {
-        List<Pair<Integer, Integer>> toCheck = getTilesToCheck(row, column);
-        for (Pair<Integer, Integer> indices: toCheck) {
-            if (tiles[indices.first][indices.second] == columns * rows) {
-                swapTiles(row, column, indices.first, indices.second);
+    public boolean makeMove(int position) {
                 moves_made += 1;
                 return true;
-            }
-        }
-        return false;
     }
 
     /**

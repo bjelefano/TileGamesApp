@@ -34,9 +34,19 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     private Bitmap background = null;
 
     /**
+     * Board cover in use.
+     */
+    private Bitmap cover = null;
+
+    /**
      * The file path for the background
      */
     private String backgroundPath;
+
+    /**
+     * The file path for the cover
+     */
+    private String coverPath;
 
     /**
      * Board width
@@ -107,10 +117,13 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     /**
      * Slices up the selected image into a number of tiles depending on the selected board size
      */
-    private void setBackground(Bitmap bitmap) {
-        MatchingTiles_ImageToTiles initBoard = new MatchingTiles_ImageToTiles(bitmap, this.width);
+    private void setBackground(Bitmap background, Bitmap cover) {
+        MatchingTiles_ImageToTiles initBoard = new MatchingTiles_ImageToTiles(background, this.width);
+        MatchingTiles_ImageToTiles initCover = new MatchingTiles_ImageToTiles(cover, this.width);
         initBoard.saveTiles(MatchingTilesStartPopUp.this);
+        initCover.saveTiles(MatchingTilesStartPopUp.this);
         backgroundPath = initBoard.getSavePath();
+        coverPath = initCover.getSavePath();
     }
 
     /**
@@ -118,14 +131,15 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      *
      * @return a Bitmap of the default boards (containing only numbers)
      */
-    private Bitmap getDefaultBoard() {
+    private void setDefaultBoard() {
         if (this.width == 3) {
-            return BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy);
+            background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy);
+            cover = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy_blank);
         }
         else if (this.width == 4) {
-            return BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.normal);
+            background =  BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.normal);
         }
-        return BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.hard);
+        background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.hard);
     }
     /**
      * Nullifies UserManager once the UserManager service is disconnected
@@ -141,8 +155,8 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
             @Override
             public void onClick(View v) {
                 if (radioGroupListener()) {
-                    background = getDefaultBoard();
-                    setBackground(background);
+                    setDefaultBoard();
+                    setBackground(background, cover);
                     Intent newgame = initNewGame();
                     startActivity(newgame);
                     finish();
@@ -161,6 +175,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
         MatchingTileGame game = new MatchingTileGame(width);
         startGame.putExtra("Matching Tiles", game);
         startGame.putExtra("background_path", backgroundPath);
+        startGame.putExtra("cover_path", coverPath);
 
         return startGame;
     }

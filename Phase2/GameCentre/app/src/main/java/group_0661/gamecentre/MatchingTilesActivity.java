@@ -237,7 +237,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     private void createTileButtons(Context context) {
         Integer[][] board = game.getBoard();
-        String path = getIntent().getStringExtra("background_path");
+        String path = getIntent().getStringExtra("cover_path");
         tileButtons = new ArrayList<>();
         for (Integer[] row : board) {
             for (Integer element: row) {
@@ -305,7 +305,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
             Intent scoreboard = new Intent(MatchingTilesActivity.this, LeaderBoardActivity.class);
             if (userManager != null && userManager.getStatus()) {
                 this.userManager.dropSavedGame(game);
-                scoreboard.putExtra("Sliding Tiles", this.game);
+                scoreboard.putExtra("Matching Tiles", this.game);
                 scoreboard.putExtra("user", userManager.getName());
             }
             startActivity(scoreboard);

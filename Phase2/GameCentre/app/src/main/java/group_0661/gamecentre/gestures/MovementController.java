@@ -1,6 +1,8 @@
 package group_0661.gamecentre.gestures;
 
 import group_0661.gamecentre.gameSystem.Game;
+import group_0661.gamecentre.matchingtiles.MatchingTileGame;
+
 import android.content.Context;
 import android.widget.Toast;
 import android.util.Log;
@@ -32,8 +34,13 @@ public class MovementController {
      * @param display true if movement recorded
      */
     public void processTapMovement(Context context, int position, boolean display) {
-        if (position < game.getBoard().length * game.getBoard().length) {
+        if (game instanceof MatchingTileGame & position < game.getBoard().length * (game.getBoard().length+1)) {
             Log.d("touched", new Integer(position).toString());
+//            Toast.makeText(context, "MatchingTileTouch",Toast.LENGTH_SHORT ).show();
+            game.touchMove(position);
+        } else if (game instanceof Game & position < game.getBoard().length * game.getBoard().length) {
+            Log.d("touched", new Integer(position).toString());
+//            Toast.makeText(context, "SlidingTileTouch",Toast.LENGTH_SHORT ).show();
             game.touchMove(position);
         }
         if (game.isWon()) {

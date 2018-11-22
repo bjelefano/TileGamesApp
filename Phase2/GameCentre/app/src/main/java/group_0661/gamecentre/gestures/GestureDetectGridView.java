@@ -15,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 import android.util.Log;
+import android.widget.Toast;
 
 import group_0661.gamecentre.gameSystem.Game;
 
@@ -121,6 +122,7 @@ public class GestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
+//                Toast.makeText(context,"tapped" + position, Toast.LENGTH_SHORT).show();
                 mController.processTapMovement(context, position, true);
                 return true;
             }
