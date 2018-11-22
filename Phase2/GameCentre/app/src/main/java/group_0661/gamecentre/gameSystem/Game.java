@@ -37,6 +37,15 @@ public class Game extends Observable implements Serializable, IGame {
     }
 
     /**
+     * A new game with given dimensions and without undo functionality.
+     *
+     * @param dimensions size of the board
+     */
+    public Game(int dimensions){
+        board = new Board(dimensions);
+    }
+
+    /**
      * Return current state of tiles in board.
      *
      * @return current state of tiles in board

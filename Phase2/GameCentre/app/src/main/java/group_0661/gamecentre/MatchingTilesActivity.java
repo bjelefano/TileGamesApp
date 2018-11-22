@@ -22,7 +22,7 @@ import android.widget.Toast;
 import android.graphics.Bitmap;
 
 
-import group_0661.gamecentre.gameSystem.Game;
+import group_0661.gamecentre.matchingtiles.MatchingTileGame;
 import group_0661.gamecentre.gestures.GestureDetectGridView;
 import group_0661.gamecentre.user.UserManager;
 import group_0661.gamecentre.gestures.CustomAdapter;
@@ -38,7 +38,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     /**
      * The slidingtiles instance.
      */
-    private Game game;
+    private MatchingTileGame game;
     /**
      * The module that detects gestures within the tiles.
      */
@@ -75,7 +75,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         setContentView(R.layout.activity_game);
 
         // Sets title for action bar
-        configureActionBar("Sliding Tiles");
+        configureActionBar("Matching Tiles");
 
         // Configures the in-game timer
         Thread t = new Thread() {
@@ -208,7 +208,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     private void initGrid() {
         gesture = findViewById(R.id.grid);
-        gesture.setNumColumns(this.size);
+        gesture.setNumColumns(size);
         gesture.setGame(game);
         game.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -286,7 +286,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      * Initializes the matchingTiles.
      */
     private void initGame() {
-        this.game = (Game) getIntent().getSerializableExtra("Sliding Tiles");
+        this.game = (MatchingTileGame) getIntent().getSerializableExtra("Matching Tiles");
         this.size = this.game.getBoard().length;
 
         createTileButtons(MatchingTilesActivity.this);
