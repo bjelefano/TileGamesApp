@@ -34,7 +34,6 @@ public class MatchingTileGame extends Game implements Serializable {
      * @return true if tapping is valid and recorded
      */
     public boolean touchMove(int position) {
-        int size = board.getSize();
         if (position < length * (length -1)) {
             board.makeMove(position / (length-1), position % (length-1));
             setChanged();

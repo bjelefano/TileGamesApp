@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -57,6 +58,10 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      * The length of the board.
      */
     private int length;
+    /**
+     * Timer for resetting buttons.
+     */
+    private CountDownTimer bTimer;
     /**
      * Parameters for creating the gridView.
      */
@@ -188,6 +193,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     public void display() {
         // Updates UI in 1s interval
         updateTileButtons();
+        startTimer();
         updateMovesMade();
 
         // Auto-save check
@@ -277,6 +283,23 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         }
     }
 
+    void startTimer() {
+        bTimer = new CountDownTimer(2000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+            public void onFinish() {
+                updateTileButtons();
+            }
+        };
+        bTimer.start();
+    }
+
+
+    //cancel timer
+    void cancelTimer() {
+        if(bTimer!=null)
+            bTimer.cancel();
+    }
     /**
      * Updates the Moves-Made TextView according to changes within the MatchingTiles.
      */

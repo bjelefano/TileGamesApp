@@ -1,6 +1,6 @@
 package group_0661.gamecentre.matchingtiles;
 
-import android.util.Pair;
+//import android.util.Pair;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
      */
     private int columns;
 
+    private int awaiting_tile = 0;
     /**
      * The tile being flipped;
      */
@@ -37,6 +38,10 @@ public class MatchingTileBoard extends Observable implements Serializable{
      */
     private Integer[][] tiles;
 
+    /**
+     * The matching pair of tiles.
+     */
+//    private Pair<Integer,Integer>[] pairs;
     /**
      * The number of moves made.
      */
@@ -65,6 +70,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
             }
 //            tiles[i / rows][i % columns] = tileslist.get(i);
         }
+//        generatePairs();
     }
 
     /**
@@ -87,21 +93,12 @@ public class MatchingTileBoard extends Observable implements Serializable{
         return tiles[row][col];
     }
 
-    /**
-     * Swap the tiles at (row1, col1) and (row2, col2)
-     *
-     * @param row1 the first tile row
-     * @param col1 the first tile col
-     * @param row2 the second tile row
-     * @param col2 the second tile col
-     */
-    private void swapTiles(int row1, int col1, int row2, int col2) {
-        int temp = tiles[row1][col1];
-        tiles[row1][col1] = tiles[row2][col2];
-        tiles[row2][col2] = temp;
-        setChanged();
-        notifyObservers();
-    }
+//    void generatePairs(){
+//        pairs = new Pair[numTiles()/2];
+//        for (int i = 1; i <= numTiles()/2; i++) {
+//            pairs[i-1] = new Pair<Integer, Integer>(i*2-1,i*2);
+//        }
+//    }
 
     /**
      * Check if valid move then swap the tiles. If not an undo call, add row and col of
@@ -112,18 +109,34 @@ public class MatchingTileBoard extends Observable implements Serializable{
      * @return true if tiles are successfully swapped
      */
     public boolean makeMove(final int row, final int column) {
-        flipped = tiles[row][column];
-        MatchingTileBoard.this.tiles[row][column] = - flipped;
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                MatchingTileBoard.this.tiles[row][column] = flipped;
+        if (tiles[row][column] > 0 ) {
+            flipped = tiles[row][column];
+            MatchingTileBoard.this.tiles[row][column] = -flipped;
+            if (awaiting_tile != flipped) {
+                checkFlip(flipped);
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        MatchingTileBoard.this.tiles[row][column] = flipped;
+                        awaiting_tile = 0;
+                        setChanged();
+                        notifyObservers();
+                    }
+                };
+                timer = new Timer("Timer");
+                timer.schedule(task, 2*1000);
+                moves_made += 1;
             }
-        };
-        timer = new Timer("Timer");
-        long delay = 1000L;
-        timer.schedule(task, delay);
-        moves_made += 1;
+        }
+        return true;
+    }
+
+    public boolean checkFlip(Integer flipped) {
+        if (flipped % 2 == 1) {
+            awaiting_tile = flipped + 1;
+        } else {
+            awaiting_tile = flipped - 1;
+        }
         return true;
     }
 //
@@ -136,34 +149,6 @@ public class MatchingTileBoard extends Observable implements Serializable{
 //        });
 //    }
 
-    /**
-     * Return list of (row, col) of tiles that are candidates for swapping.
-     *
-     * @param row the current tile row
-     * @param column the current tile column
-     * @return list of (row, col) of tiles that are candidates for swapping
-     */
-    private List<Pair<Integer, Integer>> getTilesToCheck(int row, int column) {
-        List<Pair<Integer, Integer>> indices = new ArrayList<>();
-        if (column != 0) {
-            Pair<Integer, Integer> toAdd = new Pair<>(row, column - 1);
-            indices.add(toAdd);
-        }
-        if (column != rows - 1) {
-            Pair<Integer, Integer> toAdd = new Pair<>(row, column + 1);
-            indices.add(toAdd);
-        }
-        if (row != 0) {
-            Pair<Integer, Integer> toAdd = new Pair<>(row - 1, column);
-            indices.add(toAdd);
-        }
-        if (row != rows - 1) {
-            Pair<Integer, Integer> toAdd = new Pair<>(row + 1, column);
-            indices.add(toAdd);
-        }
-
-        return indices;
-    }
 
     /**
      * Return tiles on board in row-major order.
