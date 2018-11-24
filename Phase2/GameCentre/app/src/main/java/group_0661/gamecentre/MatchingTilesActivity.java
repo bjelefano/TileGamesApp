@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
@@ -184,7 +186,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      *  Updates the display. Also initiates an autosave depending on autosaveCounter.
      */
     public void display() {
-        // Updates UI
+        // Updates UI in 1s interval
         updateTileButtons();
         updateMovesMade();
 
@@ -242,7 +244,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         for (Integer[] row : board) {
             for (Integer element: row) {
                 Button button = new Button(context);
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/matchingtile_%d.png", element));
+                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/cover_%d.png", element));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 this.tileButtons.add(button);
@@ -256,11 +258,17 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     private void updateTileButtons() {
         Integer[][] board = game.getBoard();
         String path = getIntent().getStringExtra("background_path");
+        String coverPath = getIntent().getStringExtra("cover_path");
         int i = 0;
         for (Integer[] row : board) {
             for (Integer element : row) {
                 Button button = (this.tileButtons.get(i));
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/matchingtile_%d.png", element));
+                Bitmap btmp = null;
+                if (element > 0) {
+                    btmp = BitmapFactory.decodeFile(String.format(coverPath + "/cover_%d.png", element));
+                } else {
+                    btmp =BitmapFactory.decodeFile(String.format(path + "/matchingtile_%d.png", -element));
+                }
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 tileButtons.set(i, button);

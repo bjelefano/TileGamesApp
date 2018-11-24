@@ -118,12 +118,10 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      * Slices up the selected image into a number of tiles depending on the selected board size
      */
     private void setBackground(Bitmap background, Bitmap cover) {
-        MatchingTiles_ImageToTiles initBoard = new MatchingTiles_ImageToTiles(background, this.width);
-        MatchingTiles_ImageToTiles initCover = new MatchingTiles_ImageToTiles(cover, this.width);
+        MatchingTiles_ImageToTiles initBoard = new MatchingTiles_ImageToTiles(background, cover, this.width);
         initBoard.saveTiles(MatchingTilesStartPopUp.this);
-        initCover.saveTiles(MatchingTilesStartPopUp.this);
-        backgroundPath = initBoard.getSavePath();
-        coverPath = initCover.getSavePath();
+        backgroundPath = initBoard.getSaveGamePath();
+        coverPath = initBoard.getSaveCoverPath();
     }
 
     /**
@@ -138,8 +136,9 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
         }
         else if (this.width == 4) {
             background =  BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.normal);
+        } else {
+            background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.hard);
         }
-        background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.hard);
     }
     /**
      * Nullifies UserManager once the UserManager service is disconnected

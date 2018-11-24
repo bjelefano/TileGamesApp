@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * The sliding tiles board.
  */
@@ -20,11 +23,15 @@ public class MatchingTileBoard extends Observable implements Serializable{
     private int columns;
 
     /**
+     * The tile being flipped;
+     */
+    private int flipped;
+    /**
      * The number of rows.
      */
     private int rows;
 
-
+    private Timer timer;
     /**
      * The tiles on the board in row-major order.
      */
@@ -100,13 +107,34 @@ public class MatchingTileBoard extends Observable implements Serializable{
      * Check if valid move then swap the tiles. If not an undo call, add row and col of
      * the last location of the blank tile to previousMoves.
      *
-     * @param position position being tapped
+     * @param row row being tapped
+     * @param column column being tapped
      * @return true if tiles are successfully swapped
      */
-    public boolean makeMove(int position) {
-                moves_made += 1;
-                return true;
+    public boolean makeMove(final int row, final int column) {
+        flipped = tiles[row][column];
+        MatchingTileBoard.this.tiles[row][column] = - flipped;
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                MatchingTileBoard.this.tiles[row][column] = flipped;
+            }
+        };
+        timer = new Timer("Timer");
+        long delay = 1000L;
+        timer.schedule(task, delay);
+        moves_made += 1;
+        return true;
     }
+//
+//    public int timeMove(int row, int column,Integer tile) {
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                tiles[row][column] = - flipped;
+//            }
+//        });
+//    }
 
     /**
      * Return list of (row, col) of tiles that are candidates for swapping.

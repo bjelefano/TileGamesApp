@@ -24,13 +24,21 @@ public class MatchingTiles_ImageToTiles {
      */
     private final int RESIZE_HEIGHT = 2400;
     /**
-     * File path of the saved Bitmap
+     * File gamePath of the saved Bitmap
      */
-    private String path;
+    private String gamePath;
     /**
-     * The bitmap image
+     * The path for saved cover
+     */
+    private String coverPath;
+    /**
+     * The bitmap image for game
      */
     private Bitmap image;
+    /**
+     * The bitmap image for cover;
+     */
+    private Bitmap cover;
     /**
      * The number of rows that will make up the sliced up image
      */
@@ -43,17 +51,23 @@ public class MatchingTiles_ImageToTiles {
      * An arrayList containing the sliced up Bitmap image
      */
     private ArrayList<Bitmap> tiles;
-
+    /**
+     * An arrayList containing the sliced up Bitmap image
+     */
+    private ArrayList<Bitmap> cover_tiles;
     /**
      * Constructs the image slicer module
      */
-    public MatchingTiles_ImageToTiles(Bitmap image, int columns) {
+    public MatchingTiles_ImageToTiles(Bitmap image, Bitmap cover, int columns) {
         this.image = android.graphics.Bitmap.createScaledBitmap(image,RESIZE_WIDTH, RESIZE_HEIGHT,true);
+        this.cover = android.graphics.Bitmap.createScaledBitmap(cover,RESIZE_WIDTH, RESIZE_HEIGHT,true);
         this.columns = columns;
         this.rows = columns + 1;
         this.tiles = new ArrayList<>();
+        this.cover_tiles = new ArrayList<>();
 
         createTiles();
+        createCover();
     }
 
     /**
@@ -80,11 +94,39 @@ public class MatchingTiles_ImageToTiles {
     }
 
     /**
-     * A getter for the save path of the bitmap
+     * Performs the Bitmap slicing and puts the resulting sliced images into ArrayList tiles
      */
-    public String getSavePath() {
-        return path;
+    private void createCover() {
+        int x = 0;
+        int y = 0;
+
+        int num_tiles = columns * rows;
+        int tileWidth = RESIZE_WIDTH / columns;
+        int tileHeight = RESIZE_HEIGHT / rows;
+
+        for (int i = 0; i < num_tiles; i++) {
+            Bitmap crop = android.graphics.Bitmap.createBitmap(this.cover,x,y,tileWidth,tileHeight);
+            this.cover_tiles.add(crop);
+            x += tileWidth;
+
+            if (x == RESIZE_WIDTH) {
+                x = 0;
+                y += tileHeight;
+            }
+        }
     }
+
+    /**
+     * A getter for the save gamePath of the bitmap
+     */
+    public String getSaveGamePath() {
+        return gamePath;
+    }
+
+    /**
+     *
+     */
+    public String getSaveCoverPath() {return coverPath;}
 
     /**
      * Saves the sliced images to a directory within the internal files of the application
@@ -95,11 +137,28 @@ public class MatchingTiles_ImageToTiles {
         File dir = new File(c.getFilesDir(), "/matchingtiles");
         if (dir.exists()) { dir.delete(); }
         dir.mkdir();
-        path = dir.getAbsolutePath();
+        gamePath = dir.getAbsolutePath();
+        File cover_dir = new File(c.getFilesDir(), "/matchingtiles/covers");
+        if (cover_dir.exists()) { cover_dir.delete(); }
+        cover_dir.mkdir();
+        coverPath = cover_dir.getAbsolutePath();
 
         int i = 1;
         for (Bitmap img : tiles) {
             File newImage = new File(dir,  String.format(Locale.CANADA, "matchingtile_%d.png", i));
+            try {
+                FileOutputStream out = new FileOutputStream(newImage);
+                img.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+                i++;
+            }
+            catch (IOException e) {
+                return false;
+            }
+        }
+        i = 1;
+        for (Bitmap img : cover_tiles) {
+            File newImage = new File(cover_dir,  String.format(Locale.CANADA, "cover_%d.png", i));
             try {
                 FileOutputStream out = new FileOutputStream(newImage);
                 img.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, out);
