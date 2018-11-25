@@ -16,10 +16,19 @@
     </string>
     <string name="save">Save</string>
     <string name="undo">Undo</string>
-    <string-array name="game_types">
+    <string-array name="sliding_tiles_game_types">
         <item>3 x 3</item>
         <item>4 x 4</item>
         <item>5 x 5</item>
+    </string-array>
+    <string-array name="snake_game_types">
+        <item>Easy</item>
+        <item>Hard</item>
+    </string-array>
+    <string-array name="matching_tiles_game_types">
+        <item>Easy</item>
+        <item>Casual</item>
+        <item>Hard</item>
     </string-array>
     <string name="logout">Logout</string>
     <string name="login">Register/Login </string>

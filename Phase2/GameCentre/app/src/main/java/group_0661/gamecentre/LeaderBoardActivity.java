@@ -47,12 +47,12 @@ public class LeaderBoardActivity extends ActionBarActivity {
         this.scoreboard = new Scoreboard(LeaderBoardActivity.this);
         if (getIntent().getStringExtra("user") != null) {
             user = getIntent().getStringExtra("user");
-            this.scoreboard.addGame((Game) getIntent().getSerializableExtra("Sliding Tiles"), user);
+            this.scoreboard.addGame((Game) getIntent().getSerializableExtra("game"), user);
         }
 
         // Initializes UI elements
         addToggleButtonListener();
-        initGameTypes();
+        initGameTypes(getIntent().getStringExtra("game_title"));
         populateScroll();
     }
     /**
@@ -81,9 +81,20 @@ public class LeaderBoardActivity extends ActionBarActivity {
     /**
      * Initializes the spinner for choosing gametypes (for leaderboard access).
      */
-    private void initGameTypes() {
+    private void initGameTypes(String gameTitle) {
         Spinner gameTypes = findViewById(R.id.game_types);
-        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this, R.array.game_types,
+
+        int arrayID;
+
+        if (gameTitle.equals("Sliding Tiles")) {
+            arrayID = R.array.sliding_tiles_game_types;
+        } else if (gameTitle.equals("Matching Tiles")) {
+            arrayID = R.array.matching_tiles_game_types;
+        } else {
+            arrayID = R.array.snake_game_types;
+        }
+
+        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this, arrayID,
                 android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -58,7 +58,7 @@ public class Game extends Observable implements Serializable, IGame {
      * @return dimensions of the board
      */
     public String getType() {
-        return getBoard().length + " x " + getBoard().length;
+        return getGameTitle() + " - " + getBoard().length + " x " + getBoard().length;
     }
 
     public String getGameTitle() { return "Sliding Tiles"; }
