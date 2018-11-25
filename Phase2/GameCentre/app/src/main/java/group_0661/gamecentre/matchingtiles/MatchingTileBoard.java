@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,18 +25,23 @@ public class MatchingTileBoard extends Observable implements Serializable{
     /**
      * The tile being flipped;
      */
-    private int flipped;
+    private boolean firstTileRevealed = false;
     /**
      * The number of rows.
      */
     private int rows;
 
     private Timer timer;
+
+    private int flipped;
     /**
      * The tiles on the board in row-major order.
      */
     private Integer[][] tiles;
 
+    private Integer[] temptile;
+
+    private Integer[][] pairs;
     /**
      * The matching pair of tiles.
      */
@@ -57,12 +61,13 @@ public class MatchingTileBoard extends Observable implements Serializable{
         rows = column+1;
         columns = column;
         int counter = 0;
+        temptile = new Integer[3];
         tiles = new Integer[rows][columns];
         ArrayList<Integer> tileslist = new ArrayList<>();
         for (int i = 0; i < rows * columns; i++) {
             tileslist.add(new Integer(i + 1));
         }
-//        Collections.shuffle(tileslist);
+        Collections.shuffle(tileslist);
         for (int i = 0; i < rows; i++) {
             for (int d = 0; d < columns; d++) {
                 tiles[i][d] = tileslist.get(counter);
@@ -70,9 +75,8 @@ public class MatchingTileBoard extends Observable implements Serializable{
             }
 //            tiles[i / rows][i % columns] = tileslist.get(i);
         }
-//        generatePairs();
+        generatePairs();
     }
-
     /**
      * Return the number of tiles on the board.
      *
@@ -93,12 +97,13 @@ public class MatchingTileBoard extends Observable implements Serializable{
         return tiles[row][col];
     }
 
-//    void generatePairs(){
-//        pairs = new Pair[numTiles()/2];
-//        for (int i = 1; i <= numTiles()/2; i++) {
-//            pairs[i-1] = new Pair<Integer, Integer>(i*2-1,i*2);
-//        }
-//    }
+    void generatePairs(){
+        pairs = new Integer[numTiles()/2][2];
+        for (int i = 1; i <= numTiles()/2; i++) {
+            pairs[i-1][0] = (i*2-1);
+            pairs[i-1][0] = (i*2);
+        }
+    }
 
     /**
      * Check if valid move then swap the tiles. If not an undo call, add row and col of
@@ -112,32 +117,48 @@ public class MatchingTileBoard extends Observable implements Serializable{
         if (tiles[row][column] > 0 ) {
             flipped = tiles[row][column];
             MatchingTileBoard.this.tiles[row][column] = -flipped;
-            if (awaiting_tile != flipped) {
-                checkFlip(flipped);
-                TimerTask task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        MatchingTileBoard.this.tiles[row][column] = flipped;
-                        awaiting_tile = 0;
-                        setChanged();
-                        notifyObservers();
-                    }
-                };
-                timer = new Timer("Timer");
-                timer.schedule(task, 2*1000);
-                moves_made += 1;
+            if (!twoTilesMatch(flipped)) {
+                if (firstTileRevealed) {
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            MatchingTileBoard.this.tiles[row][column] = flipped;
+                            MatchingTileBoard.this.tiles[temptile[0]][temptile[1]] = temptile[2];
+                        }
+                    };
+                    timer = new Timer("Timer");
+                    long delay = 500L;
+                    timer.schedule(task, delay);
+                } else {
+                    temptile[0] = row;
+                    temptile[1] = column;
+                    temptile[2] = flipped;
+                }
             }
+            if (!firstTileRevealed) {
+                firstTileRevealed = true;
+            } else {
+                firstTileRevealed = false;
+            }
+            moves_made += 1;
         }
         return true;
     }
 
-    public boolean checkFlip(Integer flipped) {
+    public boolean twoTilesMatch(Integer flipped) {
         if (flipped % 2 == 1) {
-            awaiting_tile = flipped + 1;
+            awaiting_tile = -(flipped + 1);
         } else {
-            awaiting_tile = flipped - 1;
+            awaiting_tile = -(flipped - 1);
         }
-        return true;
+        for (Integer[] row : tiles) {
+            for (Integer i : row) {
+                if (i == awaiting_tile) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 //
 //    public int timeMove(int row, int column,Integer tile) {

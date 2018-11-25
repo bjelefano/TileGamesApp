@@ -284,7 +284,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     }
 
     void startTimer() {
-        bTimer = new CountDownTimer(2000, 1000) {
+        bTimer = new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
             public void onFinish() {
