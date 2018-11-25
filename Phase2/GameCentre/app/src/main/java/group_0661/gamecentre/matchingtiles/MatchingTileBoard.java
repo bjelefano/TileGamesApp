@@ -200,7 +200,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     boolean puzzleSolved() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                if (getTile(i, j) != (i * rows) + j + 1) {
+                if (getTile(i, j) > 0) {
                     return false;
                 }
             }

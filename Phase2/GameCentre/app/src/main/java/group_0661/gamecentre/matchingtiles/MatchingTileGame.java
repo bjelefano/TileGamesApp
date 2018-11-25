@@ -72,5 +72,9 @@ public class MatchingTileGame extends Game implements Serializable {
         }
     }
 
+    public boolean isWon() {
+        return board.puzzleSolved();
+    }
+
     public String getGameTitle() { return "Matching Tiles"; }
 }
