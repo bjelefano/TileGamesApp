@@ -1,6 +1,5 @@
 package group_0661.gamecentre;
 
-
 import group_0661.gamecentre.user.UserManager;
 
 import android.content.ComponentName;
@@ -138,8 +137,8 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                 if (gameType.equals("Sliding Tiles")) {
                     Intent popUp = new Intent(MainMenuActivity.this, SlidingTilesStartPopUp.class);
                     startActivity(popUp);
-                } else if (gameType.equals("Minesweeper")) {
-                    Toast.makeText(MainMenuActivity.this, "Placeholder for Minesweeper", Toast.LENGTH_LONG).show();
+                } else if (gameType.equals("Snake")) {
+                    Toast.makeText(MainMenuActivity.this, "Placeholder for Snake", Toast.LENGTH_LONG).show();
                 }
                 else  {
                     Intent popUp = new Intent(MainMenuActivity.this, MatchingTilesStartPopUp.class);
@@ -197,8 +196,8 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                 TextView game = findViewById(R.id.title);
                 String currentGame = game.getText().toString();
                 if (currentGame.equals("Sliding Tiles")) {
-                    game.setText("Minesweeper");
-                } else if (currentGame.equals("Minesweeper")) {
+                    game.setText("Snake");
+                } else if (currentGame.equals("Snake")) {
                     game.setText("Matching Tiles");
                 } else {
                     game.setText("Sliding Tiles");
@@ -216,11 +215,16 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                 String currentGame = game.getText().toString();
                 if (currentGame.equals("Sliding Tiles")) {
                     Intent score = new Intent(MainMenuActivity.this, LeaderBoardActivity.class);
+                    score.putExtra("game_title", "Sliding Tiles");
                     startActivity(score);
-                } else if (currentGame.equals("Minesweeper")) {
-                    Toast.makeText(MainMenuActivity.this, "Placeholder for Minesweeper", Toast.LENGTH_LONG).show();
+                } else if (currentGame.equals("Snake")) {
+                    Intent score = new Intent(MainMenuActivity.this, LeaderBoardActivity.class);
+                    score.putExtra("game_title", "Snake");
+                    startActivity(score);
                 } else {
-                    Toast.makeText(MainMenuActivity.this, "Placeholder for Matching Tiles", Toast.LENGTH_LONG).show();
+                    Intent score = new Intent(MainMenuActivity.this, LeaderBoardActivity.class);
+                    score.putExtra("game_title", "Matching Tiles");
+                    startActivity(score);
                 }
             }
         });
@@ -232,8 +236,9 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
      */
     private Intent initLoadGame(String gameType) {
         Intent load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
+        int size =  userManager.getSavedGame(gameType).getBoard().length;
         // Cuts up saved image to recreate the saved board
-        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(false), userManager.getSavedGame(gameType).getBoard().length);
+        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(false), size, size);
         initBoard.saveTiles(MainMenuActivity.this);
 
         // Adding extra required data to be passed to SlidingTilesActivity

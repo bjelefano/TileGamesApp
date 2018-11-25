@@ -185,7 +185,7 @@ public class SlidingTilesStartPopUp extends PopUpActivity implements ServiceConn
      * Slices up the selected image into a number of tiles depending on the selected board size
      */
     private void setBackground(Bitmap bitmap) {
-        ImageToTiles initBoard = new ImageToTiles(bitmap, this.size);
+        ImageToTiles initBoard = new ImageToTiles(bitmap, this.size, this.size);
         initBoard.saveTiles(SlidingTilesStartPopUp.this);
         backgroundPath = initBoard.getSavePath();
     }

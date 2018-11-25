@@ -34,7 +34,8 @@ public class ImageToTiles {
     /**
      * The number of rows that will make up the sliced up image
      */
-    private int size;
+    private int row;
+    private int col;
     /**
      * An arrayList containing the sliced up Bitmap image
      */
@@ -43,9 +44,10 @@ public class ImageToTiles {
     /**
      * Constructs the image slicer module
      */
-    public ImageToTiles(Bitmap image, int size) {
+    public ImageToTiles(Bitmap image, int col, int row) {
         this.image = android.graphics.Bitmap.createScaledBitmap(image,RESIZE_WIDTH, RESIZE_HEIGHT,true);
-        this.size = size;
+        this.col = col;
+        this.row = row;
         this.tiles = new ArrayList<>();
 
         createTiles();
@@ -58,9 +60,9 @@ public class ImageToTiles {
         int x = 0;
         int y = 0;
 
-        int num_tiles = size * size;
-        int tileWidth = RESIZE_WIDTH / size;
-        int tileHeight = RESIZE_HEIGHT / size;
+        int num_tiles = col * row;
+        int tileWidth = RESIZE_WIDTH / col;
+        int tileHeight = RESIZE_HEIGHT / row;
 
         for (int i = 0; i < num_tiles - 1; i++) {
             Bitmap crop = android.graphics.Bitmap.createBitmap(this.image, x, y, tileWidth, tileHeight);
