@@ -77,4 +77,14 @@ public class MatchingTileGame extends Game implements Serializable {
     }
 
     public String getGameTitle() { return "Matching Tiles"; }
+
+    /**
+     * Return number of seconds that have elapsed.
+     *
+     * @return number of seconds that have elapsed
+     */
+    public int getTime() {
+        return time;
+    }
 }
+

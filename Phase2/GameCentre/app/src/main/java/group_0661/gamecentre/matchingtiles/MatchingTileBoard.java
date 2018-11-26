@@ -12,7 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * The sliding tiles board.
+ * The matching tiles board.
  */
 public class MatchingTileBoard extends Observable implements Serializable{
 
@@ -21,19 +21,24 @@ public class MatchingTileBoard extends Observable implements Serializable{
      */
     private int columns;
 
-    private int awaiting_tile = 0;
-    /**
-     * The tile being flipped;
-     */
-    private boolean firstTileRevealed = false;
     /**
      * The number of rows.
      */
     private int rows;
 
+    private int awaiting_tile = 0;
+
+    /**
+     * The tile being flipped;
+     */
+
+    private boolean firstTileRevealed = false;
+
+
     private Timer timer;
 
     private int flipped;
+
     /**
      * The tiles on the board in row-major order.
      */
@@ -42,6 +47,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     private Integer[] temptile;
 
     private Integer[][] pairs;
+
     /**
      * The matching pair of tiles.
      */
