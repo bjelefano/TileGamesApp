@@ -64,15 +64,6 @@ public class Board extends Observable implements Serializable{
     }
 
     /**
-     * Return the number of tiles on the board.
-     *
-     * @return the number of tiles on the board
-     */
-    int numTiles() {
-        return (NUM_ROWS * NUM_COLS);
-    }
-
-    /**
      * Return the tile at (row, col)
      *
      * @param row the tile row
@@ -122,6 +113,10 @@ public class Board extends Observable implements Serializable{
             }
         }
         return false;
+    }
+
+    public void setBoard(Integer[][] newBoard) {
+        this.tiles = newBoard;
     }
 
     /**
