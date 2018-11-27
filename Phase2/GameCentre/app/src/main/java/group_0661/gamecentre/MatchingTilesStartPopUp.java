@@ -109,6 +109,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      */
     private void setBackground(Bitmap background) {
         ImageToTiles initBoard = new ImageToTiles(background, this.width, this.width+1);
+        initBoard.createTiles();
         initBoard.saveTiles(MatchingTilesStartPopUp.this);
         backgroundPath = initBoard.getSavePath();
     }

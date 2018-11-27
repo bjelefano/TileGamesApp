@@ -54,14 +54,12 @@ public class ImageToTiles {
         this.col = col;
         this.row = row;
         this.tiles = new ArrayList<>();
-
-        createTiles();
     }
 
     /**
      * Performs the Bitmap slicing and puts the resulting sliced images into ArrayList tiles
      */
-    private void createTiles() {
+    public boolean createTiles() {
         int x = 0;
         int y = 0;
 
@@ -94,7 +92,10 @@ public class ImageToTiles {
             }
             tiles.add(createBlankTile());
         }
+
+        return true;
     }
+
 
     /**
      * Creates a blank Bitmap
