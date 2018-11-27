@@ -17,26 +17,31 @@ import java.util.TimerTask;
 public class MatchingTileBoard extends Observable implements Serializable{
 
     /**
+     * The number of rows.
+     */
+    private int rows;
+
+    /**
      * The number of columns.
      */
     private int columns;
 
     /**
-     * The number of rows.
+     * The tile being flipped.
      */
-    private int rows;
-
     private int awaiting_tile = 0;
 
     /**
-     * The tile being flipped;
+     * Set to true if player flips first tile in the pair.
+     * Set to false if player hasn't started flipping new pair.
      */
-
     private boolean firstTileRevealed = false;
-
 
     private Timer timer;
 
+    /**
+     * The tile
+     */
     private int flipped;
 
     /**

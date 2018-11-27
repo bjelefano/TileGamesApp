@@ -22,7 +22,7 @@ public class Board extends Observable implements Serializable{
     private int NUM_ROWS;
 
     /**
-     * The number of rows.
+     * The number of columns.
      */
     private int NUM_COLS;
 
