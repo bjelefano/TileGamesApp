@@ -34,19 +34,9 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     private Bitmap background = null;
 
     /**
-     * Board cover in use.
-     */
-    private Bitmap cover = null;
-
-    /**
      * The file path for the background
      */
     private String backgroundPath;
-
-    /**
-     * The file path for the cover
-     */
-    private String coverPath;
 
     /**
      * Board width
@@ -117,11 +107,10 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     /**
      * Slices up the selected image into a number of tiles depending on the selected board size
      */
-    private void setBackground(Bitmap background, Bitmap cover) {
-        MatchingTiles_ImageToTiles initBoard = new MatchingTiles_ImageToTiles(background, cover, this.width);
+    private void setBackground(Bitmap background) {
+        ImageToTiles initBoard = new ImageToTiles(background, this.width, this.width+1);
         initBoard.saveTiles(MatchingTilesStartPopUp.this);
-        backgroundPath = initBoard.getSaveGamePath();
-        coverPath = initBoard.getSaveCoverPath();
+        backgroundPath = initBoard.getSavePath();
     }
 
     /**
@@ -132,7 +121,6 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     private void setDefaultBoard() {
         if (this.width == 3) {
             background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy);
-            cover = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy_blank);
         }
         else if (this.width == 4) {
             background =  BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.normal);
@@ -155,7 +143,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
             public void onClick(View v) {
                 if (radioGroupListener()) {
                     setDefaultBoard();
-                    setBackground(background, cover);
+                    setBackground(background);
                     Intent newgame = initNewGame();
                     startActivity(newgame);
                     finish();
@@ -174,7 +162,6 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
         MatchingTileGame game = new MatchingTileGame(width);
         startGame.putExtra("Matching Tiles", game);
         startGame.putExtra("background_path", backgroundPath);
-        startGame.putExtra("cover_path", coverPath);
 
         return startGame;
     }
