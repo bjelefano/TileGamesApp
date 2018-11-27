@@ -9,7 +9,12 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.support.annotation.ColorRes;
 
 /**
  * A module that cuts an input bitmap into n^2 pieces. Allows for custom backgrounds in sliding tiles
@@ -64,17 +69,31 @@ public class ImageToTiles {
         int tileWidth = RESIZE_WIDTH / col;
         int tileHeight = RESIZE_HEIGHT / row;
 
-        for (int i = 0; i < num_tiles - 1; i++) {
-            Bitmap crop = android.graphics.Bitmap.createBitmap(this.image, x, y, tileWidth, tileHeight);
-            this.tiles.add(crop);
-            x += tileWidth;
+        if (row == col) {
+            for (int i = 0; i < num_tiles - 1; i++) {
+                Bitmap crop = android.graphics.Bitmap.createBitmap(this.image, x, y, tileWidth, tileHeight);
+                this.tiles.add(crop);
+                x += tileWidth;
 
-            if (x == RESIZE_WIDTH) {
-                x = 0;
-                y += tileHeight;
+                if (x == RESIZE_WIDTH) {
+                    x = 0;
+                    y += tileHeight;
+                }
             }
+            tiles.add(createBlankTile());
+        } else {
+            for (int i = 0; i < num_tiles; i++) {
+                Bitmap crop = android.graphics.Bitmap.createBitmap(this.image, x, y, tileWidth, tileHeight);
+                this.tiles.add(crop);
+                x += tileWidth;
+
+                if (x == RESIZE_WIDTH) {
+                    x = 0;
+                    y += tileHeight;
+                }
+            }
+            tiles.add(createBlankTile());
         }
-        tiles.add(createBlankTile());
     }
 
     /**
@@ -85,6 +104,16 @@ public class ImageToTiles {
     private Bitmap createBlankTile() {
         Bitmap blankTile = android.graphics.Bitmap.createBitmap(this.image, 0, 0, RESIZE_WIDTH / 2, RESIZE_HEIGHT / 2);
         blankTile.eraseColor(Color.WHITE);
+        Canvas canvas = new Canvas(blankTile);
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(15);
+        paint.setAntiAlias(true);
+        Rect rect = new Rect(
+                15 / 2, 15 / 2, canvas.getWidth() - 15/2, canvas.getHeight() - 15/2
+        );
+        canvas.drawRect(rect,paint);
         return blankTile;
     }
 

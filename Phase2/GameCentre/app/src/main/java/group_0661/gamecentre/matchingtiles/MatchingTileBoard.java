@@ -2,6 +2,8 @@ package group_0661.gamecentre.matchingtiles;
 
 //import android.util.Pair;
 
+import android.util.Pair;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,15 +35,13 @@ public class MatchingTileBoard extends Observable implements Serializable{
 
     private Timer timer;
 
-    private int flipped;
+    private List<Integer> flipped;
     /**
      * The tiles on the board in row-major order.
      */
     private Integer[][] tiles;
 
     private Integer[] temptile;
-
-    private Integer[][] pairs;
     /**
      * The matching pair of tiles.
      */
@@ -61,7 +61,8 @@ public class MatchingTileBoard extends Observable implements Serializable{
         rows = column+1;
         columns = column;
         int counter = 0;
-        temptile = new Integer[3];
+        temptile = new Integer[2];
+        flipped = new ArrayList<>();
         tiles = new Integer[rows][columns];
         ArrayList<Integer> tileslist = new ArrayList<>();
         for (int i = 0; i < rows * columns; i++) {
@@ -70,12 +71,12 @@ public class MatchingTileBoard extends Observable implements Serializable{
         Collections.shuffle(tileslist);
         for (int i = 0; i < rows; i++) {
             for (int d = 0; d < columns; d++) {
-                tiles[i][d] = tileslist.get(counter);
+                flipped.add(tileslist.get(counter));
+                tiles[i][d] = numTiles();
                 counter++;
             }
 //            tiles[i / rows][i % columns] = tileslist.get(i);
         }
-        generatePairs();
     }
     /**
      * Return the number of tiles on the board.
@@ -83,7 +84,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
      * @return the number of tiles on the board
      */
     int numTiles() {
-        return (rows * columns);
+        return (rows * columns + 1);
     }
 
     /**
@@ -97,14 +98,6 @@ public class MatchingTileBoard extends Observable implements Serializable{
         return tiles[row][col];
     }
 
-    void generatePairs(){
-        pairs = new Integer[numTiles()/2][2];
-        for (int i = 1; i <= numTiles()/2; i++) {
-            pairs[i-1][0] = (i*2-1);
-            pairs[i-1][0] = (i*2);
-        }
-    }
-
     /**
      * Check if valid move then swap the tiles. If not an undo call, add row and col of
      * the last location of the blank tile to previousMoves.
@@ -114,16 +107,17 @@ public class MatchingTileBoard extends Observable implements Serializable{
      * @return true if tiles are successfully swapped
      */
     public boolean makeMove(final int row, final int column) {
-        if (tiles[row][column] > 0 ) {
-            flipped = tiles[row][column];
-            MatchingTileBoard.this.tiles[row][column] = -flipped;
-            if (!twoTilesMatch(flipped)) {
+        int under = flipped.get(column + columns * row);
+        int cover = tiles[row][column];
+        if (cover == numTiles()) {
+            tiles[row][column] = under;
+            if (!twoTilesMatch(under)) {
                 if (firstTileRevealed) {
                     TimerTask task = new TimerTask() {
                         @Override
                         public void run() {
-                            MatchingTileBoard.this.tiles[row][column] = flipped;
-                            MatchingTileBoard.this.tiles[temptile[0]][temptile[1]] = temptile[2];
+                            MatchingTileBoard.this.tiles[row][column] = numTiles();
+                            MatchingTileBoard.this.tiles[temptile[0]][temptile[1]] = numTiles();
                         }
                     };
                     timer = new Timer("Timer");
@@ -132,7 +126,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
                 } else {
                     temptile[0] = row;
                     temptile[1] = column;
-                    temptile[2] = flipped;
+                    ;
                 }
             }
             if (!firstTileRevealed) {
@@ -147,9 +141,9 @@ public class MatchingTileBoard extends Observable implements Serializable{
 
     public boolean twoTilesMatch(Integer flipped) {
         if (flipped % 2 == 1) {
-            awaiting_tile = -(flipped + 1);
+            awaiting_tile = flipped + 1;
         } else {
-            awaiting_tile = -(flipped - 1);
+            awaiting_tile = flipped - 1;
         }
         for (Integer[] row : tiles) {
             for (Integer i : row) {
@@ -200,7 +194,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     boolean puzzleSolved() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                if (getTile(i, j) > 0) {
+                if (getTile(i, j) == numTiles()) {
                     return false;
                 }
             }
