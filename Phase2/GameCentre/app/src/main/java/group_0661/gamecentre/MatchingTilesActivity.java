@@ -245,12 +245,12 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     private void createTileButtons(Context context) {
         Integer[][] board = game.getBoard();
-        String path = getIntent().getStringExtra("cover_path");
+        String path = getIntent().getStringExtra("background_path");
         tileButtons = new ArrayList<>();
         for (Integer[] row : board) {
             for (Integer element: row) {
                 Button button = new Button(context);
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/cover_%d.png", element));
+                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", width * length + 1));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 this.tileButtons.add(button);
@@ -264,16 +264,15 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     private void updateTileButtons() {
         Integer[][] board = game.getBoard();
         String path = getIntent().getStringExtra("background_path");
-        String coverPath = getIntent().getStringExtra("cover_path");
         int i = 0;
         for (Integer[] row : board) {
             for (Integer element : row) {
                 Button button = (this.tileButtons.get(i));
                 Bitmap btmp = null;
-                if (element > 0) {
-                    btmp = BitmapFactory.decodeFile(String.format(coverPath + "/cover_%d.png", element));
+                if (element == width * length + 1) {
+                    btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", width * length + 1));
                 } else {
-                    btmp =BitmapFactory.decodeFile(String.format(path + "/matchingtile_%d.png", -element));
+                    btmp =BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element));
                 }
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
