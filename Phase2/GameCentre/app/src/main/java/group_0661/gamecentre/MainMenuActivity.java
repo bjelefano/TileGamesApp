@@ -138,7 +138,8 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                     Intent popUp = new Intent(MainMenuActivity.this, SlidingTilesStartPopUp.class);
                     startActivity(popUp);
                 } else if (gameType.equals("Snake")) {
-                    Toast.makeText(MainMenuActivity.this, "Placeholder for Snake", Toast.LENGTH_LONG).show();
+                    Intent popUp = new Intent(MainMenuActivity.this, SnakePopUp.class);
+                    startActivity(popUp);
                 }
                 else  {
                     Intent popUp = new Intent(MainMenuActivity.this, MatchingTilesStartPopUp.class);

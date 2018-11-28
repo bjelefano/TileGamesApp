@@ -1,8 +1,5 @@
 package group_0661.gamecentre;
 
-import group_0661.gamecentre.matchingtiles.MatchingTileGame;
-import group_0661.gamecentre.user.UserManager;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -13,15 +10,18 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import group_0661.gamecentre.matchingtiles.MatchingTileGame;
+import group_0661.gamecentre.snake.SnakeGame;
+import group_0661.gamecentre.user.UserManager;
 
 
 /**
  * Manager for the matching tiles option selection layout.
  */
-public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceConnection {
+public class SnakePopUp extends PopUpActivity implements ServiceConnection {
 
     /**
      * The instantiation of the UserManager service
@@ -60,7 +60,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     @Override
     protected void onStart() {
         super.onStart();
-        bindService(new Intent(MatchingTilesStartPopUp.this, UserManager.class), this, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(SnakePopUp.this, UserManager.class), this, Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -89,18 +89,18 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
         RadioGroup boardSelect = findViewById(R.id.mboard_select);
         if (boardSelect.getCheckedRadioButtonId() == R.id.match_easy) {
             width = 3;
-            Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Easy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SnakePopUp.this, "Game Start: Easy", Toast.LENGTH_SHORT).show();
             return true;
         } else if (boardSelect.getCheckedRadioButtonId() == R.id.match_casual) {
             width = 4;
-            Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Normal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SnakePopUp.this, "Game Start: Normal", Toast.LENGTH_SHORT).show();
             return true;
         } else if (boardSelect.getCheckedRadioButtonId() == R.id.match_hard) {
             width = 5;
-            Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Hard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SnakePopUp.this, "Game Start: Hard", Toast.LENGTH_SHORT).show();
             return true;
         }
-        Toast.makeText(MatchingTilesStartPopUp.this, "Please Select a Difficulty Level", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SnakePopUp.this, "Please Select a Difficulty Level", Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -109,7 +109,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      */
     private void setBackground(Bitmap background) {
         ImageToTiles initBoard = new ImageToTiles(background, this.width, this.width+1);
-        initBoard.saveTiles(MatchingTilesStartPopUp.this);
+        initBoard.saveTiles(SnakePopUp.this);
         backgroundPath = initBoard.getSavePath();
     }
 
@@ -120,12 +120,12 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      */
     private void setDefaultBoard() {
         if (this.width == 3) {
-            background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy);
+            background = BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.m_easy);
         }
         else if (this.width == 4) {
-            background =  BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.normal);
+            background =  BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.normal);
         } else {
-            background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.hard);
+            background = BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.hard);
         }
     }
     /**
@@ -158,9 +158,9 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      * @return an intent with new matchingtiles data
      */
     private Intent initNewGame() {
-        Intent startGame = new Intent(MatchingTilesStartPopUp.this, MatchingTilesActivity.class);
-        MatchingTileGame game = new MatchingTileGame(width);
-        startGame.putExtra("Matching Tiles", game);
+        Intent startGame = new Intent(SnakePopUp.this, SnakeActivity.class);
+        SnakeGame game = new SnakeGame();
+        startGame.putExtra("Snake", game);
         startGame.putExtra("background_path", backgroundPath);
 
         return startGame;
