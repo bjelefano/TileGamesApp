@@ -6,14 +6,17 @@ import android.graphics.Bitmap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.junit.Assert.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ImageToTilesTest {
-    ImageToTiles testImageToTiles;
+    private ImageToTiles testImageToTiles;
 
     @Mock
     private Context testContext;
@@ -24,6 +27,7 @@ public class ImageToTilesTest {
     @Before
 
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         testImageToTiles = new ImageToTiles(testImage, 5,5);
     }
 
@@ -39,9 +43,4 @@ public class ImageToTilesTest {
         assertEquals(testContext.getFilesDir().toString() + "/tiles", testImageToTiles.getSavePath() );
     }
 
-    @Test
-    public void saveTiles() {
-        testImageToTiles.createTiles();
-        assertTrue(testImageToTiles.saveTiles(testContext));
-    }
 }

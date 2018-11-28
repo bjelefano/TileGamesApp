@@ -1,18 +1,23 @@
 package group_0661.gamecentre.user;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 
 import group_0661.gamecentre.gameSystem.Game;
 
 import static org.junit.Assert.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class UserManagerTest {
     private UserManager testUserManager;
     private Game testGame;
@@ -25,9 +30,12 @@ public class UserManagerTest {
     @Mock
     private Bitmap testImage;
 
+    @Mock
+    private Context context;
+
     @Before
     public void setUp() {
-        testUserManager = new UserManager();
+        testUserManager = Robolectric.buildService(UserManager.class).create().get();
         testGame = new Game(5, 3, false);
 
     }
@@ -64,16 +72,10 @@ public class UserManagerTest {
     }
 
     @Test
-    public void saveUserImage() {
-        testUserManager.signUp(USER1, PASS1);
-        assertTrue(testUserManager.saveUserImage(testImage, false));
-        assertTrue(testImage.sameAs(testUserManager.loadUserImage(false)));
-    }
-
-    @Test
     public void dropSavedGame() {
-        saveGame();
+        testUserManager.signUp(USER1, PASS1);
+        testUserManager.saveGame(testGame, "Sliding Tiles");
         testUserManager.dropSavedGame(testGame);
-        assertNull(testUserManager.getSavedGame("Sliding Tiles").getBoard());
+        assertNull(testUserManager.getSavedGame("Sliding Tiles"));
     }
 }
