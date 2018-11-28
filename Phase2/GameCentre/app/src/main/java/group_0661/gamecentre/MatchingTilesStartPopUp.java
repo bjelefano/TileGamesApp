@@ -123,7 +123,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
             background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy);
         }
         else if (this.width == 4) {
-            background =  BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.normal);
+            background =  BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_medium);
         } else {
             background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.hard);
         }
