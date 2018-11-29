@@ -1,17 +1,17 @@
 package group_0661.gamecentre.snake;
 
-import group_0661.gamecentre.gameSystem.Board;
+import java.io.Serializable;
 
-public class SnakeBoard extends Board {
+public class SnakeBoard implements Serializable{
 
-    private int NUM_ROWS;
-    private int NUM_COLS;
+    private Integer[][] tiles;
 
-
-    public SnakeBoard(int dimensions) {
-        super(dimensions);
-
+    public SnakeBoard(int cols, int rows) {
+        tiles = new Integer[rows][cols];
     }
 
+    public Integer[][] getTiles() {
+        return tiles;
+    }
 
 }
