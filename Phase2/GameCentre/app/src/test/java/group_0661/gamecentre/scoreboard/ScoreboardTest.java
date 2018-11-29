@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -21,12 +22,12 @@ public class ScoreboardTest {
     private Game testGame;
 
     @Mock
-    Context testContext;
+    private Context testContext;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        testScoreBoard = new Scoreboard(testContext);
+        testScoreBoard = Mockito.spy(new Scoreboard(testContext));
         testGame = new Game(5, 3, false);
     }
 

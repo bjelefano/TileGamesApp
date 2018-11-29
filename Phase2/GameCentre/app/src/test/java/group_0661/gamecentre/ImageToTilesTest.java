@@ -25,10 +25,9 @@ public class ImageToTilesTest {
     private Bitmap testImage;
 
     @Before
-
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        testImageToTiles = new ImageToTiles(testImage, 5,5);
+        testImageToTiles = Mockito.spy(new ImageToTiles(testImage, 5,5));
     }
 
     @Test
