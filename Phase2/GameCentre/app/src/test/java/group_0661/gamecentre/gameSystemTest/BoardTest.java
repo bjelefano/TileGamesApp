@@ -11,13 +11,10 @@ public class BoardTest {
 
     @Before
     public void setUp() {
-        initCompletedBoard();
-    }
-
-    private void initCompletedBoard() {
         testBoard = new Board(5);
+        initialState = new Integer[5][5];
         for (int i = 0; i < 25; i++) {
-            initialState[i / 5][i % 5] = i;
+            initialState[i / 5][i % 5] = i + 1;
         }
         testBoard.setBoard(initialState);
     }
@@ -40,22 +37,30 @@ public class BoardTest {
 
     @Test
     public void getPreviousMoves() {
-        int[] prevMove = {4, 3};
-        int[] noPrevMove = {-1, -1};
+        int[] expPrevMove = {4, 4};
+        int noPrevMove = -1;
+
         testBoard.makeMove(4,3,false);
-        assertEquals(prevMove, testBoard.getPreviousMoves());
+        int[] actPrevMove = testBoard.getPreviousMoves();
+        assertEquals(expPrevMove[0], actPrevMove[0]);
+        assertEquals(expPrevMove[1], actPrevMove[1]);
+
         testBoard.makeMove(4,4,false);
-        assertNotEquals(prevMove, testBoard.getPreviousMoves());
-        assertEquals(noPrevMove, testBoard.getPreviousMoves());
+        actPrevMove = testBoard.getPreviousMoves();
+        assertNotEquals(expPrevMove[1], actPrevMove[1]);
+
+        actPrevMove = testBoard.getPreviousMoves();
+        assertEquals(noPrevMove, actPrevMove[0]);
+        assertEquals(noPrevMove, actPrevMove[1]);
     }
 
     @Test
     public void getState() {
-        Integer[][] nonEqualState = initialState;
+        Integer[][] nonEqualState = new Integer[5][5];
+        for (int i = 0; i < 25; i++) { initialState[i / 5][i % 5] = 25 - i; }
+
         assertArrayEquals(initialState, testBoard.getState());
-        nonEqualState[0][0] = 4;
-        nonEqualState[0][3] = 1;
-        assertNotEquals(initialState, testBoard.getState());
+        assertNotEquals(nonEqualState, testBoard.getState());
     }
 
     @Test

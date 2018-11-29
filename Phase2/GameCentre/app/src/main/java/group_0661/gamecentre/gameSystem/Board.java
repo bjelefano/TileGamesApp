@@ -1,6 +1,6 @@
 package group_0661.gamecentre.gameSystem;
 import android.support.annotation.NonNull;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import java.util.Observable;
 
@@ -116,7 +116,7 @@ public class Board extends Observable implements Serializable{
     }
 
     public void setBoard(Integer[][] newBoard) {
-        this.tiles = newBoard;
+        tiles = newBoard;
     }
 
     /**
@@ -146,7 +146,7 @@ public class Board extends Observable implements Serializable{
             Pair<Integer, Integer> toAdd = new Pair<>(row, column - 1);
             indices.add(toAdd);
         }
-        if (column != NUM_ROWS - 1) {
+        if (column != NUM_COLS - 1) {
             Pair<Integer, Integer> toAdd = new Pair<>(row, column + 1);
             indices.add(toAdd);
         }

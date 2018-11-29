@@ -239,6 +239,7 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
         int size =  userManager.getSavedGame(gameType).getBoard().length;
         // Cuts up saved image to recreate the saved board
         ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(false), size, size);
+        initBoard.createTiles();
         initBoard.saveTiles(MainMenuActivity.this);
 
         // Adding extra required data to be passed to SlidingTilesActivity

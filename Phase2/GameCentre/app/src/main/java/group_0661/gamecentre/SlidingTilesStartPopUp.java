@@ -186,6 +186,7 @@ public class SlidingTilesStartPopUp extends PopUpActivity implements ServiceConn
      */
     private void setBackground(Bitmap bitmap) {
         ImageToTiles initBoard = new ImageToTiles(bitmap, this.size, this.size);
+        initBoard.createTiles();
         initBoard.saveTiles(SlidingTilesStartPopUp.this);
         backgroundPath = initBoard.getSavePath();
     }

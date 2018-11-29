@@ -76,7 +76,7 @@ public class UserManager extends Service implements IUserManager {
      * @return true if sign in is successful
      */
     public boolean signIn(String username, String password) {
-        for(int i = 1; i < usersList.size(); i++) {
+        for(int i = 0; i < usersList.size(); i++) {
             if (username.equals(usersList.get(i)[0])){
                 if (password.equals(usersList.get(i)[1])){
                     loggedIn = 1;
@@ -98,7 +98,10 @@ public class UserManager extends Service implements IUserManager {
      * @return true if sign up is successful
      */
     public boolean signUp(String username, String password) {
-        for(int i = 1; i < usersList.size(); i++) {
+        if (usersList == null) {
+            usersList = new ArrayList<>();
+        }
+        for(int i = 0; i < usersList.size(); i++) {
             if (username.equals(usersList.get(i)[0])) {
                 return false;
             }
@@ -223,7 +226,7 @@ public class UserManager extends Service implements IUserManager {
      * @param image background image
      * @param temp true if temporary file
      */
-    public void saveUserImage(Bitmap image, boolean temp) {
+    public boolean saveUserImage(Bitmap image, boolean temp) {
         String prefix = "";
         if (temp) {
             prefix = "temp_";
@@ -234,9 +237,11 @@ public class UserManager extends Service implements IUserManager {
             FileOutputStream out = new FileOutputStream(path);
             image.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, out);
             out.close();
+            return true;
         }
         catch (IOException e) {
             Log.e("Save Image Error:", "File write failed: " + e.toString());
+            return false;
         }
     }
 
