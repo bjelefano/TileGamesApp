@@ -47,7 +47,7 @@ public class Board extends Observable implements Serializable{
      *
      * @param dimension the size of the board
      */
-    Board(int dimension) {
+    public Board(int dimension) {
         NUM_ROWS = dimension;
         NUM_COLS = dimension;
         previousMoves = new int[] {-1,- 1};
