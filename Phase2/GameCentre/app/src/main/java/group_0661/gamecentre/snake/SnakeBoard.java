@@ -1,11 +1,11 @@
 package group_0661.gamecentre.snake;
 
 import android.util.Pair;
-
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Random;
+
 
 public class SnakeBoard implements Serializable{
 
@@ -23,6 +23,27 @@ public class SnakeBoard implements Serializable{
 
     public SnakeBoard(int cols, int rows) {
         tiles = new Integer[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                tiles[i][j] = 0;
+            }
+        }
+        tiles[0][0] = 1;
+        tiles[0][1] = 1;
+        tiles[0][2] = 1;
+        tiles[1][2] = 1;
+        tiles[1][0] = 2;
+        int[] piece1 = {0,0};
+        body.addFirst(piece1);
+        int[] piece2 = {0,1};
+        body.addFirst(piece2);
+        int[] piece3 = {0,2};
+        body.addFirst(piece3);
+        int[] piece4 = {1,2};
+        body.addFirst(piece4);
+        int[] piece5 = {1,0};
+        body.addFirst(piece5);
+
         NUM_COLS = cols;
         direction[0] = 0;
         direction[1] = -1;
