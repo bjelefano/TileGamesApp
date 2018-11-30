@@ -2,6 +2,7 @@ package group_0661.gamecentre.gestures;
 
 import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.matchingtiles.MatchingTileGame;
+import group_0661.gamecentre.snake.SnakeGame;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -59,6 +60,12 @@ public class MovementController {
         } else {
             game.undo();
             Toast.makeText(context ,"Undo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void processSwipe(Context context) {
+        if (game instanceof SnakeGame) {
+            game.touchMove("down");
         }
     }
 

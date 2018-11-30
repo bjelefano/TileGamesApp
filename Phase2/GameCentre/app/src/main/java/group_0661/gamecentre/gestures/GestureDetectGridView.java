@@ -126,6 +126,12 @@ public class GestureDetectGridView extends GridView {
                 mController.processTapMovement(context, position, true);
                 return true;
             }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                mController.processSwipe(context);
+                return true;
+            }
         });
     }
 
