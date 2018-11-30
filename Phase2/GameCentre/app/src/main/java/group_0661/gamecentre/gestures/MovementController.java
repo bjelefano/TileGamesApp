@@ -63,9 +63,21 @@ public class MovementController {
         }
     }
 
-    public void processSwipe(Context context) {
+    public void processSwipe(Context context, String direction) {
         if (game instanceof SnakeGame) {
-            game.touchMove("down");
+            if (direction.equals("left")) {
+                game.touchMove("left");
+            }
+            if (direction.equals("right")) {
+                game.touchMove("right");
+            }
+            if (direction.equals("top")) {
+                game.touchMove("up");
+            }
+            if (direction.equals("bottom")) {
+                game.touchMove("down");
+            }
+
         }
     }
 
