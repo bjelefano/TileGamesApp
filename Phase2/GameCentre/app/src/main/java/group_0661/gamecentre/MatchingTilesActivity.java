@@ -196,7 +196,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         startTimer();
         updateMovesMade();
 
-        // Auto-save check
+//         Auto-save check
         if (userManager != null && userManager.getStatus() && autosaveCounter % 10 == 0) {
             userManager.saveGame(this.game, getIntent().getStringExtra("background_path"));
         }

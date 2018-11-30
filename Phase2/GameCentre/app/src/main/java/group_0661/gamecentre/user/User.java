@@ -17,7 +17,7 @@ public class User implements Serializable {
     private String userName;
 
     /**
-     * The user's saved slidingtiles.
+     * The user's saved games.
      */
     private Map<String, Game> savedGames;
 
