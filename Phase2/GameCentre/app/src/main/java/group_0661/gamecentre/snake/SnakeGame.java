@@ -15,7 +15,7 @@ public class SnakeGame extends Game implements Serializable{
     public SnakeGame() {
         super(4, 0, false);
 
-        board = new SnakeBoard(4, 4);
+        board = new SnakeBoard(8, 8);
     }
 
     @Override

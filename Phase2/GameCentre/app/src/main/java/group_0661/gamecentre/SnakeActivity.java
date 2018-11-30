@@ -36,6 +36,12 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
      * The buttons to display.
      */
     private ArrayList<Button> tileButtons;
+
+    /**
+     * The pre-loaded sprites
+     */
+    private BitmapDrawable[] tileSprites;
+
     /**
      * The game instance.
      */
@@ -206,6 +212,18 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
         gameOver();
     }
 
+    private void loadImages() {
+        String path = getIntent().getStringExtra("background_path");
+
+        int nSprites = 3;
+        tileSprites = new BitmapDrawable[nSprites];
+        for (int i = 0; i < nSprites; i++) {
+            Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", i+1));
+            BitmapDrawable drawable = new BitmapDrawable(getResources(), btmp);
+            tileSprites[i] = drawable;
+        }
+    }
+
     /**
      * Initializes the gridView (Taken from A2).
      */
@@ -236,15 +254,14 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
      * tile backgrounds to each button.
      */
     private void createTileButtons(Context context) {
-        Integer[][] board = game.getBoard();
-        String path = getIntent().getStringExtra("background_path");
+        loadImages();
+        
+        Integer[][] tiles = game.getBoard();
         tileButtons = new ArrayList<>();
-        for (Integer[] row : board) {
+        for (Integer[] row : tiles) {
             for (Integer element: row) {
                 Button button = new Button(context);
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element+1));
-                BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
-                button.setBackground(background);
+                button.setBackground(tileSprites[element]);
                 this.tileButtons.add(button);
             }
         }
@@ -254,15 +271,12 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
      * Updates the backgrounds on each button according to changes within the board.
      */
     private void updateTileButtons() {
-        Integer[][] board = game.getBoard();
-        String path = getIntent().getStringExtra("background_path");
+        Integer[][] tiles = game.getBoard();
         int i = 0;
-        for (Integer[] row : board) {
+        for (Integer[] row : tiles) {
             for (Integer element : row) {
                 Button button = (this.tileButtons.get(i));
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element+1));
-                BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
-                button.setBackground(background);
+                button.setBackground(tileSprites[element]);
                 tileButtons.set(i, button);
                 i++;
             }
