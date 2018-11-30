@@ -1,5 +1,6 @@
 package group_0661.gamecentre;
 
+import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.user.UserManager;
 
 import android.content.ComponentName;
@@ -235,16 +236,24 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
      * @return an intent with loaded slidingtiles data
      */
     private Intent initLoadGame(String gameType) {
-        Intent load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
+        Intent load;
+        if (gameType.equals("Sliding Tiles")) {
+            load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
+            load.putExtra(gameType, userManager.getSavedGame(gameType));
+        } else if (gameType.equals("Matching Tiles")) {
+            load = new Intent(MainMenuActivity.this, MatchingTilesActivity.class);
+            load.putExtra(gameType, userManager.getSavedGame(gameType));
+        } else {
+            load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
+        }
         int size =  userManager.getSavedGame(gameType).getBoard().length;
         // Cuts up saved image to recreate the saved board
-        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(false), size, size);
+        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(userManager.getSavedGame(gameType), false), size, size);
         initBoard.createTiles();
         initBoard.saveTiles(MainMenuActivity.this);
 
         // Adding extra required data to be passed to SlidingTilesActivity
         load.putExtra("background_path", userManager.getBackgroundPath(gameType));
-        load.putExtra(gameType, userManager.getSavedGame(gameType));
 
         return load;
     }

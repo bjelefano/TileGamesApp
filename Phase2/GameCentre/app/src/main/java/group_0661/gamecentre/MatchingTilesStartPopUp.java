@@ -145,8 +145,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
                 if (radioGroupListener()) {
                     setDefaultBoard();
                     setBackground(background);
-                    Intent newgame = initNewGame();
-                    startActivity(newgame);
+                    startActivity(initNewGame());
                     finish();
                 }
             }
@@ -161,6 +160,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     private Intent initNewGame() {
         Intent startGame = new Intent(MatchingTilesStartPopUp.this, MatchingTilesActivity.class);
         MatchingTileGame game = new MatchingTileGame(width);
+        if (userManager != null & userManager.getStatus() ) { userManager.saveUserImage(game, background, true); }
         startGame.putExtra("Matching Tiles", game);
         startGame.putExtra("background_path", backgroundPath);
 

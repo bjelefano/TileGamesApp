@@ -151,7 +151,6 @@ public class SlidingTilesStartPopUp extends PopUpActivity implements ServiceConn
                     // Sets background to default if no custom image was selected from the gallery
                     if (background == null) { background = getDefaultBoard(); }
                     setBackground(background);
-                    if (userManager != null & userManager.getStatus() ) { userManager.saveUserImage(background, true); }
 
                     startActivity(initNewGame());
                     finish();
@@ -239,6 +238,7 @@ public class SlidingTilesStartPopUp extends PopUpActivity implements ServiceConn
         Intent startGame = new Intent(SlidingTilesStartPopUp.this, SlidingTilesActivity.class);
         Game game = new Game(size, Integer.valueOf(((
                 EditText)findViewById(R.id.UndoInput)).getText().toString()), unlimited);
+        if (userManager != null & userManager.getStatus() ) { userManager.saveUserImage(game, background, true); }
         startGame.putExtra("Sliding Tiles", game);
         startGame.putExtra("background_path", backgroundPath);
 

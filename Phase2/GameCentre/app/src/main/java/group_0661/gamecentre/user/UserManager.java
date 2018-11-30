@@ -155,7 +155,7 @@ public class UserManager extends Service implements IUserManager {
     public void saveGame(Game game, String path){
         user.setSavedGame(game);
         user.setBackgroundPath(game, path);
-        saveUserImage(loadUserImage(true), false );
+        saveUserImage(game, loadUserImage(game,true), false );
         saveUser("save_file"+ user.getUserName() +".ser");
     }
 
@@ -220,19 +220,31 @@ public class UserManager extends Service implements IUserManager {
         }
     }
 
+    private String getPrefix(boolean temp, String game) {
+        String prefix = "";
+        if (temp) {
+            prefix += "temp_";
+        } if (game.equals("Sliding Tiles")) {
+            prefix += "slidingtiles";
+        } else if (game.equals("Matching Tiles")) {
+            prefix += "matchingtiles";
+        } else {
+            prefix += "snake";
+        }
+        return prefix;
+    }
+
+
     /**
      * Save background image for saved slidingtiles.
      *
      * @param image background image
      * @param temp true if temporary file
      */
-    public boolean saveUserImage(Bitmap image, boolean temp) {
-        String prefix = "";
-        if (temp) {
-            prefix = "temp_";
-        }
+    public boolean saveUserImage(Game game, Bitmap image, boolean temp) {
+        String prefix = getPrefix(temp, game.getGameTitle());
 
-        File path = new File(this.getFilesDir(), prefix + "save_img"+ user.getUserName() +".png");
+        File path = new File(this.getFilesDir(), prefix + "_save_img"+ user.getUserName() +".png");
         try {
             FileOutputStream out = new FileOutputStream(path);
             image.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, out);
@@ -251,12 +263,10 @@ public class UserManager extends Service implements IUserManager {
      * @param temp true if temporary file
      * @return background image for saved slidingtiles
      */
-    public Bitmap loadUserImage(boolean temp) {
-        String prefix = "";
-        if (temp) {
-            prefix = "temp_";
-        }
-        return BitmapFactory.decodeFile(this.getFilesDir() + "/" + prefix + "save_img"+ user.getUserName() +".png");
+    public Bitmap loadUserImage(Game game, boolean temp) {
+        String prefix = getPrefix(temp, game.getGameTitle());
+
+        return BitmapFactory.decodeFile(this.getFilesDir() + "/" + prefix + "_save_img"+ user.getUserName() +".png");
     }
 
     /**
