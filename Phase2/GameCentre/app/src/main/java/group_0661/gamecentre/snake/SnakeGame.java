@@ -24,7 +24,7 @@ public class SnakeGame extends Game implements Serializable{
     }
 
     public boolean update() {
-        boolean success = true;//board.update();
+        boolean success = board.update();
         return success;
     }
 

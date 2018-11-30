@@ -11,7 +11,7 @@ public class SnakeBoard implements Serializable{
 
     private int[] head = new int[2];
 
-    private ArrayDeque<int[]> body;
+    private ArrayDeque<int[]> body = new ArrayDeque<>();
 
     private int[] direction = new int[2];
 
@@ -32,21 +32,23 @@ public class SnakeBoard implements Serializable{
         tiles[0][1] = 1;
         tiles[0][2] = 1;
         tiles[1][2] = 1;
-        tiles[1][0] = 2;
+        tiles[2][0] = 2;
         int[] piece1 = {0,0};
-        body.addFirst(piece1);
+        body.addLast(piece1);
         int[] piece2 = {0,1};
-        body.addFirst(piece2);
+        body.addLast(piece2);
         int[] piece3 = {0,2};
-        body.addFirst(piece3);
+        body.addLast(piece3);
         int[] piece4 = {1,2};
-        body.addFirst(piece4);
-        int[] piece5 = {1,0};
-        body.addFirst(piece5);
+        body.addLast(piece4);
 
         NUM_COLS = cols;
-        direction[0] = 0;
-        direction[1] = -1;
+
+        head[0] = 0;
+        head[1] = 0;
+
+        direction[0] = 1;
+        direction[1] = 0;
     }
 
     public Integer[][] getTiles() {
@@ -61,7 +63,9 @@ public class SnakeBoard implements Serializable{
             if (tiles[new_head[0]][new_head[1]] == 0) {
                 body.addFirst(head);
                 tiles[new_head[0]][new_head[1]] = 1;
-                body.removeFirst();
+                int[] tail = body.removeLast();
+                tiles[tail[0]][tail[1]] = 0;
+
                 head = new_head;
                 return true;
             } else if (tiles[new_head[0]][new_head[1]] == 2) {

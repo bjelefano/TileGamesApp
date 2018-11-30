@@ -90,6 +90,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
                             public void run() {
                                 updateTime();
                                 updateGame();
+                                updateTileButtons();
                             }
                         });
                     }
@@ -240,9 +241,6 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
         tileButtons = new ArrayList<>();
         for (Integer[] row : board) {
             for (Integer element: row) {
-                System.out.println("element");
-                System.out.println(element);
-
                 Button button = new Button(context);
                 Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element+1));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
