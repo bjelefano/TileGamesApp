@@ -2,7 +2,9 @@ package group_0661.gamecentre.gameSystem;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 
+import java.lang.reflect.Array;
 import java.util.Observable;
+import java.lang.Math;
 
 import android.util.Log;
 import java.io.Serializable;
@@ -52,15 +54,47 @@ public class Board extends Observable implements Serializable{
         NUM_COLS = dimension;
         previousMoves = new int[] {-1,- 1};
         tiles = new Integer[NUM_ROWS][NUM_COLS];
-        ArrayList<Integer> tileslist = new ArrayList<>();
+        ArrayList<Integer> tilesList = generateSolvableGame(dimension);
         for (int i = 0; i < dimension * dimension; i++) {
-            tileslist.add(new Integer(i + 1));
-        }
-        Collections.shuffle(tileslist);
-        for (int i = 0; i < dimension * dimension; i++) {
-            tiles[i / dimension][i % dimension] = tileslist.get(i);
+            tiles[i / dimension][i % dimension] = tilesList.get(i);
         }
 
+    }
+    private ArrayList<Integer> generateSolvableGame(int size) {
+        ArrayList<Integer> tileslist = new ArrayList<>();
+        int sum;
+        boolean odd = size % 2 == 1;
+        boolean tileOdd = false;
+        int lowest = 1;
+        for (int i = 0; i < size * size; i++) {
+            tileslist.add(new Integer(i + 1));
+        }
+
+        do {
+            sum = 0;
+            Collections.shuffle(tileslist);
+            ArrayList<Integer> counted = new ArrayList<>();
+            for (int i = 0; i < tileslist.get(i); i++) {
+                if ( tileslist.get(i) == lowest) {
+                    counted.add(tileslist.get(i));
+                    lowest++;
+                } else if (tileslist.get(i) < tileslist.size()){
+                    sum +=  tileslist.get(i) - getInversions(counted, tileslist.get(i));
+                } else {
+                    tileOdd = (size - (i / size)) % 2 == 1;
+                }
+            }
+        } while ((odd & sum % 2 == 0) | (!odd & tileOdd & sum % 2 == 0) | (!odd & !tileOdd & sum % 2 == 1));
+
+        return tileslist;
+    }
+
+    private int getInversions(ArrayList<Integer> counted, int num) {
+        int sum = 0;
+        for (Integer i : counted) {
+            if (i < num) { sum += 1; }
+        }
+        return sum;
     }
 
     /**
