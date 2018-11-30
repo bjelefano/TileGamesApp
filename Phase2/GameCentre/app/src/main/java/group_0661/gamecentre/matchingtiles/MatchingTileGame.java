@@ -64,11 +64,11 @@ public class MatchingTileGame extends Game implements Serializable {
      */
     public String getType() {
         if (getBoard().length == 4) {
-            return "Easy";
+            return getGameTitle() + " - Easy";
         } else if (getBoard().length == 5) {
-            return "Casual";
+            return getGameTitle() + " - Casual";
         } else {
-            return "Hard";
+            return getGameTitle() + " - Hard";
         }
     }
 

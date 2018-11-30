@@ -39,7 +39,7 @@ public class Undo implements Serializable, Undoable<int[]>{
     /**
      * Remove the first element in the arrayList.
      *
-     * @return the interger array for the previous move.
+     * @return the integer array for the previous move.
      */
     public int[] pop() {
         return States.remove(0);

@@ -74,10 +74,13 @@ public class KnightsTourBoard extends Observable implements Serializable{
                     tiles[i / dimension][i % dimension] = 2;
                 } else if ((i / dimension) % 2 == 1 &  (i % 2 == 1)) {
                     tiles[i / dimension][i % dimension] = 2;
+                } else {
+                    tiles[i / dimension][i % dimension] = tList.get(i);
                 }
             } else {
                 tiles[i / dimension][i % dimension] = tList.get(i);
             }
+            System.out.println(tiles[i / dimension][i % dimension]);
         }
     }
 
@@ -99,7 +102,7 @@ public class KnightsTourBoard extends Observable implements Serializable{
         }
     }
 
-    public int getKnightPosition() {
+    private int getKnightPosition() {
         for (int i = 0; i < NUM_COLS * NUM_ROWS; i++) {
             if (this.tiles[i / NUM_ROWS][i % NUM_COLS] == 4) { return i; }
         }
