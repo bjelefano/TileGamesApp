@@ -90,6 +90,12 @@ public class SnakeBoard implements Serializable{
      */
     private Stack<int[]> directionStack = new Stack<>();
 
+    /**
+     * A new board of tiles in row-major order.
+     *
+     * @param cols the number of cols
+     * @param rows the number of rows
+     */
     SnakeBoard(int cols, int rows) {
         this.cols = cols;
         this.rows = rows;
@@ -132,16 +138,22 @@ public class SnakeBoard implements Serializable{
         direction[1] = 1;
     }
 
+    /**
+     * Returns the tiles of this board.
+     *
+     * @return an 2-D array of integers representing tiles.
+     */
     public Integer[][] getTiles() {
         return tiles;
     }
 
+    /**
+     * Updates the game: moves the snake forward and performs corresponding action.
+     * To be called once a frame.
+     *
+     * @return the success or failure of the update (if false, the game has ended).
+     */
     public boolean update() {
-//        System.out.println("update");
-//        for (int[] c : body) {
-//            System.out.printf("%d, %d\n", c[0], c[1]);
-//        }
-
         pushState();
 
         int[] new_head = new int[2];
@@ -170,6 +182,9 @@ public class SnakeBoard implements Serializable{
         return true;
     }
 
+    /**
+     * Resets the cherry after it has been consumed.
+     */
     private void resetCherry() {
         do {
             int i = rand.nextInt(rows);
@@ -181,6 +196,11 @@ public class SnakeBoard implements Serializable{
         } while (true);
     }
 
+    /**
+     * Make a move: i.e. change the direction the snake is facing.
+     *
+     * @return an 2-D array of integers representing tiles.
+     */
     public boolean makeMove(int[] move) {
         if (direction[0] == move[0] && direction[1] == move[1]) {
             return false;
@@ -191,14 +211,29 @@ public class SnakeBoard implements Serializable{
         }
     }
 
+    /**
+     * Returns whether the game is over or not.
+     *
+     * @return true if the game is over.
+     */
     boolean isOver() {
         return finished;
     }
 
+    /**
+     * Returns the player's score; the number of cherries they have gotten.
+     *
+     * @return the score.
+     */
     int getScore() {
         return score;
     }
 
+    /**
+     * Undoes the last n moves.
+     *
+     * @return success or failure of the undo.
+     */
     public boolean undo() {
         if (finished) return false;
 
@@ -216,6 +251,9 @@ public class SnakeBoard implements Serializable{
         return true;
     }
 
+    /**
+     * Pushes the current state onto the stack for use in undo.
+     */
     private void pushState() {
         Integer[][] saveTiles = new Integer[rows][cols];
         for (int i = 0; i < rows; i++) {
