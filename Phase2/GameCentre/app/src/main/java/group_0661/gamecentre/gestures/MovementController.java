@@ -14,14 +14,14 @@ import android.util.Log;
 public class MovementController {
 
     /**
-     * The current slidingtiles
+     * The current game
      */
     private Game game = null;
 
     /**
-     * Setter for this slidingtiles
+     * Setter for this game
      *
-     * @param game the slidingtiles
+     * @param game the game
      */
     public void setGame(Game game) {
         this.game = game;
