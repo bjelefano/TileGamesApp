@@ -140,7 +140,7 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
             public void onClick(View v) {
                 if (radioGroupListener()) {
                     setDefaultBoard();
-                    setBackground(BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.snake));
+                    setBackground(background);
                     Intent newgame = initNewGame();
                     startActivity(newgame);
                     finish();
