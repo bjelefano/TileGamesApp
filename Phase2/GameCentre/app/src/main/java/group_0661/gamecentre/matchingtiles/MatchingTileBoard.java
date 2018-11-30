@@ -117,8 +117,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     }
 
     /**
-     * Check if valid move then swap the tiles. If not an undo call, add row and col of
-     * the last location of the blank tile to previousMoves.
+     * Return true if a pair is found.
      *
      * @param row row being tapped
      * @param column column being tapped

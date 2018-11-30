@@ -17,7 +17,7 @@ public class MatchingTileGame extends Game implements Serializable {
 
     private int length;
     /**
-     * A new matchingtiles with given dimensions and undo limit.
+     * A new matchingtiles with given dimensions.
      *
      * @param dimensions size of the board
      */
