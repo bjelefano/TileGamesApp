@@ -240,8 +240,11 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
         tileButtons = new ArrayList<>();
         for (Integer[] row : board) {
             for (Integer element: row) {
+                System.out.println("element");
+                System.out.println(element);
+
                 Button button = new Button(context);
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element));
+                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element+1));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 this.tileButtons.add(button);
@@ -259,7 +262,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
         for (Integer[] row : board) {
             for (Integer element : row) {
                 Button button = (this.tileButtons.get(i));
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element));
+                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element+1));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 tileButtons.set(i, button);

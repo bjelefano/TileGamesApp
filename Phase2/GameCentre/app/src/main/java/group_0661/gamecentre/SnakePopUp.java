@@ -108,7 +108,7 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
      * Slices up the selected image into a number of tiles depending on the selected board size
      */
     private void setBackground(Bitmap background) {
-        ImageToTiles initBoard = new ImageToTiles(background, this.width, this.width+1);
+        ImageToTiles initBoard = new ImageToTiles(background, 3, 1);
         initBoard.saveTiles(SnakePopUp.this);
         backgroundPath = initBoard.getSavePath();
     }
@@ -119,14 +119,7 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
      * @return a Bitmap of the default boards (containing only numbers)
      */
     private void setDefaultBoard() {
-        if (this.width == 3) {
-            background = BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.m_easy);
-        }
-        else if (this.width == 4) {
-            background =  BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.normal);
-        } else {
-            background = BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.hard);
-        }
+        background = BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.snake);
     }
     /**
      * Nullifies UserManager once the UserManager service is disconnected
