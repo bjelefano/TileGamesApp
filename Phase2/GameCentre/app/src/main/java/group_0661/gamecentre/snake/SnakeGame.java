@@ -8,10 +8,13 @@ import group_0661.gamecentre.gameSystem.IGame;
 import android.util.Pair;
 
 /**
- * The game class.
+ * The game class for Snake.
  */
 public class SnakeGame extends Game implements Serializable{
 
+    /**
+     * The
+     */
     private SnakeBoard board;
 
 
@@ -31,14 +34,6 @@ public class SnakeGame extends Game implements Serializable{
         return success;
     }
 
-    public boolean swipeMove(String position) {
-            board.makeMove(position);
-            setChanged();
-            notifyObservers();
-            return true;
-        }
-        return false;
-    }
     public boolean isWon() {
         return board.isOver();
     }
