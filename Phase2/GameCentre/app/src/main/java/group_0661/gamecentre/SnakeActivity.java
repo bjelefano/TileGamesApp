@@ -291,8 +291,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
      * Calls the game update function
      */
     private void updateGame() {
-        // TODO: uncomment this when the game has an update function
-        //game.update();
+        game.update();
     }
 
     /**

@@ -30,7 +30,7 @@ public class SnakeBoard implements Serializable {
 
 public class SnakeBoard implements Serializable{
 
-    private int[] head;
+    private int[] head = new int[2];
 
     ArrayDeque<int[]> body;
 
