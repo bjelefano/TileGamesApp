@@ -77,7 +77,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
         flipped = new ArrayList<>();
         tiles = new Integer[rows][columns];
         ArrayList<Integer> tileslist = new ArrayList<>();
-        for (int i = 1; i <= rows * columns; i++) {
+        for (int i = 0; i < rows * columns; i++) {
             tileslist.add(new Integer(i + 1));
         }
         Collections.shuffle(tileslist);
@@ -157,9 +157,14 @@ public class MatchingTileBoard extends Observable implements Serializable{
     public void setFlipped(List<Integer> turned) {flipped = turned;}
 
     public boolean twoTilesMatch(Integer flipped) {
+        if (flipped % 2 == 1) {
+            awaiting_tile = flipped + 1;
+        } else {
+            awaiting_tile = flipped - 1;
+        }
         for (Integer[] row : tiles) {
             for (Integer i : row) {
-                if (i.equals(flipped)) {
+                if (i.equals(awaiting_tile)) {
                     return true;
                 }
             }

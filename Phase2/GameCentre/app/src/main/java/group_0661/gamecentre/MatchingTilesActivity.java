@@ -181,7 +181,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
             return true;
         }
         else if (R.id.action_revert == item.getItemId()) {
-            gesture.undo(MatchingTilesActivity.this);
+            Toast.makeText(MatchingTilesActivity.this, "Undo unavaliable for this game", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
