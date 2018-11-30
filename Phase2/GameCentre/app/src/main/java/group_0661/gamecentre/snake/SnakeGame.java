@@ -9,9 +9,7 @@ import android.util.Pair;
 
 public class SnakeGame extends Game implements Serializable{
 
-    SnakeBoard board;
-    Pair<Integer, Integer> head;
-    ArrayDeque<Pair<Integer, Integer>> body;
+    private SnakeBoard board;
 
 
     public SnakeGame() {

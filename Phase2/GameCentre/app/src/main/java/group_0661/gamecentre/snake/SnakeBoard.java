@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 
 public class SnakeBoard implements Serializable {
     private Integer[][] tiles;
@@ -29,11 +30,11 @@ public class SnakeBoard implements Serializable {
 /*
 public class SnakeBoard implements Serializable{
 
-    private Pair<Integer, Integer> head;
+    private int[] head;
 
-    ArrayDeque<Pair<Integer, Integer>> body;
+    ArrayDeque<int[]> body;
 
-    private Pair<Integer, Integer> direction = new Pair<Integer, Integer>(0, -1);
+    private int[] direction = new int[2];
 
     private int NUM_COLS;
 
@@ -42,6 +43,8 @@ public class SnakeBoard implements Serializable{
     public SnakeBoard(int cols, int rows) {
         tiles = new Integer[rows][cols];
         NUM_COLS = cols;
+        direction[0] = 0;
+        direction[1] = -1;
     }
 
     public Integer[][] getTiles() {
@@ -49,10 +52,13 @@ public class SnakeBoard implements Serializable{
     }
 
     public boolean update() {
-        head = new Pair<>(head.first + direction.first, head.second + direction.second);
-        if (SnakeBoard.isAlive(head, NUM_COLS, body)) {
-            if (tiles[head.first][head.second] == 0) {
-                tiles[head.first][head.second] = 1;
+        int[] new_head = new int[2];
+        new_head[0] = head[0] + direction[0];
+        new_head[1] = head[1] + direction[1];
+        if (SnakeBoard.isAlive(new_head, NUM_COLS, body)) {
+            if (tiles[new_head[0]][new_head[1]] == 0) {
+                body.addFirst(head);
+                tiles[new_head[0]][new_head[1]] = 1;
 
             }
             else if (1 == 1) {
@@ -62,7 +68,7 @@ public class SnakeBoard implements Serializable{
         return false;
     }
 
-    public boolean makeMove(Pair<Integer, Integer> move) {
+    public boolean makeMove(int[] move) {
         if (direction == move) {
             return false;
         }
@@ -72,14 +78,14 @@ public class SnakeBoard implements Serializable{
         }
     }
 
-    private static boolean isAlive(Pair<Integer, Integer> head,
-                                   int NUM_COLS, ArrayDeque<Pair<Integer, Integer>> body) {
-        if (!(head.first >= 0 && head.first < NUM_COLS && head.second >= 0 && head.second < NUM_COLS))
+    private static boolean isAlive(int[] head,
+                                   int NUM_COLS, ArrayDeque<int[]> body) {
+        if (!(head[0] >= 0 && head[0] < NUM_COLS && head[1] >= 0 && head[1] < NUM_COLS))
         {
             return false;
         }
-        for (Pair<Integer, Integer> pieces: body) {
-            if (head.equals(pieces)) {
+        for (int[] pieces: body) {
+            if (Arrays.equals(pieces, head)) {
                 return false;
                 }
         }
