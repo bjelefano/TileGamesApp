@@ -86,18 +86,20 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
      * Initialize a listener for the radio buttons regarding board difficulty.
      */
     private boolean radioGroupListener() {
+        setDefaultBoard();
+
         RadioGroup boardSelect = findViewById(R.id.mboard_select);
         if (boardSelect.getCheckedRadioButtonId() == R.id.snake_8) {
             width = 8;
-            Toast.makeText(SnakePopUp.this, "Game Start: Easy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SnakePopUp.this, "Game Start: 8x8", Toast.LENGTH_SHORT).show();
             return true;
         } else if (boardSelect.getCheckedRadioButtonId() == R.id.snake_12) {
             width = 12;
-            Toast.makeText(SnakePopUp.this, "Game Start: Normal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SnakePopUp.this, "Game Start: 12x12", Toast.LENGTH_SHORT).show();
             return true;
         } else if (boardSelect.getCheckedRadioButtonId() == R.id.snake_16) {
             width = 16;
-            Toast.makeText(SnakePopUp.this, "Game Start: Hard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SnakePopUp.this, "Game Start: 16x16", Toast.LENGTH_SHORT).show();
             return true;
         }
         Toast.makeText(SnakePopUp.this, "Please Select a Board Size", Toast.LENGTH_SHORT).show();

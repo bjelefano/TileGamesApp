@@ -1,10 +1,10 @@
 package group_0661.gamecentre.snake;
 
-import android.util.Pair;
 import java.io.Serializable;
 import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.Deque;
 import java.util.Random;
+import java.util.Stack;
 
 
 public class SnakeBoard implements Serializable{
@@ -30,6 +30,12 @@ public class SnakeBoard implements Serializable{
     private boolean finished = false;
 
     private int score = 0;
+
+    // Undo stacks
+    private Stack<Integer[][]> tileStack = new Stack<>();
+    private Stack<int[]> headStack = new Stack<>();;
+    private Stack<ArrayDeque<int[]>> bodyStack = new Stack<>();;
+    private Stack<int[]> directionStack = new Stack<>();;
 
     SnakeBoard(int cols, int rows) {
         this.cols = cols;
@@ -83,6 +89,8 @@ public class SnakeBoard implements Serializable{
 //            System.out.printf("%d, %d\n", c[0], c[1]);
 //        }
 
+        pushState();
+
         int[] new_head = new int[2];
         new_head[0] = head[0] + direction[0];
         new_head[1] = head[1] + direction[1];
@@ -130,24 +138,43 @@ public class SnakeBoard implements Serializable{
         }
     }
 
-    private static boolean isAlive(int[] head, ArrayDeque<int[]> body, int NUM_COLS) {
-        if (!(head[0] >= 0 && head[0] < NUM_COLS && head[1] >= 0 && head[1] < NUM_COLS))
-        {
-            return false;
-        }
-        for (int[] pieces: body) {
-            if (Arrays.equals(pieces, head)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     boolean isOver() {
         return finished;
     }
 
     int getScore() {
         return score;
+    }
+
+    public boolean undo() {
+        if (finished) return false;
+
+        int nUndo = 3;
+
+        for (int i = 0; i < nUndo; i++) {
+            if (tileStack.empty()) return true;
+
+            tiles = tileStack.pop();
+            head = headStack.pop();
+            body = bodyStack.pop();
+            direction = directionStack.pop();
+        }
+
+        return true;
+    }
+
+    private void pushState() {
+        Integer[][] saveTiles = new Integer[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                saveTiles[i][j] = tiles[i][j];
+            }
+        }
+
+        tileStack.push(saveTiles);
+
+        headStack.push(head.clone());
+        bodyStack.push(body.clone());
+        directionStack.push(direction.clone());
     }
 }

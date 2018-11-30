@@ -90,4 +90,20 @@
         app:layout_constraintTop_toBottomOf="@+id/score_1"
         tools:context="group_0661.gamecentre.SlidingTilesActivity" />
 
+    <Button
+        android:id="@+id/undo_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="182dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="178dp"
+        android:layout_marginBottom="200dp"
+        android:text="Undo"
+        android:textColor="#ffffe0"
+        android:textSize="20sp"
+        app:fontFamily="sans-serif-condensed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grid" />
+
 </android.support.constraint.ConstraintLayout>

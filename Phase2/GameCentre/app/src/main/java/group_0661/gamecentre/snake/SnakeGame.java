@@ -33,13 +33,7 @@ public class SnakeGame extends Game implements Serializable{
     }
 
     public boolean undo() {
-        if (board.isOver()) {
-            return false;
-        }
-        else {
-            return true;
-        }
-
+        return board.undo();
     }
 
     public int getScore() {

@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.content.Context;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.view.MenuItem;
@@ -84,6 +85,8 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
         // Sets title for action bar
         configureActionBar("Snake");
 
+        addUndoButtonListener();
+
         // Tick the clock
         Thread t = new Thread() {
             @Override
@@ -108,6 +111,19 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
         };
 
         t.start();
+    }
+
+    /**
+     * Activates the undo button.
+     */
+    private void addUndoButtonListener() {
+        Button undoButton = findViewById(R.id.undo_button);
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                game.undo();
+            }
+        });
     }
 
     /**
