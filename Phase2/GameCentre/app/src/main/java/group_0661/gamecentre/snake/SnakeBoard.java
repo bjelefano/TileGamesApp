@@ -5,18 +5,21 @@ import android.util.Pair;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Random;
 
 public class SnakeBoard implements Serializable{
 
     private int[] head;
 
-    ArrayDeque<int[]> body;
+    private ArrayDeque<int[]> body;
 
     private int[] direction = new int[2];
 
     private int NUM_COLS;
 
     private Integer[][] tiles;
+
+    private Random rand = new Random();
 
     public SnakeBoard(int cols, int rows) {
         tiles = new Integer[rows][cols];
@@ -33,21 +36,32 @@ public class SnakeBoard implements Serializable{
         int[] new_head = new int[2];
         new_head[0] = head[0] + direction[0];
         new_head[1] = head[1] + direction[1];
-        if (SnakeBoard.isAlive(new_head, NUM_COLS, body)) {
+        if (SnakeBoard.isAlive(new_head, body, NUM_COLS)) {
             if (tiles[new_head[0]][new_head[1]] == 0) {
                 body.addFirst(head);
                 tiles[new_head[0]][new_head[1]] = 1;
-
-            }
-            else if (1 == 1) {
-
+                body.removeFirst();
+                head = new_head;
+                return true;
+            } else if (tiles[new_head[0]][new_head[1]] == 2) {
+                body.addFirst(head);
+                tiles[new_head[0]][new_head[1]] = 1;
+                head = new_head;
+                do {
+                    int x_coord = rand.nextInt(NUM_COLS);
+                    int y_coord = rand.nextInt(NUM_COLS);
+                    if (tiles[x_coord][y_coord] == 0) {
+                        tiles[x_coord][y_coord] = 2;
+                        return true;
+                    }
+                } while (true);
             }
         }
         return false;
     }
 
     public boolean makeMove(int[] move) {
-        if (direction == move) {
+        if (direction[0] == move[0] && direction[1] == move[1]) {
             return false;
         }
         else {
@@ -56,8 +70,7 @@ public class SnakeBoard implements Serializable{
         }
     }
 
-    private static boolean isAlive(int[] head,
-                                   int NUM_COLS, ArrayDeque<int[]> body) {
+    private static boolean isAlive(int[] head, ArrayDeque<int[]> body, int NUM_COLS) {
         if (!(head[0] >= 0 && head[0] < NUM_COLS && head[1] >= 0 && head[1] < NUM_COLS))
         {
             return false;
