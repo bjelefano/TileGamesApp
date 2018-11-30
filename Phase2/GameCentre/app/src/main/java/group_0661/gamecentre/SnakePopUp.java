@@ -1,8 +1,5 @@
 package group_0661.gamecentre;
 
-import group_0661.gamecentre.matchingtiles.MatchingTileGame;
-import group_0661.gamecentre.user.UserManager;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -13,15 +10,18 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import group_0661.gamecentre.matchingtiles.MatchingTileGame;
+import group_0661.gamecentre.snake.SnakeGame;
+import group_0661.gamecentre.user.UserManager;
 
 
 /**
  * Manager for the matching tiles option selection layout.
  */
-public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceConnection {
+public class SnakePopUp extends PopUpActivity implements ServiceConnection {
 
     /**
      * The instantiation of the UserManager service
@@ -47,7 +47,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_matchingtiles_pop_up);
+        setContentView(R.layout.activity_snake_pop_up);
 
         configurePopUp(0.85, 0.85);
 
@@ -60,7 +60,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
     @Override
     protected void onStart() {
         super.onStart();
-        bindService(new Intent(MatchingTilesStartPopUp.this, UserManager.class), this, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(SnakePopUp.this, UserManager.class), this, Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -86,21 +86,23 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      * Initialize a listener for the radio buttons regarding board difficulty.
      */
     private boolean radioGroupListener() {
+        setDefaultBoard();
+
         RadioGroup boardSelect = findViewById(R.id.mboard_select);
-        if (boardSelect.getCheckedRadioButtonId() == R.id.match_easy) {
-            width = 3;
-            Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Easy", Toast.LENGTH_SHORT).show();
+        if (boardSelect.getCheckedRadioButtonId() == R.id.snake_8) {
+            width = 8;
+            Toast.makeText(SnakePopUp.this, "Game Start: 8x8", Toast.LENGTH_SHORT).show();
             return true;
-        } else if (boardSelect.getCheckedRadioButtonId() == R.id.match_casual) {
-            width = 4;
-            Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Normal", Toast.LENGTH_SHORT).show();
+        } else if (boardSelect.getCheckedRadioButtonId() == R.id.snake_12) {
+            width = 12;
+            Toast.makeText(SnakePopUp.this, "Game Start: 12x12", Toast.LENGTH_SHORT).show();
             return true;
-        } else if (boardSelect.getCheckedRadioButtonId() == R.id.match_hard) {
-            width = 5;
-            Toast.makeText(MatchingTilesStartPopUp.this, "Game Start: Hard", Toast.LENGTH_SHORT).show();
+        } else if (boardSelect.getCheckedRadioButtonId() == R.id.snake_16) {
+            width = 16;
+            Toast.makeText(SnakePopUp.this, "Game Start: 16x16", Toast.LENGTH_SHORT).show();
             return true;
         }
-        Toast.makeText(MatchingTilesStartPopUp.this, "Please Select a Difficulty Level", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SnakePopUp.this, "Please Select a Board Size", Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -108,9 +110,9 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      * Slices up the selected image into a number of tiles depending on the selected board size
      */
     private void setBackground(Bitmap background) {
-        ImageToTiles initBoard = new ImageToTiles(background, this.width, this.width+1);
-        initBoard.createTiles();
-        initBoard.saveTiles(MatchingTilesStartPopUp.this);
+        // Load the sprites from the snake sprite sheet
+        ImageToTiles initBoard = new ImageToTiles(background, 4, 1);
+        initBoard.saveTiles(SnakePopUp.this);
         backgroundPath = initBoard.getSavePath();
     }
 
@@ -120,14 +122,7 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      * @return a Bitmap of the default boards (containing only numbers)
      */
     private void setDefaultBoard() {
-        if (this.width == 3) {
-            background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_easy);
-        }
-        else if (this.width == 4) {
-            background =  BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_medium);
-        } else {
-            background = BitmapFactory.decodeResource(MatchingTilesStartPopUp.this.getResources(), R.drawable.m_hard);
-        }
+        background = BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.snake);
     }
     /**
      * Nullifies UserManager once the UserManager service is disconnected
@@ -145,7 +140,8 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
                 if (radioGroupListener()) {
                     setDefaultBoard();
                     setBackground(background);
-                    startActivity(initNewGame());
+                    Intent newgame = initNewGame();
+                    startActivity(newgame);
                     finish();
                 }
             }
@@ -158,10 +154,9 @@ public class MatchingTilesStartPopUp extends PopUpActivity implements ServiceCon
      * @return an intent with new matchingtiles data
      */
     private Intent initNewGame() {
-        Intent startGame = new Intent(MatchingTilesStartPopUp.this, MatchingTilesActivity.class);
-        MatchingTileGame game = new MatchingTileGame(width);
-        if (userManager != null & userManager.getStatus() ) { userManager.saveUserImage(game, background, true); }
-        startGame.putExtra("Matching Tiles", game);
+        Intent startGame = new Intent(SnakePopUp.this, SnakeActivity.class);
+        SnakeGame game = new SnakeGame(width);
+        startGame.putExtra("Snake", game);
         startGame.putExtra("background_path", backgroundPath);
 
         return startGame;

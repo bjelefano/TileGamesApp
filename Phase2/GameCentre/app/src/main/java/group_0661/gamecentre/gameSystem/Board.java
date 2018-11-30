@@ -49,7 +49,7 @@ public class Board extends Observable implements Serializable{
      *
      * @param dimension the size of the board
      */
-    Board(int dimension) {
+    public Board(int dimension) {
         NUM_ROWS = dimension;
         NUM_COLS = dimension;
         previousMoves = new int[] {-1,- 1};
@@ -254,17 +254,4 @@ public class Board extends Observable implements Serializable{
         }
         return true;
     }
-
-    /**
-     * Return the slidingtiles state.
-     *
-     * @return the board with the tiles it contains
-     */
-    @Override
-    public String toString() {
-        return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
-                '}';
-    }
-
 }

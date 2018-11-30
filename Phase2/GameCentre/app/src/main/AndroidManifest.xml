@@ -28,6 +28,9 @@
             android:name=".MatchingTilesStartPopUp"
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
+            android:name=".SnakePopUp"
+            android:theme="@style/AppTheme.PopUpConfig" />
+        <activity
             android:name=".KnightsTourPopUp"
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
@@ -37,10 +40,13 @@
             android:name=".SlidingTilesActivity"
             android:parentActivityName=".MainMenuActivity" />
         <activity
-            android:name=".LeaderBoardActivity"
+            android:name=".MatchingTilesActivity"
             android:parentActivityName=".MainMenuActivity" />
         <activity
-            android:name=".MatchingTilesActivity"
+            android:name=".SnakeActivity"
+            android:parentActivityName=".SnakePopUp" />
+        <activity
+            android:name=".LeaderBoardActivity"
             android:parentActivityName=".MainMenuActivity" />
         <activity
             android:name=".KnightsTourActivity"
