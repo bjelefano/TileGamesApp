@@ -54,9 +54,6 @@ public class MatchingTileBoard extends Observable implements Serializable{
 
     private Integer[] temptile;
 
-
-    private Integer[][] pairs;
-
     /**
      * The matching pair of tiles.
      */
@@ -122,8 +119,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
      */
     public boolean makeMove(final int row, final int column) {
         int under = flipped.get(column + columns * row);
-        int cover = tiles[row][column];
-        if (cover == numTiles()) {
+        if (tiles[row][column] == numTiles()) {
             tiles[row][column] = under;
             if (!twoTilesMatch(under)) {
                 if (firstTileRevealed) {
@@ -149,9 +145,16 @@ public class MatchingTileBoard extends Observable implements Serializable{
                 firstTileRevealed = false;
             }
             moves_made += 1;
+            return true;
         }
-        return true;
+        return false;
     }
+
+    public void setBoard(Integer[][] newBoard) {
+        tiles = newBoard;
+    }
+
+    public void setFlipped(List<Integer> turned) {flipped = turned;}
 
     public boolean twoTilesMatch(Integer flipped) {
         if (flipped % 2 == 1) {
@@ -161,7 +164,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
         }
         for (Integer[] row : tiles) {
             for (Integer i : row) {
-                if (i == awaiting_tile) {
+                if (i.equals(awaiting_tile)) {
                     return true;
                 }
             }
@@ -224,7 +227,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     @Override
     public String toString() {
         return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
+                "tiles=" + Arrays.deepToString(tiles) +
                 '}';
     }
 

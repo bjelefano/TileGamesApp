@@ -181,7 +181,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
             return true;
         }
         else if (R.id.action_revert == item.getItemId()) {
-            gesture.undo(MatchingTilesActivity.this);
+            Toast.makeText(MatchingTilesActivity.this, "Undo unavaliable for this game", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -335,7 +335,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
             Intent scoreboard = new Intent(MatchingTilesActivity.this, LeaderBoardActivity.class);
             if (userManager != null && userManager.getStatus()) {
                 this.userManager.dropSavedGame(game);
-                scoreboard.putExtra("Matching Tiles", this.game);
+                scoreboard.putExtra("game", this.game);
                 scoreboard.putExtra("user", userManager.getName());
             }
             scoreboard.putExtra("game_title", "Matching Tiles");
