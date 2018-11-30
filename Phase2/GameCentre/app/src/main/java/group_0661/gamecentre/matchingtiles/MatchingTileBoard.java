@@ -39,7 +39,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
      */
     private boolean firstTileRevealed = false;
 
-    private Timer timer;
+    private transient Timer timer;
 
     private List<Integer> flipped;
     /**
