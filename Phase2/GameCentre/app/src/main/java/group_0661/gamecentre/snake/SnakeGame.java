@@ -13,7 +13,7 @@ public class SnakeGame extends Game implements Serializable{
 
 
     public SnakeGame(int size) {
-        super(0, 0, false);
+        super(2, 0, false);
 
         board = new SnakeBoard(size, size);
     }

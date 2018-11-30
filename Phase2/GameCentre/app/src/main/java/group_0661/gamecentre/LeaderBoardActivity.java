@@ -32,6 +32,8 @@ public class LeaderBoardActivity extends ActionBarActivity {
      */
     private boolean global;
 
+
+    private String gameTitle;
     /**
      * Initializes the activity.
      */
@@ -43,6 +45,8 @@ public class LeaderBoardActivity extends ActionBarActivity {
         // Adds title to action bar
         configureActionBar("Leaderboards");
 
+        gameTitle = getIntent().getStringExtra("game_title");
+
         // Initializes Scoreboard/Leaderboards
         this.scoreboard = new Scoreboard(LeaderBoardActivity.this);
         if (getIntent().getStringExtra("user") != null) {
@@ -52,8 +56,8 @@ public class LeaderBoardActivity extends ActionBarActivity {
 
         // Initializes UI elements
         addToggleButtonListener();
-        initGameTypes(getIntent().getStringExtra("game_title"));
-        populateScroll();
+        initGameTypes(gameTitle);
+        populateScroll(gameTitle);
     }
     /**
      * Initializes the toggleButton that switches between global and local leaderboards.
@@ -69,11 +73,11 @@ public class LeaderBoardActivity extends ActionBarActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     global = true;
-                    populateScroll();
+                    populateScroll(gameTitle);
                 }
                 else {
                     global = false;
-                    populateScroll();
+                    populateScroll(gameTitle);
                 }
             }
         });
@@ -90,6 +94,8 @@ public class LeaderBoardActivity extends ActionBarActivity {
             arrayID = R.array.sliding_tiles_game_types;
         } else if (gameTitle.equals("Matching Tiles")) {
             arrayID = R.array.matching_tiles_game_types;
+        } else if (gameTitle.equals("Knight's Tour")) {
+            arrayID = R.array.knights_tour_game_types;
         } else {
             arrayID = R.array.snake_game_types;
         }
@@ -102,11 +108,11 @@ public class LeaderBoardActivity extends ActionBarActivity {
 
         gameTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { populateScroll(); }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { populateScroll(getIntent().getStringExtra("game_title")); }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                populateScroll();
+                populateScroll(getIntent().getStringExtra("game_title"));
             }
         });
 
@@ -116,19 +122,19 @@ public class LeaderBoardActivity extends ActionBarActivity {
      * Updates the ScrollView depending on the setting of the spinner and the toggle button. Displays
      * the content within the scoreboard instance.
      */
-    private void populateScroll() {
+    private void populateScroll(String game) {
         TextView ranks = findViewById(R.id.ranks);
         Spinner gameType = findViewById(R.id.game_types);
         String values = "";
         List<ScoreField> scores;
         int rank = 1;
 
-        if (global) { scores = this.scoreboard.getGlobalHighScores(gameType.getSelectedItem().toString()); }
-        else { scores = this.scoreboard.getUserHighScores(this.user, gameType.getSelectedItem().toString()); }
+        if (global) { scores = this.scoreboard.getGlobalHighScores(game + " - " + gameType.getSelectedItem().toString()); }
+        else { scores = this.scoreboard.getUserHighScores(this.user, game + " - " + gameType.getSelectedItem().toString()); }
 
         if (scores != null) {
             for (ScoreField i : scores) {
-                values += String.format("   %d. Username:   ", rank) + i.getUserName() + "   Score:   " + Integer.toString(i.getScore()) + "\n" + "\n";
+                values += String.format("  %d. Username:  ", rank) + i.getUserName() + "  Score:  " + Integer.toString(i.getScore()) + "\n" + "\n";
                 rank += 1;
             }
         }

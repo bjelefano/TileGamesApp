@@ -14,34 +14,46 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * The sliding tiles board.
+ * The matching tiles board.
  */
 public class MatchingTileBoard extends Observable implements Serializable{
+
+    /**
+     * The number of rows.
+     */
+    private int rows;
 
     /**
      * The number of columns.
      */
     private int columns;
 
-    private int awaiting_tile = 0;
     /**
-     * The tile being flipped;
+     * The tile being flipped.
+     */
+    private int awaiting_tile = 0;
+
+    /**
+     * Set to true if player flips first tile in the pair.
+     * Set to false if player hasn't started flipping new pair.
      */
     private boolean firstTileRevealed = false;
-    /**
-     * The number of rows.
-     */
-    private int rows;
 
     private Timer timer;
 
     private List<Integer> flipped;
+    /**
+     * The tile
+     */
+    //private int flipped;
+
     /**
      * The tiles on the board in row-major order.
      */
     private Integer[][] tiles;
 
     private Integer[] temptile;
+
     /**
      * The matching pair of tiles.
      */
@@ -99,8 +111,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     }
 
     /**
-     * Check if valid move then swap the tiles. If not an undo call, add row and col of
-     * the last location of the blank tile to previousMoves.
+     * Return true if a pair is found.
      *
      * @param row row being tapped
      * @param column column being tapped
@@ -108,8 +119,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
      */
     public boolean makeMove(final int row, final int column) {
         int under = flipped.get(column + columns * row);
-        int cover = tiles[row][column];
-        if (cover == numTiles()) {
+        if (tiles[row][column] == numTiles()) {
             tiles[row][column] = under;
             if (!twoTilesMatch(under)) {
                 if (firstTileRevealed) {
@@ -135,9 +145,16 @@ public class MatchingTileBoard extends Observable implements Serializable{
                 firstTileRevealed = false;
             }
             moves_made += 1;
+            return true;
         }
-        return true;
+        return false;
     }
+
+    public void setBoard(Integer[][] newBoard) {
+        tiles = newBoard;
+    }
+
+    public void setFlipped(List<Integer> turned) {flipped = turned;}
 
     public boolean twoTilesMatch(Integer flipped) {
         if (flipped % 2 == 1) {
@@ -147,7 +164,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
         }
         for (Integer[] row : tiles) {
             for (Integer i : row) {
-                if (i == awaiting_tile) {
+                if (i.equals(awaiting_tile)) {
                     return true;
                 }
             }
@@ -210,7 +227,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     @Override
     public String toString() {
         return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
+                "tiles=" + Arrays.deepToString(tiles) +
                 '}';
     }
 

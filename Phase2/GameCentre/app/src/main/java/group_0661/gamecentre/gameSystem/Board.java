@@ -1,8 +1,10 @@
 package group_0661.gamecentre.gameSystem;
 import android.support.annotation.NonNull;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
+import java.lang.reflect.Array;
 import java.util.Observable;
+import java.lang.Math;
 
 import android.util.Log;
 import java.io.Serializable;
@@ -22,7 +24,7 @@ public class Board extends Observable implements Serializable{
     private int NUM_ROWS;
 
     /**
-     * The number of rows.
+     * The number of columns.
      */
     private int NUM_COLS;
 
@@ -52,15 +54,69 @@ public class Board extends Observable implements Serializable{
         NUM_COLS = dimension;
         previousMoves = new int[] {-1,- 1};
         tiles = new Integer[NUM_ROWS][NUM_COLS];
-        ArrayList<Integer> tileslist = new ArrayList<>();
+        ArrayList<Integer> tilesList = generateSolvableGame(dimension);
         for (int i = 0; i < dimension * dimension; i++) {
-            tileslist.add(new Integer(i + 1));
-        }
-        Collections.shuffle(tileslist);
-        for (int i = 0; i < dimension * dimension; i++) {
-            tiles[i / dimension][i % dimension] = tileslist.get(i);
+            tiles[i / dimension][i % dimension] = tilesList.get(i);
         }
 
+    }
+
+    /**
+     * Generates a board that is always solvable
+     *
+     * See https://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html for the strategy used
+     * @param size of the board
+     */
+    private ArrayList<Integer> generateSolvableGame(int size) {
+        ArrayList<Integer> tilesList = new ArrayList<>();
+        int sum;
+        // true iff number of rows/columns is odd
+        boolean odd = size % 2 == 1;
+        // true iff the blank tile falls on an odd row (counting from the bottom). Initialized in do-while loop
+        boolean tileOdd = false;
+        int lowest = 1;
+
+        // Generates the tiles in order
+        for (int i = 0; i < size * size; i++) {
+            tilesList.add(new Integer(i + 1));
+        }
+
+        do {
+            sum = 0;
+            Collections.shuffle(tilesList);
+            ArrayList<Integer> counted = new ArrayList<>();
+            for (int i = 0; i < tilesList.get(i); i++) {
+                // If the current tile is the lowest accounted for, the sum is unchanged
+                if ( tilesList.get(i) == lowest) {
+                    counted.add(tilesList.get(i));
+                    lowest++;
+                } else if (tilesList.get(i) < tilesList.size()){
+                    sum +=  tilesList.get(i) - getInversions(counted, tilesList.get(i));
+                } else {
+                    tileOdd = (size - (i / size)) % 2 == 1;
+                }
+            }
+            // The game is solvable if:
+            // 1. size is odd and sum is even
+            // 2. size is even, the blank tile is on an odd row (counting from the bottom), and the sum is even
+            // 3. size is even, the blank tile is on an even row, and sum is odd
+        } while ((odd & sum % 2 == 0) | (!odd & tileOdd & sum % 2 == 0) | (!odd & !tileOdd & sum % 2 == 1));
+
+        return tilesList;
+    }
+
+    /**
+     * Counts the number of values in ArrayList counted that are less than num
+     *
+     * @param counted all tile numbers already accounted for
+     * @param num the number of the tile in question
+     */
+    private int getInversions(ArrayList<Integer> counted, int num) {
+        int sum = 0;
+        for (Integer i : counted) {
+            if (i < num) { sum += 1; }
+        }
+        return sum;
     }
 
     /**
@@ -116,7 +172,7 @@ public class Board extends Observable implements Serializable{
     }
 
     public void setBoard(Integer[][] newBoard) {
-        this.tiles = newBoard;
+        tiles = newBoard;
     }
 
     /**
@@ -146,7 +202,7 @@ public class Board extends Observable implements Serializable{
             Pair<Integer, Integer> toAdd = new Pair<>(row, column - 1);
             indices.add(toAdd);
         }
-        if (column != NUM_ROWS - 1) {
+        if (column != NUM_COLS - 1) {
             Pair<Integer, Integer> toAdd = new Pair<>(row, column + 1);
             indices.add(toAdd);
         }
@@ -198,17 +254,4 @@ public class Board extends Observable implements Serializable{
         }
         return true;
     }
-
-    /**
-     * Return the slidingtiles state.
-     *
-     * @return the board with the tiles it contains
-     */
-    @Override
-    public String toString() {
-        return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
-                '}';
-    }
-
 }

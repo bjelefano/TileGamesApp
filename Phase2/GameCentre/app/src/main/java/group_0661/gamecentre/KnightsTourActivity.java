@@ -1,47 +1,42 @@
 package group_0661.gamecentre;
 
-import java.util.ArrayList;
-
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.ComponentName;
-import android.content.ServiceConnection;
-import android.os.CountDownTimer;
-import android.os.IBinder;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.content.Context;
+import android.os.IBinder;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.view.MenuItem;
-import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.graphics.Bitmap;
 
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-import group_0661.gamecentre.matchingtiles.MatchingTileGame;
+import group_0661.gamecentre.knightsTour.KnightsTourGame;
+import group_0661.gamecentre.gestures.CustomAdapter;
 import group_0661.gamecentre.gestures.GestureDetectGridView;
 import group_0661.gamecentre.user.UserManager;
-import group_0661.gamecentre.gestures.CustomAdapter;
 
 /**
- * The matchingtiles activity.
+ * The KnightsTour activity.
  */
-public class MatchingTilesActivity extends ActionBarActivity implements Observer, ServiceConnection {
+public class KnightsTourActivity extends ActionBarActivity implements Observer, ServiceConnection {
     /**
      * The buttons to display.
      */
     private ArrayList<Button> tileButtons;
     /**
-     * The slidingtiles instance.
+     * The KnightsTour instance.
      */
-    private MatchingTileGame game;
+    private KnightsTourGame game;
     /**
      * The module that detects gestures within the tiles.
      */
@@ -51,17 +46,9 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     private UserManager userManager;
     /**
-     * The width of the board.
+     * The size of the board.
      */
-    private int width;
-    /**
-     * The length of the board.
-     */
-    private int length;
-    /**
-     * Timer for resetting buttons.
-     */
-    private CountDownTimer bTimer;
+    private int size;
     /**
      * Parameters for creating the gridView.
      */
@@ -71,10 +58,6 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     private int autosaveCounter = 1;
     /**
-     * True when the game wants to start the counter; false when the slidingtiles wants to pause the counter
-     */
-    private boolean incrementTime = true;
-    /**
      * Initializes the game.
      *
      * @param savedInstanceState load the saved game bundle if available
@@ -82,31 +65,10 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(group_0661.gamecentre.R.layout.activity_knightstour);
 
         // Sets title for action bar
-        configureActionBar("Matching Tiles");
-
-        // Configures the in-game timer
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!isInterrupted() && incrementTime) {
-                        Thread.sleep(1000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateTime();
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-
-        t.start();
+        configureActionBar("Knight's Tour");
     }
 
     /**
@@ -115,7 +77,6 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     @Override
     protected void onPause() {
         super.onPause();
-        this.incrementTime = false;
     }
 
     /**
@@ -124,7 +85,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     @Override
     protected void onStart() {
         super.onStart();
-        bindService(new Intent(MatchingTilesActivity.this, UserManager.class), this, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(KnightsTourActivity.this, UserManager.class), this, Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -162,7 +123,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.game_menu, menu);
+        getMenuInflater().inflate(group_0661.gamecentre.R.menu.game_menu, menu);
         return true;
     }
 
@@ -173,15 +134,15 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (R.id.action_save == item.getItemId()) {
+        if (group_0661.gamecentre.R.id.action_save == item.getItemId()) {
             if (userManager != null && userManager.getStatus()){
                 userManager.saveGame(this.game, getIntent().getStringExtra("background_path"));
-                Toast.makeText(MatchingTilesActivity.this, "Game Saved", Toast.LENGTH_SHORT).show();
-            } else { Toast.makeText(MatchingTilesActivity.this, "You Must Login to Save", Toast.LENGTH_SHORT).show(); }
+                Toast.makeText(KnightsTourActivity.this, "Game Saved", Toast.LENGTH_SHORT).show();
+            } else { Toast.makeText(KnightsTourActivity.this, "You Must Login to Save", Toast.LENGTH_SHORT).show(); }
             return true;
         }
-        else if (R.id.action_revert == item.getItemId()) {
-            Toast.makeText(MatchingTilesActivity.this, "Undo unavaliable for this game", Toast.LENGTH_SHORT).show();
+        else if (group_0661.gamecentre.R.id.action_revert == item.getItemId()) {
+            gesture.undo(KnightsTourActivity.this);
             return true;
         }
         return false;
@@ -193,7 +154,6 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     public void display() {
         // Updates UI in 1s interval
         updateTileButtons();
-        startTimer();
         updateMovesMade();
 
         // Auto-save check
@@ -206,7 +166,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
     }
 
     /**
-     * Called when the MatchingTiles observer detects change.
+     * Called when the KnightsTour observer detects change.
      */
     @Override
     public void update(Observable o, Object arg) {
@@ -218,8 +178,8 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
      * Initializes the gridView (Taken from A2).
      */
     private void initGrid() {
-        gesture = findViewById(R.id.grid);
-        gesture.setNumColumns(width);
+        gesture = findViewById(group_0661.gamecentre.R.id.grid);
+        gesture.setNumColumns(size);
         gesture.setGame(game);
         game.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -231,8 +191,8 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
                         int displayWidth = gesture.getMeasuredWidth();
                         int displayHeight = gesture.getMeasuredHeight();
 
-                        columnWidth = displayWidth / width;
-                        columnHeight = displayHeight / length;
+                        columnWidth = displayWidth / size;
+                        columnHeight = displayHeight / size;
 
                         display();
                     }
@@ -250,7 +210,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         for (Integer[] row : board) {
             for (Integer element: row) {
                 Button button = new Button(context);
-                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", width * length + 1));
+                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 this.tileButtons.add(button);
@@ -268,12 +228,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         for (Integer[] row : board) {
             for (Integer element : row) {
                 Button button = (this.tileButtons.get(i));
-                Bitmap btmp = null;
-                if (element == width * length + 1) {
-                    btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", width * length + 1));
-                } else {
-                    btmp =BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element));
-                }
+                Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", element));
                 BitmapDrawable background = new BitmapDrawable(getResources(), btmp);
                 button.setBackground(background);
                 tileButtons.set(i, button);
@@ -282,63 +237,36 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
         }
     }
 
-    void startTimer() {
-        bTimer = new CountDownTimer(1000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
-            public void onFinish() {
-                updateTileButtons();
-            }
-        };
-        bTimer.start();
-    }
-
-
-    //cancel timer
-    void cancelTimer() {
-        if(bTimer!=null)
-            bTimer.cancel();
-    }
     /**
      * Updates the Moves-Made TextView according to changes within the MatchingTiles.
      */
     private void updateMovesMade() {
-        ((TextView) findViewById(R.id.moves_taken)).setText(new Integer(game.getMoves()).toString());
+        ((TextView) findViewById(group_0661.gamecentre.R.id.moves_taken)).setText(new Integer(game.getMoves()).toString());
     }
 
     /**
-     * Updates the Time-Elapsed TextView according to the timer thread in OnCreate.
-     */
-    private void updateTime() {
-        game.time += 1;
-        TextView view = findViewById(R.id.time_elapsed);
-        view.setText(Integer.toString(game.time));
-    }
-
-    /**
-     * Initializes the matchingTiles.
+     * Initializes the knightsTour.
      */
     private void initGame() {
-        this.game = (MatchingTileGame) getIntent().getSerializableExtra("Matching Tiles");
-        this.length = this.game.getBoard().length;
-        this.width = length-1;
+        this.game = (KnightsTourGame) getIntent().getSerializableExtra("Knight's Tour");
+        this.size = this.game.getBoard().length;
 
-        createTileButtons(MatchingTilesActivity.this);
+        createTileButtons(KnightsTourActivity.this);
         initGrid();
     }
 
     /**
-     * Checks if the matchingTiles is over. If so, LeaderboardActivity is initiated.
+     * Checks if knightsTour is over. If so, LeaderboardActivity is initiated.
      */
     private void gameOver() {
         if (game.isWon()) {
-            Intent scoreboard = new Intent(MatchingTilesActivity.this, LeaderBoardActivity.class);
+            Intent scoreboard = new Intent(KnightsTourActivity.this, LeaderBoardActivity.class);
             if (userManager != null && userManager.getStatus()) {
                 this.userManager.dropSavedGame(game);
                 scoreboard.putExtra("game", this.game);
                 scoreboard.putExtra("user", userManager.getName());
             }
-            scoreboard.putExtra("game_title", "Matching Tiles");
+            scoreboard.putExtra("game_title", "Knight's Tour");
             startActivity(scoreboard);
             finish();
         }

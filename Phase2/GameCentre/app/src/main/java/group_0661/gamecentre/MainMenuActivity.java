@@ -1,5 +1,6 @@
 package group_0661.gamecentre;
 
+import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.user.UserManager;
 
 import android.content.ComponentName;
@@ -144,8 +145,10 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                 } else if (gameType.equals("Snake")) {
                     Intent popUp = new Intent(MainMenuActivity.this, SnakePopUp.class);
                     startActivity(popUp);
-                }
-                else  {
+                } else if (gameType.equals("Knight's Tour")) {
+                    Intent popUp = new Intent(MainMenuActivity.this, KnightsTourPopUp.class);
+                    startActivity(popUp);
+                } else  {
                     Intent popUp = new Intent(MainMenuActivity.this, MatchingTilesStartPopUp.class);
                     startActivity(popUp);
                 }
@@ -203,6 +206,8 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                 if (currentGame.equals("Sliding Tiles")) {
                     game.setText("Snake");
                 } else if (currentGame.equals("Snake")) {
+                    game.setText("Knight's Tour");
+                } else if (currentGame.equals("Knight's Tour")) {
                     game.setText("Matching Tiles");
                 } else {
                     game.setText("Sliding Tiles");
@@ -226,6 +231,10 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                     Intent score = new Intent(MainMenuActivity.this, LeaderBoardActivity.class);
                     score.putExtra("game_title", "Snake");
                     startActivity(score);
+                } else if (currentGame.equals("Knight's Tour")) {
+                    Intent score = new Intent(MainMenuActivity.this, LeaderBoardActivity.class);
+                    score.putExtra("game_title", "Knight's Tour");
+                    startActivity(score);
                 } else {
                     Intent score = new Intent(MainMenuActivity.this, LeaderBoardActivity.class);
                     score.putExtra("game_title", "Matching Tiles");
@@ -240,15 +249,30 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
      * @return an intent with loaded slidingtiles data
      */
     private Intent initLoadGame(String gameType) {
-        Intent load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
+        Intent load;
+        if (gameType.equals("Sliding Tiles")) {
+            load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
+            load.putExtra(gameType, userManager.getSavedGame(gameType));
+        } else if (gameType.equals("Matching Tiles")) {
+            load = new Intent(MainMenuActivity.this, MatchingTilesActivity.class);
+            load.putExtra(gameType, userManager.getSavedGame(gameType));
+        } else if (gameType.equals("Knight's Tour")) {
+            load = new Intent(MainMenuActivity.this, KnightsTourActivity.class);
+            load.putExtra(gameType, userManager.getSavedGame(gameType));
+        } else {
+            load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
+        }
         int size =  userManager.getSavedGame(gameType).getBoard().length;
+        if (gameType.equals("Knight's Tour")) {
+            size = 2;
+        }
         // Cuts up saved image to recreate the saved board
-        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(false), size, size);
+        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(userManager.getSavedGame(gameType), false), size, size);
+        initBoard.createTiles();
         initBoard.saveTiles(MainMenuActivity.this);
 
         // Adding extra required data to be passed to SlidingTilesActivity
         load.putExtra("background_path", userManager.getBackgroundPath(gameType));
-        load.putExtra(gameType, userManager.getSavedGame(gameType));
 
         return load;
     }

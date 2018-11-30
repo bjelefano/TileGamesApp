@@ -31,6 +31,9 @@
             android:name=".SnakePopUp"
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
+            android:name=".KnightsTourPopUp"
+            android:theme="@style/AppTheme.PopUpConfig" />
+        <activity
             android:name=".AccountPopUp"
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
@@ -44,6 +47,9 @@
             android:parentActivityName=".SnakePopUp" />
         <activity
             android:name=".LeaderBoardActivity"
+            android:parentActivityName=".MainMenuActivity" />
+        <activity
+            android:name=".KnightsTourActivity"
             android:parentActivityName=".MainMenuActivity" />
     </application>
 </manifest>
