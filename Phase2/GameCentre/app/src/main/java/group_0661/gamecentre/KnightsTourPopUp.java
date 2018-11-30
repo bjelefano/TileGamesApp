@@ -105,6 +105,7 @@ public class KnightsTourPopUp extends PopUpActivity implements ServiceConnection
     private void setBackground(Bitmap background) {
         ImageToTiles initBoard = new ImageToTiles(background, 2,2);
         initBoard.createTiles();
+        initBoard.revertBlankTile();
         initBoard.saveTiles(KnightsTourPopUp.this);
         backgroundPath = initBoard.getSavePath();
     }

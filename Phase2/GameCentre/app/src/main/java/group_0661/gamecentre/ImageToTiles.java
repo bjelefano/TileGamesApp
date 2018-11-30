@@ -118,6 +118,14 @@ public class ImageToTiles {
         return blankTile;
     }
 
+    public void revertBlankTile() {
+        int width = RESIZE_WIDTH - (RESIZE_WIDTH / row);
+        int height = RESIZE_HEIGHT - (RESIZE_HEIGHT / col);
+        Bitmap crop = android.graphics.Bitmap.createBitmap(this.image, width, height, RESIZE_WIDTH / row, RESIZE_HEIGHT / col);
+        tiles.remove(row*col -1);
+        tiles.add(crop);
+    }
+
     /**
      * A getter for the save path of the bitmap
      */
