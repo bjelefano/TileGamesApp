@@ -335,9 +335,10 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
             Intent scoreboard = new Intent(MatchingTilesActivity.this, LeaderBoardActivity.class);
             if (userManager != null && userManager.getStatus()) {
                 this.userManager.dropSavedGame(game);
-                scoreboard.putExtra("Matching Tiles", this.game);
+                scoreboard.putExtra("game", this.game);
                 scoreboard.putExtra("user", userManager.getName());
             }
+            scoreboard.putExtra("game_title", "Matching Tiles");
             startActivity(scoreboard);
             finish();
         }

@@ -23,7 +23,6 @@ public class MatchingTileBoard extends Observable implements Serializable{
      */
     private int columns;
 
-    private int awaiting_tile = 0;
     /**
      * The tile being flipped;
      */
@@ -42,6 +41,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     private Integer[][] tiles;
 
     private Integer[] temptile;
+
     /**
      * The matching pair of tiles.
      */
@@ -65,7 +65,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
         flipped = new ArrayList<>();
         tiles = new Integer[rows][columns];
         ArrayList<Integer> tileslist = new ArrayList<>();
-        for (int i = 0; i < rows * columns; i++) {
+        for (int i = 1; i <= rows * columns; i++) {
             tileslist.add(new Integer(i + 1));
         }
         Collections.shuffle(tileslist);
@@ -108,8 +108,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
      */
     public boolean makeMove(final int row, final int column) {
         int under = flipped.get(column + columns * row);
-        int cover = tiles[row][column];
-        if (cover == numTiles()) {
+        if (tiles[row][column] == numTiles()) {
             tiles[row][column] = under;
             if (!twoTilesMatch(under)) {
                 if (firstTileRevealed) {
@@ -135,19 +134,21 @@ public class MatchingTileBoard extends Observable implements Serializable{
                 firstTileRevealed = false;
             }
             moves_made += 1;
+            return true;
         }
-        return true;
+        return false;
     }
 
+    public void setBoard(Integer[][] newBoard) {
+        tiles = newBoard;
+    }
+
+    public void setFlipped(List<Integer> turned) {flipped = turned;}
+
     public boolean twoTilesMatch(Integer flipped) {
-        if (flipped % 2 == 1) {
-            awaiting_tile = flipped + 1;
-        } else {
-            awaiting_tile = flipped - 1;
-        }
         for (Integer[] row : tiles) {
             for (Integer i : row) {
-                if (i == awaiting_tile) {
+                if (i.equals(flipped)) {
                     return true;
                 }
             }
@@ -210,7 +211,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     @Override
     public String toString() {
         return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
+                "tiles=" + Arrays.deepToString(tiles) +
                 '}';
     }
 
