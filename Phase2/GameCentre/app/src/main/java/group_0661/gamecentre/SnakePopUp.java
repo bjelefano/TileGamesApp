@@ -112,6 +112,7 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
     private void setBackground(Bitmap background) {
         // Load the sprites from the snake sprite sheet
         ImageToTiles initBoard = new ImageToTiles(background, 4, 1);
+        initBoard.createTiles();
         initBoard.saveTiles(SnakePopUp.this);
         backgroundPath = initBoard.getSavePath();
     }
@@ -139,7 +140,7 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
             public void onClick(View v) {
                 if (radioGroupListener()) {
                     setDefaultBoard();
-                    setBackground(background);
+                    setBackground(BitmapFactory.decodeResource(SnakePopUp.this.getResources(), R.drawable.snake));
                     Intent newgame = initNewGame();
                     startActivity(newgame);
                     finish();
