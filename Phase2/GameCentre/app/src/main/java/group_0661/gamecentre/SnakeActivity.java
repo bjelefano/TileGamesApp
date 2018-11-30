@@ -98,6 +98,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
                                 updateGame();
                                 updateTileButtons();
                                 updateScore();
+                                gameOver();
                             }
                         });
                     }
@@ -330,7 +331,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
                 scoreboard.putExtra("game", this.game);
                 scoreboard.putExtra("user", userManager.getName());
             }
-            scoreboard.putExtra("game_title", "Sliding Tiles");
+            scoreboard.putExtra("game_title", "Snake");
             startActivity(scoreboard);
             finish();
         }

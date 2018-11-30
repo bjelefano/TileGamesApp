@@ -89,7 +89,10 @@ public class SnakeBoard implements Serializable{
 
         int targetTile = tiles[new_head[0]][new_head[1]];
 
-        if (targetTile == WALL) return false;
+        if (targetTile == WALL) {
+            finished = true;
+            return false;
+        }
 
         head = new_head;
         tiles[head[0]][head[1]] = BODY;
