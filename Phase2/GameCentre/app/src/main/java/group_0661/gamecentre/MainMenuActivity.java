@@ -262,12 +262,16 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
         } else {
             load = new Intent(MainMenuActivity.this, SlidingTilesActivity.class);
         }
-        int size =  userManager.getSavedGame(gameType).getBoard().length;
+        int row =  userManager.getSavedGame(gameType).getBoard().length;
+        int column = row;
         if (gameType.equals("Knight's Tour")) {
-            size = 2;
+            row = 2;
+            column = 2;
+        } else if (gameType.equals("Matching Tiles")) {
+            column = row - 1;
         }
         // Cuts up saved image to recreate the saved board
-        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(userManager.getSavedGame(gameType), false), size, size);
+        ImageToTiles initBoard = new ImageToTiles(userManager.loadUserImage(userManager.getSavedGame(gameType), false), column, row);
         initBoard.createTiles();
         initBoard.saveTiles(MainMenuActivity.this);
 

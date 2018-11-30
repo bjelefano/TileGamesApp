@@ -1,10 +1,15 @@
 package group_0661.gamecentre.matchingtiles;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class MatchingTileGameTest {
+    private MatchingTileGame game;
+
+    @Before
+
 
     @Test
     public void touchMove() {
