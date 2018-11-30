@@ -64,14 +64,19 @@ public class Board extends Observable implements Serializable{
     /**
      * Generates a board that is always solvable
      *
+     * See https://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html for the strategy used
      * @param size of the board
      */
     private ArrayList<Integer> generateSolvableGame(int size) {
         ArrayList<Integer> tilesList = new ArrayList<>();
         int sum;
+        // true iff number of rows/columns is odd
         boolean odd = size % 2 == 1;
+        // true iff the blank tile falls on an odd row (counting from the bottom). Initialized in do-while loop
         boolean tileOdd = false;
         int lowest = 1;
+
+        // Generates the tiles in order
         for (int i = 0; i < size * size; i++) {
             tilesList.add(new Integer(i + 1));
         }
@@ -81,6 +86,7 @@ public class Board extends Observable implements Serializable{
             Collections.shuffle(tilesList);
             ArrayList<Integer> counted = new ArrayList<>();
             for (int i = 0; i < tilesList.get(i); i++) {
+                // If the current tile is the lowest accounted for, the sum is unchanged
                 if ( tilesList.get(i) == lowest) {
                     counted.add(tilesList.get(i));
                     lowest++;
@@ -90,6 +96,10 @@ public class Board extends Observable implements Serializable{
                     tileOdd = (size - (i / size)) % 2 == 1;
                 }
             }
+            // The game is solvable if:
+            // 1. size is odd and sum is even
+            // 2. size is even, the blank tile is on an odd row (counting from the bottom), and the sum is even
+            // 3. size is even, the blank tile is on an even row, and sum is odd
         } while ((odd & sum % 2 == 0) | (!odd & tileOdd & sum % 2 == 0) | (!odd & !tileOdd & sum % 2 == 1));
 
         return tilesList;
