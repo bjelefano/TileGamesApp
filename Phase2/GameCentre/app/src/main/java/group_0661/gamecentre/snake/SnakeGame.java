@@ -79,19 +79,19 @@ public class SnakeGame extends Game implements Serializable{
      * @return whether or not the move succeeded.
      */
     public boolean makeMove(String direction) {
-        if (direction.equals("up")) {
+        if (direction.equals("right")) {
             int[] move = {0, 1};
             return board.makeMove(move);
         }
-        if (direction.equals("down")) {
+        if (direction.equals("left")) {
             int[] move = {0, -1};
             return board.makeMove(move);
         }
-        if (direction.equals("right")) {
+        if (direction.equals("down")) {
             int[] move = {1, 0};
             return board.makeMove(move);
         }
-        if (direction.equals("left")) {
+        if (direction.equals("up")) {
             int[] move = {-1, 0};
             return board.makeMove(move);
         }

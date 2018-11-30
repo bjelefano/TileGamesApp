@@ -63,20 +63,23 @@ public class MovementController {
         }
     }
 
-    public void processSwipe(Context context, String direction) {
+    public void processSwipe(Context context, String direction, boolean display) {
         if (game instanceof SnakeGame) {
-
             if (direction.equals("left")) {
+                Toast.makeText(context,"left" ,Toast.LENGTH_SHORT).show();
                 ((SnakeGame) game).makeMove("left");
             }
-            if (direction.equals("right")) {
-                ((SnakeGame) game).makeMove("left");
+            else if (direction.equals("right")) {
+                Toast.makeText(context,"right" ,Toast.LENGTH_SHORT).show();
+                ((SnakeGame) game).makeMove("right");
             }
-            if (direction.equals("top")) {
-                ((SnakeGame) game).makeMove("left");
+            else if (direction.equals("top")) {
+                Toast.makeText(context,"up" ,Toast.LENGTH_SHORT).show();
+                ((SnakeGame) game).makeMove("up");
             }
-            if (direction.equals("bottom")) {
-                ((SnakeGame) game).makeMove("left");
+            else {
+                Toast.makeText(context,"down" ,Toast.LENGTH_SHORT).show();
+                ((SnakeGame) game).makeMove("down");
             }
 
         }
