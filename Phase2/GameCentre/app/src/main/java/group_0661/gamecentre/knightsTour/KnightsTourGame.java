@@ -1,40 +1,36 @@
-package group_0661.gamecentre.minesweeper;
+package group_0661.gamecentre.knightsTour;
 
 import java.io.Serializable;
 import java.util.Observable;
 
 import group_0661.gamecentre.gestures.Undo;
+import group_0661.gamecentre.gameSystem.Game;
 
 /**
- * The slidingtiles class.
+ * The game class.
  */
-public class Game extends Observable implements Serializable {
+public class KnightsTourGame extends Game implements Serializable {
 
     /**
-     * The sliding tiles board.
+     * The board for game.
      */
-    private Board board;
+    private KnightsTourBoard board;
 
     /**
-     * Initialize a new undo system for this slidingtiles.
+     * Initialize a new undo system for this game.
      */
     private Undo undoSys;
 
     /**
-     * Time elapsed since slidingtiles began.
-     */
-    public int time = 0;
-
-    /**
-     * A new slidingtiles with given dimensions and undo limit.
+     * A new game with given dimensions and undo limit.
      *
      * @param dimensions size of the board
-     * @param undoLimit number of possible undo moves
-     * @param unlimited true if unlimited undo moves selected
+
      */
-    public Game(int dimensions, int undoLimit, boolean unlimited){
-        board = new Board(dimensions);
-        this.undoSys = new Undo(undoLimit, unlimited);
+    public KnightsTourGame(int dimensions){
+        super(dimensions);
+        board = new KnightsTourBoard(dimensions);
+        this.undoSys = new Undo(5, true);
     }
 
     /**
@@ -50,8 +46,12 @@ public class Game extends Observable implements Serializable {
      * @return dimensions of the board
      */
     public String getType() {
-        return getBoard().length + " x " + getBoard().length;
+        if (getBoard().length == 5) {
+            return getGameTitle() + " - " + "Easy";
+        } return getGameTitle() + " - " + "Classic";
     }
+
+    public String getGameTitle() { return "Knight's Tour"; }
 
     /**
      * Return score using moves made and time elapsed.
@@ -59,7 +59,7 @@ public class Game extends Observable implements Serializable {
      * @return score using moves made and time elapsed.
      */
     public int getScore() {
-        int score = 10000 - 10*board.getMoves_made() - 10*this.getTime();
+        int score = 10000 - 10*board.getMoves_made();
         if (score > 0){
             return score;
         } else {
@@ -81,15 +81,6 @@ public class Game extends Observable implements Serializable {
      */
     public boolean isWon() {
         return board.puzzleSolved();
-    }
-
-    /**
-     * Return number of seconds that have elapsed.
-     *
-     * @return number of seconds that have elapsed
-     */
-    public int getTime() {
-        return time;
     }
 
     /**

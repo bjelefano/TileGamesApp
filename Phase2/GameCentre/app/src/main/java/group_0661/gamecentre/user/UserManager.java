@@ -228,6 +228,8 @@ public class UserManager extends Service implements IUserManager {
             prefix += "slidingtiles";
         } else if (game.equals("Matching Tiles")) {
             prefix += "matchingtiles";
+        } else if (game.equals("Knight's Tour")) {
+            prefix += "knightstour";
         } else {
             prefix += "snake";
         }

@@ -28,6 +28,9 @@
             android:name=".MatchingTilesStartPopUp"
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
+            android:name=".KnightsTourPopUp"
+            android:theme="@style/AppTheme.PopUpConfig" />
+        <activity
             android:name=".AccountPopUp"
             android:theme="@style/AppTheme.PopUpConfig" />
         <activity
@@ -38,6 +41,9 @@
             android:parentActivityName=".MainMenuActivity" />
         <activity
             android:name=".MatchingTilesActivity"
+            android:parentActivityName=".MainMenuActivity" />
+        <activity
+            android:name=".KnightsTourActivity"
             android:parentActivityName=".MainMenuActivity" />
     </application>
 </manifest>

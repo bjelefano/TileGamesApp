@@ -30,6 +30,10 @@
         <item>Casual</item>
         <item>Hard</item>
     </string-array>
+    <string-array name="knights_tour_game_types">
+        <item>Easy</item>
+        <item>Classic</item>
+    </string-array>
     <string name="logout">Logout</string>
     <string name="login">Register/Login </string>
 </resources>

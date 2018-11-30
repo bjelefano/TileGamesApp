@@ -94,6 +94,8 @@ public class LeaderBoardActivity extends ActionBarActivity {
             arrayID = R.array.sliding_tiles_game_types;
         } else if (gameTitle.equals("Matching Tiles")) {
             arrayID = R.array.matching_tiles_game_types;
+        } else if (gameTitle.equals("Knight's Tour")) {
+            arrayID = R.array.knights_tour_game_types;
         } else {
             arrayID = R.array.snake_game_types;
         }
