@@ -60,35 +60,47 @@ public class Board extends Observable implements Serializable{
         }
 
     }
+
+    /**
+     * Generates a board that is always solvable
+     *
+     * @param size of the board
+     */
     private ArrayList<Integer> generateSolvableGame(int size) {
-        ArrayList<Integer> tileslist = new ArrayList<>();
+        ArrayList<Integer> tilesList = new ArrayList<>();
         int sum;
         boolean odd = size % 2 == 1;
         boolean tileOdd = false;
         int lowest = 1;
         for (int i = 0; i < size * size; i++) {
-            tileslist.add(new Integer(i + 1));
+            tilesList.add(new Integer(i + 1));
         }
 
         do {
             sum = 0;
-            Collections.shuffle(tileslist);
+            Collections.shuffle(tilesList);
             ArrayList<Integer> counted = new ArrayList<>();
-            for (int i = 0; i < tileslist.get(i); i++) {
-                if ( tileslist.get(i) == lowest) {
-                    counted.add(tileslist.get(i));
+            for (int i = 0; i < tilesList.get(i); i++) {
+                if ( tilesList.get(i) == lowest) {
+                    counted.add(tilesList.get(i));
                     lowest++;
-                } else if (tileslist.get(i) < tileslist.size()){
-                    sum +=  tileslist.get(i) - getInversions(counted, tileslist.get(i));
+                } else if (tilesList.get(i) < tilesList.size()){
+                    sum +=  tilesList.get(i) - getInversions(counted, tilesList.get(i));
                 } else {
                     tileOdd = (size - (i / size)) % 2 == 1;
                 }
             }
         } while ((odd & sum % 2 == 0) | (!odd & tileOdd & sum % 2 == 0) | (!odd & !tileOdd & sum % 2 == 1));
 
-        return tileslist;
+        return tilesList;
     }
 
+    /**
+     * Counts the number of values in ArrayList counted that are less than num
+     *
+     * @param counted all tile numbers already accounted for
+     * @param num the number of the tile in question
+     */
     private int getInversions(ArrayList<Integer> counted, int num) {
         int sum = 0;
         for (Integer i : counted) {
