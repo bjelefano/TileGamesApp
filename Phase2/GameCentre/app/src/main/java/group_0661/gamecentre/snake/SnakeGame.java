@@ -12,10 +12,10 @@ public class SnakeGame extends Game implements Serializable{
     private SnakeBoard board;
 
 
-    public SnakeGame() {
-        super(4, 0, false);
+    public SnakeGame(int size) {
+        super(0, 0, false);
 
-        board = new SnakeBoard(8, 8);
+        board = new SnakeBoard(size, size);
     }
 
     @Override

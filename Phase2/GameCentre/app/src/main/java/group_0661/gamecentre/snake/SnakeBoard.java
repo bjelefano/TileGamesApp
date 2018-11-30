@@ -32,27 +32,27 @@ public class SnakeBoard implements Serializable{
                 tiles[i][j] = 0;
             }
         }
-        tiles[0][0] = 1;
-        tiles[0][1] = 1;
-        tiles[0][2] = 1;
-        tiles[1][2] = 1;
-        tiles[2][0] = 2;
-        int[] piece1 = {0,0};
-        body.addLast(piece1);
-        int[] piece2 = {0,1};
-        body.addLast(piece2);
-        int[] piece3 = {0,2};
-        body.addLast(piece3);
-        int[] piece4 = {1,2};
-        body.addLast(piece4);
+
+        // Initialize the starting snake
+        int startLen = 4;
+
+        for (int i = 0; i < startLen; i++) {
+            tiles[0][i] = 1;
+
+            head[0] = 0;
+            head[1] = i;
+
+            body.addFirst(new int[] {head[0], head[1]});
+        }
+
+        // Initialize the cherry
+        tiles[rows/2][cols/2] = 2;
 
         NUM_COLS = cols;
 
-        head[0] = 0;
-        head[1] = 0;
-
-        direction[0] = 1;
-        direction[1] = 0;
+        // Start direction is to the right
+        direction[0] = 0;
+        direction[1] = 1;
     }
 
     public Integer[][] getTiles() {
@@ -60,12 +60,17 @@ public class SnakeBoard implements Serializable{
     }
 
     public boolean update() {
+        System.out.println("update");
+        for (int[] c : body) {
+            System.out.printf("%d, %d\n", c[0], c[1]);
+        }
+
         int[] new_head = new int[2];
         new_head[0] = head[0] + direction[0];
         new_head[1] = head[1] + direction[1];
         if (SnakeBoard.isAlive(new_head, body, NUM_COLS)) {
             if (tiles[new_head[0]][new_head[1]] == 0) {
-                body.addFirst(head);
+                body.addFirst(new_head);
                 tiles[new_head[0]][new_head[1]] = 1;
                 int[] tail = body.removeLast();
                 tiles[tail[0]][tail[1]] = 0;
@@ -73,7 +78,7 @@ public class SnakeBoard implements Serializable{
                 head = new_head;
                 return true;
             } else if (tiles[new_head[0]][new_head[1]] == 2) {
-                body.addFirst(head);
+                body.addFirst(new_head);
                 tiles[new_head[0]][new_head[1]] = 1;
                 head = new_head;
                 score += 1;

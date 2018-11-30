@@ -255,7 +255,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
      */
     private void createTileButtons(Context context) {
         loadImages();
-        
+
         Integer[][] tiles = game.getBoard();
         tileButtons = new ArrayList<>();
         for (Integer[] row : tiles) {

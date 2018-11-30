@@ -47,7 +47,7 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_matchingtiles_pop_up);
+        setContentView(R.layout.activity_snake_pop_up);
 
         configurePopUp(0.85, 0.85);
 
@@ -87,20 +87,20 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
      */
     private boolean radioGroupListener() {
         RadioGroup boardSelect = findViewById(R.id.mboard_select);
-        if (boardSelect.getCheckedRadioButtonId() == R.id.match_easy) {
-            width = 3;
+        if (boardSelect.getCheckedRadioButtonId() == R.id.snake_8) {
+            width = 8;
             Toast.makeText(SnakePopUp.this, "Game Start: Easy", Toast.LENGTH_SHORT).show();
             return true;
-        } else if (boardSelect.getCheckedRadioButtonId() == R.id.match_casual) {
-            width = 4;
+        } else if (boardSelect.getCheckedRadioButtonId() == R.id.snake_12) {
+            width = 12;
             Toast.makeText(SnakePopUp.this, "Game Start: Normal", Toast.LENGTH_SHORT).show();
             return true;
-        } else if (boardSelect.getCheckedRadioButtonId() == R.id.match_hard) {
-            width = 5;
+        } else if (boardSelect.getCheckedRadioButtonId() == R.id.snake_16) {
+            width = 16;
             Toast.makeText(SnakePopUp.this, "Game Start: Hard", Toast.LENGTH_SHORT).show();
             return true;
         }
-        Toast.makeText(SnakePopUp.this, "Please Select a Difficulty Level", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SnakePopUp.this, "Please Select a Board Size", Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -152,7 +152,7 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
      */
     private Intent initNewGame() {
         Intent startGame = new Intent(SnakePopUp.this, SnakeActivity.class);
-        SnakeGame game = new SnakeGame();
+        SnakeGame game = new SnakeGame(width);
         startGame.putExtra("Snake", game);
         startGame.putExtra("background_path", backgroundPath);
 
