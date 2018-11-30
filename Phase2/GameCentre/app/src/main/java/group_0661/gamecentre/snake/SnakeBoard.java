@@ -28,12 +28,16 @@ public class SnakeBoard implements Serializable{
 
     public boolean update() {
         head = new Pair<>(head.first + direction.first, head.second + direction.second);
-        if (SnakeBoard.notDead(head, tiles)) {
+        if (SnakeBoard.isAlive(head, NUM_COLS, body)) {
+            if (tiles[head.first][head.second] == 0) {
+                tiles[head.first][head.second] = 1;
 
+            }
+            else if (1 == 1) {
+
+            }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     public boolean makeMove(Pair<Integer, Integer> move) {
@@ -46,15 +50,18 @@ public class SnakeBoard implements Serializable{
         }
     }
 
-    private static boolean notDead(Pair<Integer, Integer> head, Integer[][] tiles,
+    private static boolean isAlive(Pair<Integer, Integer> head,
                                    int NUM_COLS, ArrayDeque<Pair<Integer, Integer>> body) {
-        if (head.first >= 0 && head.first < NUM_COLS && head.second >= 0 && head.second < NUM_COLS) {
-            for (pieces: body) {
-                if (head.equals(pieces)) {
-                    return false;
-                }
-            }
+        if (!(head.first >= 0 && head.first < NUM_COLS && head.second >= 0 && head.second < NUM_COLS))
+        {
+            return false;
         }
+        for (Pair<Integer, Integer> pieces: body) {
+            if (head.equals(pieces)) {
+                return false;
+                }
+        }
+        return true;
     }
 
 
