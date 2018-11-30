@@ -26,7 +26,11 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
      * Request code for account registry/login.
      */
     private final int ACCOUNT_REQUEST = 1;
-    /**
+    /**    @Override
+    public int getScore() {
+        return board.getScore();
+    }
+
      * Instance of userManager service.
      */
     private UserManager userManager;
@@ -139,7 +143,8 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
                     Intent popUp = new Intent(MainMenuActivity.this, SlidingTilesStartPopUp.class);
                     startActivity(popUp);
                 } else if (gameType.equals("Snake")) {
-                    Toast.makeText(MainMenuActivity.this, "Placeholder for Snake", Toast.LENGTH_LONG).show();
+                    Intent popUp = new Intent(MainMenuActivity.this, SnakePopUp.class);
+                    startActivity(popUp);
                 } else if (gameType.equals("Knight's Tour")) {
                     Intent popUp = new Intent(MainMenuActivity.this, KnightsTourPopUp.class);
                     startActivity(popUp);
