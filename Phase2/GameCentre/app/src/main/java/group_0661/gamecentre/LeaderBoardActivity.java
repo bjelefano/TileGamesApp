@@ -22,6 +22,7 @@ public class LeaderBoardActivity extends ActionBarActivity {
      * An object containing all previous scores held by users
      */
     private Scoreboard scoreboard;
+
     /**
      * The username of the user who most recently completed a slidingtiles (if logged in; equal to "" if that
      * isn't the case

@@ -1,9 +1,6 @@
 package group_0661.gamecentre.matchingtiles;
 
-//import android.util.Pair;
-
 import android.util.Pair;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +31,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     private int awaiting_tile = 0;
 
     /**
-     * Set to true if player flips first tile in the pair.
+     * Set to true if player flips a tile in a new pair.
      * Set to false if player hasn't started flipping new pair.
      */
     private boolean firstTileRevealed = false;

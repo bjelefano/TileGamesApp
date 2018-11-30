@@ -13,7 +13,7 @@ public class MatchingTileGameTest {
 
     @Before
     public void setUpMatchingTileBoard() {
-        game = new MatchingTileGame(4);
+        game = new MatchingTileGame(5);
     }
 
 
@@ -29,6 +29,7 @@ public class MatchingTileGameTest {
 
     @Test
     public void getBoard() {
+
     }
 
     @Test
