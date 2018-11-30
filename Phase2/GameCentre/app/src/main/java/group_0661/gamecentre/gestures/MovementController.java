@@ -2,6 +2,7 @@ package group_0661.gamecentre.gestures;
 
 import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.matchingtiles.MatchingTileGame;
+import group_0661.gamecentre.snake.SnakeGame;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -63,8 +64,8 @@ public class MovementController {
     }
 
     public void processSwipe(Context context) {
-        if (game.equals("Snake")) {
-            game.getBoard().makeMove(left);
+        if (game instanceof SnakeGame) {
+            game.touchMove("down");
         }
     }
 
