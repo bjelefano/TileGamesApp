@@ -21,7 +21,11 @@ public class SnakeBoard implements Serializable{
 
     private Random rand = new Random();
 
-    public SnakeBoard(int cols, int rows) {
+    private boolean finished = false;
+
+    private int score = 0;
+
+    SnakeBoard(int cols, int rows) {
         tiles = new Integer[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -72,6 +76,7 @@ public class SnakeBoard implements Serializable{
                 body.addFirst(head);
                 tiles[new_head[0]][new_head[1]] = 1;
                 head = new_head;
+                score += 1;
                 do {
                     int x_coord = rand.nextInt(NUM_COLS);
                     int y_coord = rand.nextInt(NUM_COLS);
@@ -82,6 +87,7 @@ public class SnakeBoard implements Serializable{
                 } while (true);
             }
         }
+        finished = true;
         return false;
     }
 
@@ -108,5 +114,11 @@ public class SnakeBoard implements Serializable{
         return true;
     }
 
+    boolean isOver() {
+        return finished;
+    }
 
+    int getScore() {
+        return score;
+    }
 }
