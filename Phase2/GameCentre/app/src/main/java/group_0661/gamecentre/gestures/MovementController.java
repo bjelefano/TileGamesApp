@@ -62,4 +62,10 @@ public class MovementController {
         }
     }
 
+    public void processSwipe(Context context) {
+        if (game.equals("Snake")) {
+            game.getBoard().makeMove(left);
+        }
+    }
+
 }
