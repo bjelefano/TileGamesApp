@@ -46,11 +46,13 @@ public class SnakeBoard implements Serializable{
         }
     }
 
-    private static boolean notDead(Pair<Integer, Integer> head, Integer[][] tiles, int NUM_COLS, ) {
+    private static boolean notDead(Pair<Integer, Integer> head, Integer[][] tiles,
+                                   int NUM_COLS, ArrayDeque<Pair<Integer, Integer>> body) {
         if (head.first >= 0 && head.first < NUM_COLS && head.second >= 0 && head.second < NUM_COLS) {
-            for (:
-                 ) {
-
+            for (pieces: body) {
+                if (head.equals(pieces)) {
+                    return false;
+                }
             }
         }
     }
