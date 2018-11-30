@@ -7,6 +7,9 @@ import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.gameSystem.IGame;
 import android.util.Pair;
 
+/**
+ * The game class.
+ */
 public class SnakeGame extends Game implements Serializable{
 
     private SnakeBoard board;
@@ -46,5 +49,25 @@ public class SnakeGame extends Game implements Serializable{
 
     public int getScore() {
         return board.getScore();
+    }
+
+    public boolean makeMove(String direction) {
+        if (direction.equals("up")) {
+            int[] move = {0, 1};
+            return board.makeMove(move);
+        }
+        if (direction.equals("down")) {
+            int[] move = {0, -1};
+            return board.makeMove(move);
+        }
+        if (direction.equals("right")) {
+            int[] move = {1, 0};
+            return board.makeMove(move);
+        }
+        if (direction.equals("left")) {
+            int[] move = {-1, 0};
+            return board.makeMove(move);
+        }
+        return false;
     }
 }

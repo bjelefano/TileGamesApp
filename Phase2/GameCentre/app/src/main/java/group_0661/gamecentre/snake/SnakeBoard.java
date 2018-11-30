@@ -9,33 +9,86 @@ import java.util.Stack;
 
 public class SnakeBoard implements Serializable{
 
+    /**
+     * Static alias for drawing board (empty tile).
+     */
     public static int EMPTY = 0;
+
+    /**
+     * Static alias for drawing board (wall tile).
+     */
     public static int WALL = 1;
+
+    /**
+     * Static alias for drawing board (body tile).
+     */
     public static int BODY = 2;
+
+    /**
+     * Static alias for drawing board (cherry tile).
+     */
     public static int CHERRY = 3;
 
-
+    /**
+     * The location of the head as an integer array.
+     */
     private int[] head = new int[2];
 
+    /**
+     * Deque representing the position of the snake's body.
+     */
     private ArrayDeque<int[]> body = new ArrayDeque<>();
 
+    /**
+     * Integer array representing the direction the snake is moving.
+     */
     private int[] direction = new int[2];
 
+    /**
+     * number of rows, and columns.
+     */
     private int rows, cols;
 
+    /**
+     * Drawable array of Integers representing the states of the tiles to be drawn.
+     */
     private Integer[][] tiles;
 
+    /**
+     * Random object to be used to set new cherries.
+     */
     private Random rand = new Random();
 
+    /**
+     * Whether the game is finished or not.
+     */
     private boolean finished = false;
 
+    /**
+     * Current score of the game.
+     */
     private int score = 0;
 
     // Undo stacks
+    /**
+     * Stack of tiles to be used in the undo function.
+     */
     private Stack<Integer[][]> tileStack = new Stack<>();
+
+    /**
+     * Stack of positions of head.
+     */
     private Stack<int[]> headStack = new Stack<>();;
-    private Stack<ArrayDeque<int[]>> bodyStack = new Stack<>();;
-    private Stack<int[]> directionStack = new Stack<>();;
+
+    /**
+     * Stack of positions of body.
+     */
+    private Stack<ArrayDeque<int[]>> bodyStack = new Stack<>();
+
+    /**
+     * Stack of directions.
+     */
+    private Stack<int[]> directionStack = new Stack<>();
 
     SnakeBoard(int cols, int rows) {
         this.cols = cols;
