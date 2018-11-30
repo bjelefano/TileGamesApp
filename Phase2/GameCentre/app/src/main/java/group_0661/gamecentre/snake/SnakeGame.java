@@ -7,6 +7,9 @@ import group_0661.gamecentre.gameSystem.Game;
 import group_0661.gamecentre.gameSystem.IGame;
 import android.util.Pair;
 
+/**
+ * The game class.
+ */
 public class SnakeGame extends Game implements Serializable{
 
     private SnakeBoard board;
