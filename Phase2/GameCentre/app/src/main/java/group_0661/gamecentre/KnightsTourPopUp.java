@@ -54,7 +54,7 @@ public class KnightsTourPopUp extends PopUpActivity implements ServiceConnection
     }
 
     /**
-     * Binds UserManager service to MatchingTilesStartPopUp when said activity starts
+     * Binds UserManager service to KnightsTourStartPopUp when said activity starts
      */
     @Override
     protected void onStart() {
@@ -63,7 +63,7 @@ public class KnightsTourPopUp extends PopUpActivity implements ServiceConnection
     }
 
     /**
-     * Unbinds UserManager service to MatchingTilesStartPopUp when said activity stops
+     * Unbinds UserManager service to KnightsTourPopUp when said activity stops
      */
     @Override
     protected void onStop() {
@@ -141,9 +141,9 @@ public class KnightsTourPopUp extends PopUpActivity implements ServiceConnection
     }
 
     /**
-     * Initialises the new matchingtiles
+     * Initialises the new KnightsTour
      *
-     * @return an intent with new matchingtiles data
+     * @return an intent with new KnightsTour data
      */
     private Intent initNewGame() {
         Intent startGame = new Intent(KnightsTourPopUp.this, KnightsTourActivity.class);

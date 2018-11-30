@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Observable;
 
 /**
- * The sliding tiles board.
+ * The knight's tour board.
  */
 public class KnightsTourBoard extends Observable implements Serializable{
 
@@ -80,7 +80,6 @@ public class KnightsTourBoard extends Observable implements Serializable{
             } else {
                 tiles[i / dimension][i % dimension] = tList.get(i);
             }
-            System.out.println(tiles[i / dimension][i % dimension]);
         }
     }
 
@@ -102,7 +101,7 @@ public class KnightsTourBoard extends Observable implements Serializable{
         }
     }
 
-    private int getKnightPosition() {
+    int getKnightPosition() {
         for (int i = 0; i < NUM_COLS * NUM_ROWS; i++) {
             if (this.tiles[i / NUM_ROWS][i % NUM_COLS] == 4) { return i; }
         }
@@ -124,15 +123,15 @@ public class KnightsTourBoard extends Observable implements Serializable{
 
 
     /**
-     * Check if valid move then swap the tiles. If not an undo call, add row and col of
-     * the last location of the blank tile to previousMoves.
+     * Check if valid move then move the knight. If not an undo call, add row and col of
+     * the last location of the knight to previousMoves.
      *
      * @param row the tile row
      * @param column the tile column
      * @param undo true if an undo call, false if not
      * @return true if tiles are successfully swapped
      */
-    public boolean makeMove(int row, int column, boolean undo) {
+    boolean makeMove(int row, int column, boolean undo) {
         if (isValid(row, column)) {
             int knightRow = getKnightPosition() / NUM_ROWS;
             int knightCol = getKnightPosition() % NUM_COLS;
@@ -159,51 +158,23 @@ public class KnightsTourBoard extends Observable implements Serializable{
         return false;
     }
 
-    public void setBoard(Integer[][] newBoard) {
+    public void setBoard(Integer[][] newBoard, Integer[][] newPressed) {
         tiles = newBoard;
+        isPressed = newPressed;
     }
 
     /**
-     * Return (row, col) of the last location of the blank tile.
+     * Return (row, col) of the last location of the knight.
      *
-     * @return (row, col) of the last location of the blank tile.
+     * @return (row, col) of the last location of the knight.
      */
-    public int[] getPreviousMoves() {
+    int[] getPreviousMoves() {
         int[] temp = new int[2];
         temp[0] = previousMoves[0];
         temp[1] = previousMoves[1];
         previousMoves[0] = -1;
         previousMoves[1] = -1;
         return temp;
-    }
-
-    /**
-     * Return list of (row, col) of tiles that are candidates for swapping.
-     *
-     * @param row the current tile row
-     * @param column the current tile column
-     * @return list of (row, col) of tiles that are candidates for swapping
-     */
-    private List<Pair<Integer, Integer>> getTilesToCheck(int row, int column) {
-        List<Pair<Integer, Integer>> indices = new ArrayList<>();
-        if (column != 0) {
-            Pair<Integer, Integer> toAdd = new Pair<>(row, column - 1);
-            indices.add(toAdd);
-        }
-        if (column != NUM_COLS - 1) {
-            Pair<Integer, Integer> toAdd = new Pair<>(row, column + 1);
-            indices.add(toAdd);
-        }
-        if (row != 0) {
-            Pair<Integer, Integer> toAdd = new Pair<>(row - 1, column);
-            indices.add(toAdd);
-        }
-        if (row != NUM_ROWS - 1) {
-            Pair<Integer, Integer> toAdd = new Pair<>(row + 1, column);
-            indices.add(toAdd);
-        }
-
-        return indices;
     }
 
     /**
@@ -225,16 +196,16 @@ public class KnightsTourBoard extends Observable implements Serializable{
      *
      * @return number of moves made
      */
-    public int getMoves_made() {return moves_made;}
+    int getMoves_made() {return moves_made;}
 
     /**
-     * Check if the tiles slidingtiles is solved.
+     * Check if the game is solved.
      *
-     * @return true if the slidingtiles is solved, false if the slidingtiles is not solved.
+     * @return true if the game is solved, false if the game is not solved.
      */
     boolean puzzleSolved() {
         for (int i = 0; i < NUM_ROWS * NUM_COLS; i++) {
-            if(tiles[i / NUM_ROWS][i % NUM_COLS] != 3 | tiles[i / NUM_ROWS][i % NUM_COLS] != 4) {
+            if(isPressed[i / NUM_ROWS][i % NUM_COLS] != 1) {
                 return false;
             }
         }
@@ -242,7 +213,7 @@ public class KnightsTourBoard extends Observable implements Serializable{
     }
 
     /**
-     * Return the slidingtiles state.
+     * Return the knightsTour state.
      *
      * @return the board with the tiles it contains
      */

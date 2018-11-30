@@ -26,7 +26,7 @@ import group_0661.gamecentre.gestures.GestureDetectGridView;
 import group_0661.gamecentre.user.UserManager;
 
 /**
- * The matchingtiles activity.
+ * The KnightsTour activity.
  */
 public class KnightsTourActivity extends ActionBarActivity implements Observer, ServiceConnection {
     /**
@@ -34,7 +34,7 @@ public class KnightsTourActivity extends ActionBarActivity implements Observer, 
      */
     private ArrayList<Button> tileButtons;
     /**
-     * The slidingtiles instance.
+     * The KnightsTour instance.
      */
     private KnightsTourGame game;
     /**
@@ -166,7 +166,7 @@ public class KnightsTourActivity extends ActionBarActivity implements Observer, 
     }
 
     /**
-     * Called when the MatchingTiles observer detects change.
+     * Called when the KnightsTour observer detects change.
      */
     @Override
     public void update(Observable o, Object arg) {
@@ -245,7 +245,7 @@ public class KnightsTourActivity extends ActionBarActivity implements Observer, 
     }
 
     /**
-     * Initializes the matchingTiles.
+     * Initializes the knightsTour.
      */
     private void initGame() {
         this.game = (KnightsTourGame) getIntent().getSerializableExtra("Knight's Tour");
@@ -256,7 +256,7 @@ public class KnightsTourActivity extends ActionBarActivity implements Observer, 
     }
 
     /**
-     * Checks if the matchingTiles is over. If so, LeaderboardActivity is initiated.
+     * Checks if knightsTour is over. If so, LeaderboardActivity is initiated.
      */
     private void gameOver() {
         if (game.isWon()) {

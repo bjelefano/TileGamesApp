@@ -22,7 +22,7 @@ public class KnightsTourGame extends Game implements Serializable {
     private Undo undoSys;
 
     /**
-     * A new game with given dimensions and undo limit.
+     * A new game with given dimensions.
      *
      * @param dimensions size of the board
 
@@ -73,6 +73,13 @@ public class KnightsTourGame extends Game implements Serializable {
      * @return number of moves made
      */
     public int getMoves() { return board.getMoves_made(); }
+
+    /**
+     * Return position of knight.
+     *
+     * @return position of knight
+     */
+    public int getKnight() { return board.getKnightPosition(); }
 
     /**
      * Return true if puzzle is solved.

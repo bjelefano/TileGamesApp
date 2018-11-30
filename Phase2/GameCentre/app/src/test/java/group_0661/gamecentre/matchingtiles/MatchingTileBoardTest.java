@@ -56,11 +56,12 @@ public class MatchingTileBoardTest {
         testMatchingTileBoard.makeMove(0, 1);
         assertTrue(testMatchingTileBoard.puzzleSolved());
     }
-
+    /**
     public void testMakeMoveOnce() {
         testMatchingTileBoard.makeMove(0,0);
         assertTrue(testMatchingTileBoard.getState()[0][0]);
     }
+     **/
 
     @Test
     public void testTwoTilesMatch() {
