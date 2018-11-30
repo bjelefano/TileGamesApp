@@ -338,6 +338,7 @@ public class MatchingTilesActivity extends ActionBarActivity implements Observer
                 scoreboard.putExtra("Matching Tiles", this.game);
                 scoreboard.putExtra("user", userManager.getName());
             }
+            scoreboard.putExtra("game_title", "Matching Tiles");
             startActivity(scoreboard);
             finish();
         }
