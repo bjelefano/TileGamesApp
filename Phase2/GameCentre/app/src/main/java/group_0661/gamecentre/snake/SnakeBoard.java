@@ -2,7 +2,6 @@ package group_0661.gamecentre.snake;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Random;
 import java.util.Stack;
 
@@ -89,6 +88,11 @@ public class SnakeBoard implements Serializable{
      * Stack of directions.
      */
     private Stack<int[]> directionStack = new Stack<>();
+
+    /**
+     * Stack of scores.
+     */
+    private Stack<Integer> scoreStack = new Stack<>();
 
     /**
      * A new board of tiles in row-major order.
@@ -246,6 +250,7 @@ public class SnakeBoard implements Serializable{
             head = headStack.pop();
             body = bodyStack.pop();
             direction = directionStack.pop();
+            score = scoreStack.pop();
         }
 
         return true;
@@ -267,5 +272,6 @@ public class SnakeBoard implements Serializable{
         headStack.push(head.clone());
         bodyStack.push(body.clone());
         directionStack.push(direction.clone());
+        scoreStack.push(score);
     }
 }

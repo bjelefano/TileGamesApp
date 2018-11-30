@@ -222,7 +222,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
     }
 
     /**
-     * Called when the slidingtiles observer detects change.
+     * Called when the observer detects change.
      */
     @Override
     public void update(Observable o, Object arg) {
