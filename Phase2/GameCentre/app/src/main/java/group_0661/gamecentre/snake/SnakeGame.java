@@ -41,6 +41,7 @@ public class SnakeGame extends Game implements Serializable{
         }
 
     }
+
     public int getScore() {
         return board.getScore();
     }

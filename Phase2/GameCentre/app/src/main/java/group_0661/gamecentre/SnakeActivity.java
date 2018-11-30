@@ -79,7 +79,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_snake);
 
         // Sets title for action bar
         configureActionBar("Snake");
@@ -97,6 +97,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
                                 updateTime();
                                 updateGame();
                                 updateTileButtons();
+                                updateScore();
                             }
                         });
                     }
@@ -192,7 +193,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
     public void display() {
         // Updates UI
         updateTileButtons();
-        updateMovesMade();
+        updateScore();
 
         // Auto-save check
         if (userManager != null && userManager.getStatus() && autosaveCounter % 10 == 0) {
@@ -215,7 +216,7 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
     private void loadImages() {
         String path = getIntent().getStringExtra("background_path");
 
-        int nSprites = 3;
+        int nSprites = 4;
         tileSprites = new BitmapDrawable[nSprites];
         for (int i = 0; i < nSprites; i++) {
             Bitmap btmp = BitmapFactory.decodeFile(String.format(path + "/tile_%d.png", i+1));
@@ -284,11 +285,12 @@ public class SnakeActivity extends ActionBarActivity implements Observer, Servic
     }
 
     /**
-     * Updates the Moves-Made TextView according to changes within the slidingtiles.
+     * Updates the Score TextView according to changes within the board.
      */
-    private void updateMovesMade() {
-        ((TextView) findViewById(R.id.moves_taken)).setText(new Integer(game.getMoves()).toString());
+    private void updateScore() {
+        ((TextView) findViewById(R.id.score_text)).setText(Integer.toString(game.getScore()));
     }
+
 
     /**
      * Updates the Time-Elapsed TextView according to the timer thread in OnCreate.

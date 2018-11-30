@@ -108,7 +108,8 @@ public class SnakePopUp extends PopUpActivity implements ServiceConnection {
      * Slices up the selected image into a number of tiles depending on the selected board size
      */
     private void setBackground(Bitmap background) {
-        ImageToTiles initBoard = new ImageToTiles(background, 3, 1);
+        // Load the sprites from the snake sprite sheet
+        ImageToTiles initBoard = new ImageToTiles(background, 4, 1);
         initBoard.saveTiles(SnakePopUp.this);
         backgroundPath = initBoard.getSavePath();
     }

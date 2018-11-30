@@ -25,7 +25,11 @@ public class MainMenuActivity extends AppCompatActivity implements ServiceConnec
      * Request code for account registry/login.
      */
     private final int ACCOUNT_REQUEST = 1;
-    /**
+    /**    @Override
+    public int getScore() {
+        return board.getScore();
+    }
+
      * Instance of userManager service.
      */
     private UserManager userManager;
