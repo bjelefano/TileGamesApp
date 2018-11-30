@@ -254,17 +254,4 @@ public class Board extends Observable implements Serializable{
         }
         return true;
     }
-
-    /**
-     * Return the slidingtiles state.
-     *
-     * @return the board with the tiles it contains
-     */
-    @Override
-    public String toString() {
-        return "Board{" +
-                "tiles=" + Arrays.toString(tiles) +
-                '}';
-    }
-
 }
