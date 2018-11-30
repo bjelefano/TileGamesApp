@@ -5,6 +5,28 @@ import android.util.Pair;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 
+public class SnakeBoard implements Serializable {
+    private Integer[][] tiles;
+
+    public SnakeBoard(int cols, int rows) {
+        tiles = new Integer[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                tiles[i][j] = 0;
+            }
+        }
+        tiles[0][0] = 1;
+        tiles[0][1] = 1;
+        tiles[0][2] = 1;
+        tiles[1][2] = 1;
+        tiles[1][0] = 2;
+    }
+
+    public Integer[][] getTiles() {
+        return tiles;
+    }
+}
+/*
 public class SnakeBoard implements Serializable{
 
     private Pair<Integer, Integer> head;
@@ -66,3 +88,4 @@ public class SnakeBoard implements Serializable{
 
 
 }
+*/
