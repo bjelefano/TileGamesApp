@@ -17,7 +17,7 @@ public class MatchingTileGame extends Game implements Serializable {
 
     private int length;
     /**
-     * A new matchingtiles with given dimensions and undo limit.
+     * A new matchingtiles with given dimensions.
      *
      * @param dimensions size of the board
      */
@@ -77,4 +77,14 @@ public class MatchingTileGame extends Game implements Serializable {
     }
 
     public String getGameTitle() { return "Matching Tiles"; }
+
+    /**
+     * Return number of seconds that have elapsed.
+     *
+     * @return number of seconds that have elapsed
+     */
+    public int getTime() {
+        return time;
+    }
 }
+

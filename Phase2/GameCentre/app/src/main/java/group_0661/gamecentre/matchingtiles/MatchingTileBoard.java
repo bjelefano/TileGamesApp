@@ -14,9 +14,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * The sliding tiles board.
+ * The matching tiles board.
  */
 public class MatchingTileBoard extends Observable implements Serializable{
+
+    /**
+     * The number of rows.
+     */
+    private int rows;
 
     /**
      * The number of columns.
@@ -24,17 +29,24 @@ public class MatchingTileBoard extends Observable implements Serializable{
     private int columns;
 
     /**
-     * The tile being flipped;
+     * The tile being flipped.
+     */
+    private int awaiting_tile = 0;
+
+    /**
+     * Set to true if player flips first tile in the pair.
+     * Set to false if player hasn't started flipping new pair.
      */
     private boolean firstTileRevealed = false;
-    /**
-     * The number of rows.
-     */
-    private int rows;
 
     private Timer timer;
 
     private List<Integer> flipped;
+    /**
+     * The tile
+     */
+    //private int flipped;
+
     /**
      * The tiles on the board in row-major order.
      */
@@ -99,8 +111,7 @@ public class MatchingTileBoard extends Observable implements Serializable{
     }
 
     /**
-     * Check if valid move then swap the tiles. If not an undo call, add row and col of
-     * the last location of the blank tile to previousMoves.
+     * Return true if a pair is found.
      *
      * @param row row being tapped
      * @param column column being tapped
