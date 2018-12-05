@@ -69,6 +69,8 @@ public class GestureDetectGridView extends GridView {
      */
     private Game game;
 
+    private String direction;
+
     /**
      * Initialize gesture detector within context
      *
@@ -126,7 +128,35 @@ public class GestureDetectGridView extends GridView {
                 mController.processTapMovement(context, position, true);
                 return true;
             }
-        });
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                   float velocityY) {
+                    // right to left swipe
+                    if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                            && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                        mController.processSwipe(context, "left", true);
+                        direction = "left";
+                    }
+                    // left to right swipe
+                    else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                            && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                        mController.processSwipe(context, "right", true);
+                        direction = "right";
+                    }
+                    else if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE
+                            && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                        mController.processSwipe(context, "top", true);
+                        direction = "top";
+                    }
+                    else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE
+                            && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                        mController.processSwipe(context, "bottom", true);
+                        direction = "bottom";
+                    }
+                return true;
+            }
+    });
     }
 
     /**
@@ -192,4 +222,7 @@ public class GestureDetectGridView extends GridView {
         mController.processUndo(context);
     }
 
+    public void moveSnake(Context context) {
+        mController.processSwipe(context, direction, true);
+    }
 }

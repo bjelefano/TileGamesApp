@@ -2,41 +2,104 @@ package group_0661.gamecentre.snake;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Random;
 import java.util.Stack;
 
 
 public class SnakeBoard implements Serializable{
 
+    /**
+     * Static alias for drawing board (empty tile).
+     */
     public static int EMPTY = 0;
+
+    /**
+     * Static alias for drawing board (wall tile).
+     */
     public static int WALL = 1;
+
+    /**
+     * Static alias for drawing board (body tile).
+     */
     public static int BODY = 2;
+
+    /**
+     * Static alias for drawing board (cherry tile).
+     */
     public static int CHERRY = 3;
 
-
+    /**
+     * The location of the head as an integer array.
+     */
     private int[] head = new int[2];
 
+    /**
+     * Deque representing the position of the snake's body.
+     */
     private ArrayDeque<int[]> body = new ArrayDeque<>();
 
+    /**
+     * Integer array representing the direction the snake is moving.
+     */
     private int[] direction = new int[2];
 
+    /**
+     * number of rows, and columns.
+     */
     private int rows, cols;
 
+    /**
+     * Drawable array of Integers representing the states of the tiles to be drawn.
+     */
     private Integer[][] tiles;
 
+    /**
+     * Random object to be used to set new cherries.
+     */
     private Random rand = new Random();
 
+    /**
+     * Whether the game is finished or not.
+     */
     private boolean finished = false;
 
+    /**
+     * Current score of the game.
+     */
     private int score = 0;
 
     // Undo stacks
+    /**
+     * Stack of tiles to be used in the undo function.
+     */
     private Stack<Integer[][]> tileStack = new Stack<>();
-    private Stack<int[]> headStack = new Stack<>();;
-    private Stack<ArrayDeque<int[]>> bodyStack = new Stack<>();;
-    private Stack<int[]> directionStack = new Stack<>();;
 
+    /**
+     * Stack of positions of head.
+     */
+    private Stack<int[]> headStack = new Stack<>();;
+
+    /**
+     * Stack of positions of body.
+     */
+    private Stack<ArrayDeque<int[]>> bodyStack = new Stack<>();
+
+    /**
+     * Stack of directions.
+     */
+    private Stack<int[]> directionStack = new Stack<>();
+
+    /**
+     * Stack of scores.
+     */
+    private Stack<Integer> scoreStack = new Stack<>();
+
+    /**
+     * A new board of tiles in row-major order.
+     *
+     * @param cols the number of cols
+     * @param rows the number of rows
+     */
     SnakeBoard(int cols, int rows) {
         this.cols = cols;
         this.rows = rows;
@@ -79,16 +142,22 @@ public class SnakeBoard implements Serializable{
         direction[1] = 1;
     }
 
+    /**
+     * Returns the tiles of this board.
+     *
+     * @return an 2-D array of integers representing tiles.
+     */
     public Integer[][] getTiles() {
         return tiles;
     }
 
+    /**
+     * Updates the game: moves the snake forward and performs corresponding action.
+     * To be called once a frame.
+     *
+     * @return the success or failure of the update (if false, the game has ended).
+     */
     public boolean update() {
-//        System.out.println("update");
-//        for (int[] c : body) {
-//            System.out.printf("%d, %d\n", c[0], c[1]);
-//        }
-
         pushState();
 
         int[] new_head = new int[2];
@@ -117,6 +186,9 @@ public class SnakeBoard implements Serializable{
         return true;
     }
 
+    /**
+     * Resets the cherry after it has been consumed.
+     */
     private void resetCherry() {
         do {
             int i = rand.nextInt(rows);
@@ -128,6 +200,11 @@ public class SnakeBoard implements Serializable{
         } while (true);
     }
 
+    /**
+     * Make a move: i.e. change the direction the snake is facing.
+     *
+     * @return an 2-D array of integers representing tiles.
+     */
     public boolean makeMove(int[] move) {
         if (direction[0] == move[0] && direction[1] == move[1]) {
             return false;
@@ -138,14 +215,29 @@ public class SnakeBoard implements Serializable{
         }
     }
 
+    /**
+     * Returns whether the game is over or not.
+     *
+     * @return true if the game is over.
+     */
     boolean isOver() {
         return finished;
     }
 
+    /**
+     * Returns the player's score; the number of cherries they have gotten.
+     *
+     * @return the score.
+     */
     int getScore() {
         return score;
     }
 
+    /**
+     * Undoes the last n moves.
+     *
+     * @return success or failure of the undo.
+     */
     public boolean undo() {
         if (finished) return false;
 
@@ -158,11 +250,15 @@ public class SnakeBoard implements Serializable{
             head = headStack.pop();
             body = bodyStack.pop();
             direction = directionStack.pop();
+            score = scoreStack.pop();
         }
 
         return true;
     }
 
+    /**
+     * Pushes the current state onto the stack for use in undo.
+     */
     private void pushState() {
         Integer[][] saveTiles = new Integer[rows][cols];
         for (int i = 0; i < rows; i++) {
@@ -176,5 +272,6 @@ public class SnakeBoard implements Serializable{
         headStack.push(head.clone());
         bodyStack.push(body.clone());
         directionStack.push(direction.clone());
+        scoreStack.push(score);
     }
 }
