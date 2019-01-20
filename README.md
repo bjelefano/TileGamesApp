@@ -1,3 +1,5 @@
+Created By: Jay Parthasarthy, Brandon Elefano, Mengde Wang, Jonah Simpson, Xinyi Zhang
+
 ##Introduction
 Our reworked app game introduces new games, while carrying over great features and functionality.
 Our new games include matching tiles, snake game, and the knight's tour game. *Matching tiles* implements
